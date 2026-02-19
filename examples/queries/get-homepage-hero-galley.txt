@@ -1,0 +1,10 @@
+query GetHomeGallery {
+  homeGalleryImages(metaKey: "images") {
+    databaseId
+    sourceUrl
+    altText
+    caption
+    title
+    mimeType
+  }
+}

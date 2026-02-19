@@ -1,0 +1,17 @@
+query GetSeriesWithImages($first: Int = 50, $after: String) {
+  terms(first: $first, after: $after, where: { taxonomies: PRODUCTCAT, hideEmpty: false }) {
+    pageInfo {
+      hasNextPage
+      endCursor
+    }
+    nodes {
+      id
+      databaseId
+      name
+      slug
+      count
+      isSeries
+      shadowImage
+    }
+  }
+}

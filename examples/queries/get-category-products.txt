@@ -1,0 +1,1972 @@
+query GetCategoryAndProducts($slug: ID!, $first: Int = 12, $after: String) {
+  productCategory(id: $slug, idType: SLUG) {
+    # 1. Category Info
+    name
+    description
+    count
+
+
+    # 2. Products List
+    products(first: $first, after: $after, where: { status: "PUBLISH" }) {
+      pageInfo {
+        hasNextPage
+        endCursor
+      }
+      
+      nodes {
+        id
+        databaseId
+        name
+        slug
+        
+        image {
+          sourceUrl
+          altText
+        }
+
+        # Price Logic
+        ... on SimpleProduct {
+          price
+          regularPrice
+          stockStatus
+        }
+        ... on VariableProduct {
+          price
+          regularPrice
+        }
+        
+        # 3. ATTRIBUTES (Fetch all, filter in JS)
+        ... on ProductWithAttributes {
+          attributes {
+            nodes {
+              name   # e.g., "pa_writer"
+              label  # e.g., "نویسنده"
+              options
+              # Clean Persian Name Logic
+              ... on GlobalProductAttribute {
+                terms {
+                  nodes {
+                    name
+                    slug
+                    shadowImage
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+
+example:
+{
+  "slug": "پرفروشها", 
+  "first": 12,
+  "after": ""
+}
+
+response:
+{
+  "data": {
+    "productCategory": {
+      "name": "پرفروش‌ها",
+      "description": null,
+      "count": 10,
+      "products": {
+        "pageInfo": {
+          "hasNextPage": false,
+          "endCursor": "YXJyYXljb25uZWN0aW9uOjQxNTk2"
+        },
+        "nodes": [
+          {
+            "id": "cG9zdDozNjg0NQ==",
+            "databaseId": 36845,
+            "name": "ملت عشق(جلدسخت،پالتویی)",
+            "slug": "%d9%85%d9%84%d8%aa-%d8%b9%d8%b4%d9%82%d8%ac%d9%84%d8%af%d8%b3%d8%ae%d8%aa%d8%8c%d9%be%d8%a7%d9%84%d8%aa%d9%88%db%8c%db%8c",
+            "image": {
+              "sourceUrl": "https://qoqnoos.ir/wp-content/uploads/2025/11/6945.jpg",
+              "altText": "ملت عشق(جلدسخت،پالتویی)"
+            },
+            "price": "550.000&nbsp;تومان",
+            "regularPrice": "550.000&nbsp;تومان",
+            "stockStatus": "IN_STOCK",
+            "attributes": {
+              "nodes": [
+                {
+                  "name": "pa_publisher",
+                  "label": "ناشر",
+                  "options": [
+                    "%d9%82%d9%82%d9%86%d9%88%d8%b3"
+                  ],
+                  "terms": {
+                    "nodes": [
+                      {
+                        "name": "ققنوس",
+                        "slug": "ققنوس",
+                        "shadowImage": ""
+                      }
+                    ]
+                  }
+                },
+                {
+                  "name": "pa_writer",
+                  "label": "مولف",
+                  "options": [
+                    "%d8%a7%d9%84%db%8c%d9%81-%d8%b4%d8%a7%d9%81%d8%a7%da%a9"
+                  ],
+                  "terms": {
+                    "nodes": [
+                      {
+                        "name": "الیف شافاک",
+                        "slug": "الیف-شافاک",
+                        "shadowImage": ""
+                      }
+                    ]
+                  }
+                },
+                {
+                  "name": "pa_translator",
+                  "label": "مترجم",
+                  "options": [
+                    "%d8%a7%d8%b1%d8%b3%d9%84%d8%a7%d9%86-%d9%81%d8%b5%db%8c%d8%ad%db%8c"
+                  ],
+                  "terms": {
+                    "nodes": [
+                      {
+                        "name": "ارسلان فصیحی",
+                        "slug": "ارسلان-فصیحی",
+                        "shadowImage": ""
+                      }
+                    ]
+                  }
+                },
+                {
+                  "name": "pa_book-size",
+                  "label": "قطع",
+                  "options": [
+                    "%d9%be%d8%a7%d9%84%d8%aa%d9%88%db%8c%db%8c"
+                  ],
+                  "terms": {
+                    "nodes": [
+                      {
+                        "name": "پالتویی",
+                        "slug": "پالتویی",
+                        "shadowImage": ""
+                      }
+                    ]
+                  }
+                },
+                {
+                  "name": "pa_book-cover",
+                  "label": "نوع جلد",
+                  "options": [
+                    "%d8%b3%d9%84%d9%81%d9%88%d9%86"
+                  ],
+                  "terms": {
+                    "nodes": [
+                      {
+                        "name": "سلفون",
+                        "slug": "سلفون",
+                        "shadowImage": ""
+                      }
+                    ]
+                  }
+                },
+                {
+                  "name": "pa_group",
+                  "label": "گروه",
+                  "options": [
+                    "%d8%b1%d9%85%d8%a7%d9%86%d9%87%d8%a7%db%8c-%d8%ae%d8%a7%d8%b1%d8%ac%db%8c"
+                  ],
+                  "terms": {
+                    "nodes": [
+                      {
+                        "name": "رمانهای خارجی",
+                        "slug": "رمانهای-خارجی",
+                        "shadowImage": ""
+                      }
+                    ]
+                  }
+                },
+                {
+                  "name": "pa_digitalized",
+                  "label": "وضعیت دیجیتالی",
+                  "options": [
+                    "%d9%81%db%8c%d8%af%db%8c%d8%a8%d9%88"
+                  ],
+                  "terms": {
+                    "nodes": [
+                      {
+                        "name": "فیدیبو",
+                        "slug": "فیدیبو",
+                        "shadowImage": ""
+                      }
+                    ]
+                  }
+                },
+                {
+                  "name": "pa_print-year",
+                  "label": "زمان چاپ",
+                  "options": [
+                    "1404"
+                  ],
+                  "terms": {
+                    "nodes": [
+                      {
+                        "name": "1404",
+                        "slug": "1404",
+                        "shadowImage": ""
+                      }
+                    ]
+                  }
+                },
+                {
+                  "name": "pa_dewey",
+                  "label": "رده دیویی",
+                  "options": [
+                    "3533",
+                    "894"
+                  ],
+                  "terms": {
+                    "nodes": [
+                      {
+                        "name": "3533",
+                        "slug": "3533",
+                        "shadowImage": ""
+                      },
+                      {
+                        "name": "894",
+                        "slug": "894",
+                        "shadowImage": ""
+                      }
+                    ]
+                  }
+                },
+                {
+                  "name": "pa_paper-type",
+                  "label": "نوع کاغذ",
+                  "options": [
+                    "%d8%a8%d8%a7%d9%84%da%a9"
+                  ],
+                  "terms": {
+                    "nodes": [
+                      {
+                        "name": "بالک",
+                        "slug": "بالک",
+                        "shadowImage": ""
+                      }
+                    ]
+                  }
+                },
+                {
+                  "name": "pa_print-period",
+                  "label": "نوبت چاپ",
+                  "options": [
+                    "%d8%b5%d8%af-%d9%88-%d8%b3%db%8c-%d9%88-%db%8c%da%a9%d9%85"
+                  ],
+                  "terms": {
+                    "nodes": [
+                      {
+                        "name": "صد و سی و یکم",
+                        "slug": "صد-و-سی-و-یکم",
+                        "shadowImage": ""
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          },
+          {
+            "id": "cG9zdDo0MTE3Nw==",
+            "databaseId": 41177,
+            "name": "سمفونی مردگان",
+            "slug": "%d8%b3%d9%85%d9%81%d9%88%d9%86%db%8c-%d9%85%d8%b1%d8%af%da%af%d8%a7%d9%86-2",
+            "image": {
+              "sourceUrl": "https://qoqnoos.ir/wp-content/uploads/2025/12/7141-1.jpg",
+              "altText": "سمفونی مردگان"
+            },
+            "price": "420.000&nbsp;تومان",
+            "regularPrice": "420.000&nbsp;تومان",
+            "stockStatus": "IN_STOCK",
+            "attributes": {
+              "nodes": [
+                {
+                  "name": "pa_publisher",
+                  "label": "ناشر",
+                  "options": [
+                    "%d9%82%d9%82%d9%86%d9%88%d8%b3"
+                  ],
+                  "terms": {
+                    "nodes": [
+                      {
+                        "name": "ققنوس",
+                        "slug": "ققنوس",
+                        "shadowImage": ""
+                      }
+                    ]
+                  }
+                },
+                {
+                  "name": "pa_writer",
+                  "label": "مولف",
+                  "options": [
+                    "%d8%b9%d8%a8%d8%a7%d8%b3-%d9%85%d8%b9%d8%b1%d9%88%d9%81%db%8c"
+                  ],
+                  "terms": {
+                    "nodes": [
+                      {
+                        "name": "عباس معروفی",
+                        "slug": "عباس-معروفی",
+                        "shadowImage": ""
+                      }
+                    ]
+                  }
+                },
+                {
+                  "name": "pa_book-size",
+                  "label": "قطع",
+                  "options": [
+                    "%d8%b1%d9%82%d8%b9%db%8c"
+                  ],
+                  "terms": {
+                    "nodes": [
+                      {
+                        "name": "رقعی",
+                        "slug": "رقعی",
+                        "shadowImage": ""
+                      }
+                    ]
+                  }
+                },
+                {
+                  "name": "pa_book-cover",
+                  "label": "نوع جلد",
+                  "options": [
+                    "%d8%b4%d9%88%d9%85%db%8c%d8%b2"
+                  ],
+                  "terms": {
+                    "nodes": [
+                      {
+                        "name": "شومیز",
+                        "slug": "شومیز",
+                        "shadowImage": ""
+                      }
+                    ]
+                  }
+                },
+                {
+                  "name": "pa_group",
+                  "label": "گروه",
+                  "options": [
+                    "%d8%b1%d9%85%d8%a7%d9%86%d9%87%d8%a7%db%8c-%d9%81%d8%a7%d8%b1%d8%b3%db%8c"
+                  ],
+                  "terms": {
+                    "nodes": [
+                      {
+                        "name": "رمانهای فارسی",
+                        "slug": "رمانهای-فارسی",
+                        "shadowImage": ""
+                      }
+                    ]
+                  }
+                },
+                {
+                  "name": "pa_digitalized",
+                  "label": "وضعیت دیجیتالی",
+                  "options": [
+                    "%d9%81%db%8c%d8%af%db%8c%d8%a8%d9%88-%d8%b7%d8%a7%d9%82%da%86%d9%87-%da%a9%d8%aa%d8%a7%d8%a8%d8%b1%d8%a7%d9%87"
+                  ],
+                  "terms": {
+                    "nodes": [
+                      {
+                        "name": "فیدیبو- طاقچه- کتابراه",
+                        "slug": "فیدیبو-طاقچه-کتابراه",
+                        "shadowImage": ""
+                      }
+                    ]
+                  }
+                },
+                {
+                  "name": "pa_print-year",
+                  "label": "زمان چاپ",
+                  "options": [
+                    "1404"
+                  ],
+                  "terms": {
+                    "nodes": [
+                      {
+                        "name": "1404",
+                        "slug": "1404",
+                        "shadowImage": ""
+                      }
+                    ]
+                  }
+                },
+                {
+                  "name": "pa_dewey",
+                  "label": "رده دیویی",
+                  "options": [
+                    "3%d9%81%d8%a78",
+                    "62"
+                  ],
+                  "terms": {
+                    "nodes": [
+                      {
+                        "name": "3فا8",
+                        "slug": "3فا8",
+                        "shadowImage": ""
+                      },
+                      {
+                        "name": "62",
+                        "slug": "62",
+                        "shadowImage": ""
+                      }
+                    ]
+                  }
+                },
+                {
+                  "name": "pa_paper-type",
+                  "label": "نوع کاغذ",
+                  "options": [
+                    "%d8%a8%d8%a7%d9%84%da%a9"
+                  ],
+                  "terms": {
+                    "nodes": [
+                      {
+                        "name": "بالک",
+                        "slug": "بالک",
+                        "shadowImage": ""
+                      }
+                    ]
+                  }
+                },
+                {
+                  "name": "pa_print-period",
+                  "label": "نوبت چاپ",
+                  "options": [
+                    "%d9%87%d9%81%d8%aa%d8%a7%d8%af-%d9%88-%db%8c%da%a9%d9%85"
+                  ],
+                  "terms": {
+                    "nodes": [
+                      {
+                        "name": "هفتاد و یکم",
+                        "slug": "هفتاد-و-یکم",
+                        "shadowImage": ""
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          },
+          {
+            "id": "cG9zdDozNjc3MA==",
+            "databaseId": 36770,
+            "name": "سرگذشت ندیمه‌(شومیز)",
+            "slug": "%d8%b3%d8%b1%da%af%d8%b0%d8%b4%d8%aa-%d9%86%d8%af%db%8c%d9%85%d9%87%d8%b4%d9%88%d9%85%db%8c%d8%b2",
+            "image": {
+              "sourceUrl": "https://qoqnoos.ir/wp-content/uploads/2025/11/7102.jpg",
+              "altText": "سرگذشت ندیمه‌(شومیز)"
+            },
+            "price": "480.000&nbsp;تومان",
+            "regularPrice": "480.000&nbsp;تومان",
+            "stockStatus": "IN_STOCK",
+            "attributes": {
+              "nodes": [
+                {
+                  "name": "pa_publisher",
+                  "label": "ناشر",
+                  "options": [
+                    "%d9%82%d9%82%d9%86%d9%88%d8%b3"
+                  ],
+                  "terms": {
+                    "nodes": [
+                      {
+                        "name": "ققنوس",
+                        "slug": "ققنوس",
+                        "shadowImage": ""
+                      }
+                    ]
+                  }
+                },
+                {
+                  "name": "pa_writer",
+                  "label": "مولف",
+                  "options": [
+                    "%d9%85%d8%a7%d8%b1%da%af%d8%a7%d8%b1%d8%aa-%d8%a7%d8%aa%d9%88%d9%88%d8%af"
+                  ],
+                  "terms": {
+                    "nodes": [
+                      {
+                        "name": "مارگارت اتوود",
+                        "slug": "مارگارت-اتوود",
+                        "shadowImage": ""
+                      }
+                    ]
+                  }
+                },
+                {
+                  "name": "pa_translator",
+                  "label": "مترجم",
+                  "options": [
+                    "%d8%b3%d9%87%db%8c%d9%84-%d8%b3%d9%85%db%8c"
+                  ],
+                  "terms": {
+                    "nodes": [
+                      {
+                        "name": "سهیل سمی",
+                        "slug": "سهیل-سمی",
+                        "shadowImage": "https://qoqnoos.ir/wp-content/uploads/2026/02/سهیل-سمی-150x150.jpg"
+                      }
+                    ]
+                  }
+                },
+                {
+                  "name": "pa_book-size",
+                  "label": "قطع",
+                  "options": [
+                    "%d8%b1%d9%82%d8%b9%db%8c"
+                  ],
+                  "terms": {
+                    "nodes": [
+                      {
+                        "name": "رقعی",
+                        "slug": "رقعی",
+                        "shadowImage": ""
+                      }
+                    ]
+                  }
+                },
+                {
+                  "name": "pa_book-cover",
+                  "label": "نوع جلد",
+                  "options": [
+                    "%d8%b4%d9%88%d9%85%db%8c%d8%b2"
+                  ],
+                  "terms": {
+                    "nodes": [
+                      {
+                        "name": "شومیز",
+                        "slug": "شومیز",
+                        "shadowImage": ""
+                      }
+                    ]
+                  }
+                },
+                {
+                  "name": "pa_group",
+                  "label": "گروه",
+                  "options": [
+                    "%d8%b1%d9%85%d8%a7%d9%86%d9%87%d8%a7%db%8c-%d8%ae%d8%a7%d8%b1%d8%ac%db%8c"
+                  ],
+                  "terms": {
+                    "nodes": [
+                      {
+                        "name": "رمانهای خارجی",
+                        "slug": "رمانهای-خارجی",
+                        "shadowImage": ""
+                      }
+                    ]
+                  }
+                },
+                {
+                  "name": "pa_digitalized",
+                  "label": "وضعیت دیجیتالی",
+                  "options": [
+                    "%d9%81%db%8c%d8%af%db%8c%d8%a8%d9%88-%d8%b7%d8%a7%d9%82%da%86%d9%87-%da%a9%d8%aa%d8%a7%d8%a8%d8%b1%d8%a7%d9%87"
+                  ],
+                  "terms": {
+                    "nodes": [
+                      {
+                        "name": "فیدیبو- طاقچه- کتابراه",
+                        "slug": "فیدیبو-طاقچه-کتابراه",
+                        "shadowImage": ""
+                      }
+                    ]
+                  }
+                },
+                {
+                  "name": "pa_print-year",
+                  "label": "زمان چاپ",
+                  "options": [
+                    "1404"
+                  ],
+                  "terms": {
+                    "nodes": [
+                      {
+                        "name": "1404",
+                        "slug": "1404",
+                        "shadowImage": ""
+                      }
+                    ]
+                  }
+                },
+                {
+                  "name": "pa_dewey",
+                  "label": "رده دیویی",
+                  "options": [
+                    "54",
+                    "813"
+                  ],
+                  "terms": {
+                    "nodes": [
+                      {
+                        "name": "54",
+                        "slug": "54",
+                        "shadowImage": ""
+                      },
+                      {
+                        "name": "813",
+                        "slug": "813",
+                        "shadowImage": ""
+                      }
+                    ]
+                  }
+                },
+                {
+                  "name": "pa_paper-type",
+                  "label": "نوع کاغذ",
+                  "options": [
+                    "%d8%a8%d8%a7%d9%84%da%a9"
+                  ],
+                  "terms": {
+                    "nodes": [
+                      {
+                        "name": "بالک",
+                        "slug": "بالک",
+                        "shadowImage": ""
+                      }
+                    ]
+                  }
+                },
+                {
+                  "name": "pa_print-period",
+                  "label": "نوبت چاپ",
+                  "options": [
+                    "%d8%a8%db%8c%d8%b3%d8%aa-%d9%88-%da%86%d9%87%d8%a7%d8%b1%d9%85"
+                  ],
+                  "terms": {
+                    "nodes": [
+                      {
+                        "name": "بیست و چهارم",
+                        "slug": "بیست-و-چهارم",
+                        "shadowImage": ""
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          },
+          {
+            "id": "cG9zdDo0MTEyNw==",
+            "databaseId": 41127,
+            "name": "سال بلوا",
+            "slug": "%d8%b3%d8%a7%d9%84-%d8%a8%d9%84%d9%88%d8%a7-2",
+            "image": {
+              "sourceUrl": "https://qoqnoos.ir/wp-content/uploads/2025/12/7131.jpg",
+              "altText": "سال بلوا"
+            },
+            "price": "420.000&nbsp;تومان",
+            "regularPrice": "420.000&nbsp;تومان",
+            "stockStatus": "IN_STOCK",
+            "attributes": {
+              "nodes": [
+                {
+                  "name": "pa_publisher",
+                  "label": "ناشر",
+                  "options": [
+                    "%d9%82%d9%82%d9%86%d9%88%d8%b3"
+                  ],
+                  "terms": {
+                    "nodes": [
+                      {
+                        "name": "ققنوس",
+                        "slug": "ققنوس",
+                        "shadowImage": ""
+                      }
+                    ]
+                  }
+                },
+                {
+                  "name": "pa_writer",
+                  "label": "مولف",
+                  "options": [
+                    "%d8%b9%d8%a8%d8%a7%d8%b3-%d9%85%d8%b9%d8%b1%d9%88%d9%81%db%8c"
+                  ],
+                  "terms": {
+                    "nodes": [
+                      {
+                        "name": "عباس معروفی",
+                        "slug": "عباس-معروفی",
+                        "shadowImage": ""
+                      }
+                    ]
+                  }
+                },
+                {
+                  "name": "pa_book-size",
+                  "label": "قطع",
+                  "options": [
+                    "%d8%b1%d9%82%d8%b9%db%8c"
+                  ],
+                  "terms": {
+                    "nodes": [
+                      {
+                        "name": "رقعی",
+                        "slug": "رقعی",
+                        "shadowImage": ""
+                      }
+                    ]
+                  }
+                },
+                {
+                  "name": "pa_book-cover",
+                  "label": "نوع جلد",
+                  "options": [
+                    "%d8%b4%d9%88%d9%85%db%8c%d8%b2"
+                  ],
+                  "terms": {
+                    "nodes": [
+                      {
+                        "name": "شومیز",
+                        "slug": "شومیز",
+                        "shadowImage": ""
+                      }
+                    ]
+                  }
+                },
+                {
+                  "name": "pa_group",
+                  "label": "گروه",
+                  "options": [
+                    "%d8%b1%d9%85%d8%a7%d9%86%d9%87%d8%a7%db%8c-%d9%81%d8%a7%d8%b1%d8%b3%db%8c"
+                  ],
+                  "terms": {
+                    "nodes": [
+                      {
+                        "name": "رمانهای فارسی",
+                        "slug": "رمانهای-فارسی",
+                        "shadowImage": ""
+                      }
+                    ]
+                  }
+                },
+                {
+                  "name": "pa_digitalized",
+                  "label": "وضعیت دیجیتالی",
+                  "options": [
+                    "%d9%81%db%8c%d8%af%db%8c%d8%a8%d9%88-%d8%b7%d8%a7%d9%82%da%86%d9%87-%da%a9%d8%aa%d8%a7%d8%a8%d8%b1%d8%a7%d9%87"
+                  ],
+                  "terms": {
+                    "nodes": [
+                      {
+                        "name": "فیدیبو- طاقچه- کتابراه",
+                        "slug": "فیدیبو-طاقچه-کتابراه",
+                        "shadowImage": ""
+                      }
+                    ]
+                  }
+                },
+                {
+                  "name": "pa_print-year",
+                  "label": "زمان چاپ",
+                  "options": [
+                    "1404"
+                  ],
+                  "terms": {
+                    "nodes": [
+                      {
+                        "name": "1404",
+                        "slug": "1404",
+                        "shadowImage": ""
+                      }
+                    ]
+                  }
+                },
+                {
+                  "name": "pa_dewey",
+                  "label": "رده دیویی",
+                  "options": [
+                    "3",
+                    "62%d9%81%d8%a7"
+                  ],
+                  "terms": {
+                    "nodes": [
+                      {
+                        "name": "3",
+                        "slug": "3",
+                        "shadowImage": ""
+                      },
+                      {
+                        "name": "62فا",
+                        "slug": "62فا",
+                        "shadowImage": ""
+                      }
+                    ]
+                  }
+                },
+                {
+                  "name": "pa_paper-type",
+                  "label": "نوع کاغذ",
+                  "options": [
+                    "%d8%aa%d8%ad%d8%b1%db%8c%d8%b1"
+                  ],
+                  "terms": {
+                    "nodes": [
+                      {
+                        "name": "تحریر",
+                        "slug": "تحریر",
+                        "shadowImage": ""
+                      }
+                    ]
+                  }
+                },
+                {
+                  "name": "pa_print-period",
+                  "label": "نوبت چاپ",
+                  "options": [
+                    "%da%86%d9%87%d9%84-%d9%88-%d9%be%d9%86%d8%ac%d9%85"
+                  ],
+                  "terms": {
+                    "nodes": [
+                      {
+                        "name": "چهل و پنجم",
+                        "slug": "چهل-و-پنجم",
+                        "shadowImage": ""
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          },
+          {
+            "id": "cG9zdDozODg1OQ==",
+            "databaseId": 38859,
+            "name": "دریا روندگان جزیره آبی ‌تر",
+            "slug": "%d8%af%d8%b1%db%8c%d8%a7%d8%b1%d9%88%d9%86%d8%af%da%af%d8%a7%d9%86-%d8%ac%d8%b2%db%8c%d8%b1%d9%87-%d8%a2%d8%a8%db%8c%d8%aa%d8%b1",
+            "image": {
+              "sourceUrl": "https://qoqnoos.ir/wp-content/uploads/2025/12/7110.jpg",
+              "altText": "دریا روندگان جزیره آبی ‌تر"
+            },
+            "price": "380.000&nbsp;تومان",
+            "regularPrice": "380.000&nbsp;تومان",
+            "stockStatus": "IN_STOCK",
+            "attributes": {
+              "nodes": [
+                {
+                  "name": "pa_publisher",
+                  "label": "ناشر",
+                  "options": [
+                    "%d9%82%d9%82%d9%86%d9%88%d8%b3"
+                  ],
+                  "terms": {
+                    "nodes": [
+                      {
+                        "name": "ققنوس",
+                        "slug": "ققنوس",
+                        "shadowImage": ""
+                      }
+                    ]
+                  }
+                },
+                {
+                  "name": "pa_writer",
+                  "label": "مولف",
+                  "options": [
+                    "%d8%b9%d8%a8%d8%a7%d8%b3-%d9%85%d8%b9%d8%b1%d9%88%d9%81%db%8c"
+                  ],
+                  "terms": {
+                    "nodes": [
+                      {
+                        "name": "عباس معروفی",
+                        "slug": "عباس-معروفی",
+                        "shadowImage": ""
+                      }
+                    ]
+                  }
+                },
+                {
+                  "name": "pa_book-size",
+                  "label": "قطع",
+                  "options": [
+                    "%d8%b1%d9%82%d8%b9%db%8c"
+                  ],
+                  "terms": {
+                    "nodes": [
+                      {
+                        "name": "رقعی",
+                        "slug": "رقعی",
+                        "shadowImage": ""
+                      }
+                    ]
+                  }
+                },
+                {
+                  "name": "pa_book-cover",
+                  "label": "نوع جلد",
+                  "options": [
+                    "%d8%b4%d9%88%d9%85%db%8c%d8%b2"
+                  ],
+                  "terms": {
+                    "nodes": [
+                      {
+                        "name": "شومیز",
+                        "slug": "شومیز",
+                        "shadowImage": ""
+                      }
+                    ]
+                  }
+                },
+                {
+                  "name": "pa_group",
+                  "label": "گروه",
+                  "options": [
+                    "%d8%b1%d9%85%d8%a7%d9%86%d9%87%d8%a7%db%8c-%d9%81%d8%a7%d8%b1%d8%b3%db%8c"
+                  ],
+                  "terms": {
+                    "nodes": [
+                      {
+                        "name": "رمانهای فارسی",
+                        "slug": "رمانهای-فارسی",
+                        "shadowImage": ""
+                      }
+                    ]
+                  }
+                },
+                {
+                  "name": "pa_digitalized",
+                  "label": "وضعیت دیجیتالی",
+                  "options": [
+                    "%d9%81%db%8c%d8%af%db%8c%d8%a8%d9%88-%d8%b7%d8%a7%d9%82%da%86%d9%87-%da%a9%d8%aa%d8%a7%d8%a8%d8%b1%d8%a7%d9%87"
+                  ],
+                  "terms": {
+                    "nodes": [
+                      {
+                        "name": "فیدیبو- طاقچه- کتابراه",
+                        "slug": "فیدیبو-طاقچه-کتابراه",
+                        "shadowImage": ""
+                      }
+                    ]
+                  }
+                },
+                {
+                  "name": "pa_print-year",
+                  "label": "زمان چاپ",
+                  "options": [
+                    "1404"
+                  ],
+                  "terms": {
+                    "nodes": [
+                      {
+                        "name": "1404",
+                        "slug": "1404",
+                        "shadowImage": ""
+                      }
+                    ]
+                  }
+                },
+                {
+                  "name": "pa_paper-type",
+                  "label": "نوع کاغذ",
+                  "options": [
+                    "%d8%a8%d8%a7%d9%84%da%a9"
+                  ],
+                  "terms": {
+                    "nodes": [
+                      {
+                        "name": "بالک",
+                        "slug": "بالک",
+                        "shadowImage": ""
+                      }
+                    ]
+                  }
+                },
+                {
+                  "name": "pa_print-period",
+                  "label": "نوبت چاپ",
+                  "options": [
+                    "%d8%b4%d8%a7%d9%86%d8%b2%d8%af%d9%87%d9%85"
+                  ],
+                  "terms": {
+                    "nodes": [
+                      {
+                        "name": "شانزدهم",
+                        "slug": "شانزدهم",
+                        "shadowImage": ""
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          },
+          {
+            "id": "cG9zdDo0MTcyOA==",
+            "databaseId": 41728,
+            "name": "دالان بهشت",
+            "slug": "%d8%af%d8%a7%d9%84%d8%a7%d9%86-%d8%a8%d9%87%d8%b4%d8%aa-2",
+            "image": {
+              "sourceUrl": "https://qoqnoos.ir/wp-content/uploads/2026/01/7161.jpg",
+              "altText": "دالان بهشت"
+            },
+            "price": "620.000&nbsp;تومان",
+            "regularPrice": "620.000&nbsp;تومان",
+            "stockStatus": "IN_STOCK",
+            "attributes": {
+              "nodes": [
+                {
+                  "name": "pa_publisher",
+                  "label": "ناشر",
+                  "options": [
+                    "%d9%82%d9%82%d9%86%d9%88%d8%b3"
+                  ],
+                  "terms": {
+                    "nodes": [
+                      {
+                        "name": "ققنوس",
+                        "slug": "ققنوس",
+                        "shadowImage": ""
+                      }
+                    ]
+                  }
+                },
+                {
+                  "name": "pa_writer",
+                  "label": "مولف",
+                  "options": [
+                    "%d9%86%d8%a7%d8%b2%db%8c-%d8%b5%d9%81%d9%88%db%8c"
+                  ],
+                  "terms": {
+                    "nodes": [
+                      {
+                        "name": "نازی صفوی",
+                        "slug": "نازی-صفوی",
+                        "shadowImage": ""
+                      }
+                    ]
+                  }
+                },
+                {
+                  "name": "pa_book-size",
+                  "label": "قطع",
+                  "options": [
+                    "%d8%b1%d9%82%d8%b9%db%8c"
+                  ],
+                  "terms": {
+                    "nodes": [
+                      {
+                        "name": "رقعی",
+                        "slug": "رقعی",
+                        "shadowImage": ""
+                      }
+                    ]
+                  }
+                },
+                {
+                  "name": "pa_book-cover",
+                  "label": "نوع جلد",
+                  "options": [
+                    "%d8%b4%d9%88%d9%85%db%8c%d8%b2"
+                  ],
+                  "terms": {
+                    "nodes": [
+                      {
+                        "name": "شومیز",
+                        "slug": "شومیز",
+                        "shadowImage": ""
+                      }
+                    ]
+                  }
+                },
+                {
+                  "name": "pa_group",
+                  "label": "گروه",
+                  "options": [
+                    "%d8%b1%d9%85%d8%a7%d9%86%d9%87%d8%a7%db%8c-%d9%81%d8%a7%d8%b1%d8%b3%db%8c"
+                  ],
+                  "terms": {
+                    "nodes": [
+                      {
+                        "name": "رمانهای فارسی",
+                        "slug": "رمانهای-فارسی",
+                        "shadowImage": ""
+                      }
+                    ]
+                  }
+                },
+                {
+                  "name": "pa_digitalized",
+                  "label": "وضعیت دیجیتالی",
+                  "options": [
+                    "%d9%81%db%8c%d8%af%db%8c%d8%a8%d9%88-%d8%b7%d8%a7%d9%82%da%86%d9%87-%da%a9%d8%aa%d8%a7%d8%a8%d8%b1%d8%a7%d9%87"
+                  ],
+                  "terms": {
+                    "nodes": [
+                      {
+                        "name": "فیدیبو- طاقچه- کتابراه",
+                        "slug": "فیدیبو-طاقچه-کتابراه",
+                        "shadowImage": ""
+                      }
+                    ]
+                  }
+                },
+                {
+                  "name": "pa_print-year",
+                  "label": "زمان چاپ",
+                  "options": [
+                    "1404"
+                  ],
+                  "terms": {
+                    "nodes": [
+                      {
+                        "name": "1404",
+                        "slug": "1404",
+                        "shadowImage": ""
+                      }
+                    ]
+                  }
+                },
+                {
+                  "name": "pa_dewey",
+                  "label": "رده دیویی",
+                  "options": [
+                    "3",
+                    "62%d9%81%d8%a78"
+                  ],
+                  "terms": {
+                    "nodes": [
+                      {
+                        "name": "3",
+                        "slug": "3",
+                        "shadowImage": ""
+                      },
+                      {
+                        "name": "62فا8",
+                        "slug": "62فا8",
+                        "shadowImage": ""
+                      }
+                    ]
+                  }
+                },
+                {
+                  "name": "pa_paper-type",
+                  "label": "نوع کاغذ",
+                  "options": [
+                    "%d8%aa%d8%ad%d8%b1%db%8c%d8%b1"
+                  ],
+                  "terms": {
+                    "nodes": [
+                      {
+                        "name": "تحریر",
+                        "slug": "تحریر",
+                        "shadowImage": ""
+                      }
+                    ]
+                  }
+                },
+                {
+                  "name": "pa_print-period",
+                  "label": "نوبت چاپ",
+                  "options": [
+                    "%d8%b4%d8%b5%d8%aa%d9%85"
+                  ],
+                  "terms": {
+                    "nodes": [
+                      {
+                        "name": "شصتم",
+                        "slug": "شصتم",
+                        "shadowImage": ""
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          },
+          {
+            "id": "cG9zdDozNzA1OA==",
+            "databaseId": 37058,
+            "name": "تسلی بخشی‌های فلسفه",
+            "slug": "%d8%aa%d8%b3%d9%84%db%8c-%d8%a8%d8%ae%d8%b4%db%8c%d9%87%d8%a7%db%8c-%d9%81%d9%84%d8%b3%d9%81%d9%87",
+            "image": {
+              "sourceUrl": "https://qoqnoos.ir/wp-content/uploads/2025/11/6989.jpg",
+              "altText": "تسلی بخشی‌های فلسفه"
+            },
+            "price": "290.000&nbsp;تومان",
+            "regularPrice": "290.000&nbsp;تومان",
+            "stockStatus": "IN_STOCK",
+            "attributes": {
+              "nodes": [
+                {
+                  "name": "pa_publisher",
+                  "label": "ناشر",
+                  "options": [
+                    "%d9%82%d9%82%d9%86%d9%88%d8%b3"
+                  ],
+                  "terms": {
+                    "nodes": [
+                      {
+                        "name": "ققنوس",
+                        "slug": "ققنوس",
+                        "shadowImage": ""
+                      }
+                    ]
+                  }
+                },
+                {
+                  "name": "pa_writer",
+                  "label": "مولف",
+                  "options": [
+                    "%d8%a2%d9%84%d9%86-%d8%af%d9%88%d8%a8%d8%a7%d8%aa%d9%86"
+                  ],
+                  "terms": {
+                    "nodes": [
+                      {
+                        "name": "آلن دوباتن",
+                        "slug": "آلن-دوباتن",
+                        "shadowImage": ""
+                      }
+                    ]
+                  }
+                },
+                {
+                  "name": "pa_translator",
+                  "label": "مترجم",
+                  "options": [
+                    "%d8%b9%d8%b1%d9%81%d8%a7%d9%86-%d8%ab%d8%a7%d8%a8%d8%aa%db%8c"
+                  ],
+                  "terms": {
+                    "nodes": [
+                      {
+                        "name": "عرفان ثابتی",
+                        "slug": "عرفان-ثابتی",
+                        "shadowImage": ""
+                      }
+                    ]
+                  }
+                },
+                {
+                  "name": "pa_book-size",
+                  "label": "قطع",
+                  "options": [
+                    "%d8%b1%d9%82%d8%b9%db%8c"
+                  ],
+                  "terms": {
+                    "nodes": [
+                      {
+                        "name": "رقعی",
+                        "slug": "رقعی",
+                        "shadowImage": ""
+                      }
+                    ]
+                  }
+                },
+                {
+                  "name": "pa_book-cover",
+                  "label": "نوع جلد",
+                  "options": [
+                    "%d8%b4%d9%88%d9%85%db%8c%d8%b2"
+                  ],
+                  "terms": {
+                    "nodes": [
+                      {
+                        "name": "شومیز",
+                        "slug": "شومیز",
+                        "shadowImage": ""
+                      }
+                    ]
+                  }
+                },
+                {
+                  "name": "pa_group",
+                  "label": "گروه",
+                  "options": [
+                    "%d8%b9%d8%b1%d9%81%d8%a7%d9%86-%d9%88-%d9%81%d9%84%d8%b3%d9%81%d9%87"
+                  ],
+                  "terms": {
+                    "nodes": [
+                      {
+                        "name": "عرفان و فلسفه",
+                        "slug": "عرفان-و-فلسفه",
+                        "shadowImage": ""
+                      }
+                    ]
+                  }
+                },
+                {
+                  "name": "pa_digitalized",
+                  "label": "وضعیت دیجیتالی",
+                  "options": [
+                    "%d9%81%db%8c%d8%af%db%8c%d8%a8%d9%88-%d8%b7%d8%a7%d9%82%da%86%d9%87-%da%a9%d8%aa%d8%a7%d8%a8%d8%b1%d8%a7%d9%87"
+                  ],
+                  "terms": {
+                    "nodes": [
+                      {
+                        "name": "فیدیبو- طاقچه- کتابراه",
+                        "slug": "فیدیبو-طاقچه-کتابراه",
+                        "shadowImage": ""
+                      }
+                    ]
+                  }
+                },
+                {
+                  "name": "pa_print-year",
+                  "label": "زمان چاپ",
+                  "options": [
+                    "1404"
+                  ],
+                  "terms": {
+                    "nodes": [
+                      {
+                        "name": "1404",
+                        "slug": "1404",
+                        "shadowImage": ""
+                      }
+                    ]
+                  }
+                },
+                {
+                  "name": "pa_dewey",
+                  "label": "رده دیویی",
+                  "options": [
+                    "101"
+                  ],
+                  "terms": {
+                    "nodes": [
+                      {
+                        "name": "101",
+                        "slug": "101",
+                        "shadowImage": ""
+                      }
+                    ]
+                  }
+                },
+                {
+                  "name": "pa_paper-type",
+                  "label": "نوع کاغذ",
+                  "options": [
+                    "%d8%a8%d8%a7%d9%84%da%a9"
+                  ],
+                  "terms": {
+                    "nodes": [
+                      {
+                        "name": "بالک",
+                        "slug": "بالک",
+                        "shadowImage": ""
+                      }
+                    ]
+                  }
+                },
+                {
+                  "name": "pa_print-period",
+                  "label": "نوبت چاپ",
+                  "options": [
+                    "%d8%a8%db%8c%d8%b3%d8%aa-%d9%88-%d9%87%d9%81%d8%aa%d9%85"
+                  ],
+                  "terms": {
+                    "nodes": [
+                      {
+                        "name": "بیست و هفتم",
+                        "slug": "بیست-و-هفتم",
+                        "shadowImage": ""
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          },
+          {
+            "id": "cG9zdDozNzE5Mw==",
+            "databaseId": 37193,
+            "name": "تاملات",
+            "slug": "%d8%aa%d8%a7%d9%85%d9%84%d8%a7%d8%aa-2",
+            "image": {
+              "sourceUrl": "https://qoqnoos.ir/wp-content/uploads/2025/11/7108.jpg",
+              "altText": "تاملات"
+            },
+            "price": "220.000&nbsp;تومان",
+            "regularPrice": "220.000&nbsp;تومان",
+            "stockStatus": "IN_STOCK",
+            "attributes": {
+              "nodes": [
+                {
+                  "name": "pa_publisher",
+                  "label": "ناشر",
+                  "options": [
+                    "%d9%82%d9%82%d9%86%d9%88%d8%b3"
+                  ],
+                  "terms": {
+                    "nodes": [
+                      {
+                        "name": "ققنوس",
+                        "slug": "ققنوس",
+                        "shadowImage": ""
+                      }
+                    ]
+                  }
+                },
+                {
+                  "name": "pa_writer",
+                  "label": "مولف",
+                  "options": [
+                    "%d9%85%d8%a7%d8%b1%da%a9%d9%88%d8%b3-%d8%a7%d9%88%d8%b1%d9%84%db%8c%d9%88%d8%b3"
+                  ],
+                  "terms": {
+                    "nodes": [
+                      {
+                        "name": "مارکوس اورلیوس",
+                        "slug": "مارکوس-اورلیوس",
+                        "shadowImage": ""
+                      }
+                    ]
+                  }
+                },
+                {
+                  "name": "pa_translator",
+                  "label": "مترجم",
+                  "options": [
+                    "%d8%b9%d8%b1%d9%81%d8%a7%d9%86-%d8%ab%d8%a7%d8%a8%d8%aa%db%8c"
+                  ],
+                  "terms": {
+                    "nodes": [
+                      {
+                        "name": "عرفان ثابتی",
+                        "slug": "عرفان-ثابتی",
+                        "shadowImage": ""
+                      }
+                    ]
+                  }
+                },
+                {
+                  "name": "pa_book-size",
+                  "label": "قطع",
+                  "options": [
+                    "%d8%b1%d9%82%d8%b9%db%8c"
+                  ],
+                  "terms": {
+                    "nodes": [
+                      {
+                        "name": "رقعی",
+                        "slug": "رقعی",
+                        "shadowImage": ""
+                      }
+                    ]
+                  }
+                },
+                {
+                  "name": "pa_book-cover",
+                  "label": "نوع جلد",
+                  "options": [
+                    "%d8%b4%d9%88%d9%85%db%8c%d8%b2"
+                  ],
+                  "terms": {
+                    "nodes": [
+                      {
+                        "name": "شومیز",
+                        "slug": "شومیز",
+                        "shadowImage": ""
+                      }
+                    ]
+                  }
+                },
+                {
+                  "name": "pa_group",
+                  "label": "گروه",
+                  "options": [
+                    "%d8%b9%d8%b1%d9%81%d8%a7%d9%86-%d9%88-%d9%81%d9%84%d8%b3%d9%81%d9%87"
+                  ],
+                  "terms": {
+                    "nodes": [
+                      {
+                        "name": "عرفان و فلسفه",
+                        "slug": "عرفان-و-فلسفه",
+                        "shadowImage": ""
+                      }
+                    ]
+                  }
+                },
+                {
+                  "name": "pa_digitalized",
+                  "label": "وضعیت دیجیتالی",
+                  "options": [
+                    "%d9%81%db%8c%d8%af%db%8c%d8%a8%d9%88-%d8%b7%d8%a7%d9%82%da%86%d9%87-%da%a9%d8%aa%d8%a7%d8%a8%d8%b1%d8%a7%d9%87"
+                  ],
+                  "terms": {
+                    "nodes": [
+                      {
+                        "name": "فیدیبو- طاقچه- کتابراه",
+                        "slug": "فیدیبو-طاقچه-کتابراه",
+                        "shadowImage": ""
+                      }
+                    ]
+                  }
+                },
+                {
+                  "name": "pa_print-year",
+                  "label": "زمان چاپ",
+                  "options": [
+                    "1404"
+                  ],
+                  "terms": {
+                    "nodes": [
+                      {
+                        "name": "1404",
+                        "slug": "1404",
+                        "shadowImage": ""
+                      }
+                    ]
+                  }
+                },
+                {
+                  "name": "pa_dewey",
+                  "label": "رده دیویی",
+                  "options": [
+                    "188"
+                  ],
+                  "terms": {
+                    "nodes": [
+                      {
+                        "name": "188",
+                        "slug": "188",
+                        "shadowImage": ""
+                      }
+                    ]
+                  }
+                },
+                {
+                  "name": "pa_paper-type",
+                  "label": "نوع کاغذ",
+                  "options": [
+                    "%d8%a8%d8%a7%d9%84%da%a9"
+                  ],
+                  "terms": {
+                    "nodes": [
+                      {
+                        "name": "بالک",
+                        "slug": "بالک",
+                        "shadowImage": ""
+                      }
+                    ]
+                  }
+                },
+                {
+                  "name": "pa_print-period",
+                  "label": "نوبت چاپ",
+                  "options": [
+                    "%d8%a8%db%8c%d8%b3%d8%aa%d9%85"
+                  ],
+                  "terms": {
+                    "nodes": [
+                      {
+                        "name": "بیستم",
+                        "slug": "بیستم",
+                        "shadowImage": ""
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          },
+          {
+            "id": "cG9zdDozNjk0Nw==",
+            "databaseId": 36947,
+            "name": "برتری خفیف",
+            "slug": "%d8%a8%d8%b1%d8%aa%d8%b1%db%8c-%d8%ae%d9%81%db%8c%d9%81",
+            "image": {
+              "sourceUrl": "https://qoqnoos.ir/wp-content/uploads/2025/11/7024.jpg",
+              "altText": "برتری خفیف"
+            },
+            "price": "380.000&nbsp;تومان",
+            "regularPrice": "380.000&nbsp;تومان",
+            "stockStatus": "IN_STOCK",
+            "attributes": {
+              "nodes": [
+                {
+                  "name": "pa_publisher",
+                  "label": "ناشر",
+                  "options": [
+                    "%d9%82%d9%82%d9%86%d9%88%d8%b3"
+                  ],
+                  "terms": {
+                    "nodes": [
+                      {
+                        "name": "ققنوس",
+                        "slug": "ققنوس",
+                        "shadowImage": ""
+                      }
+                    ]
+                  }
+                },
+                {
+                  "name": "pa_writer",
+                  "label": "مولف",
+                  "options": [
+                    "%d8%ac%d9%81-%d8%a7%d9%88%d9%84%d8%b3%d9%88%d9%86"
+                  ],
+                  "terms": {
+                    "nodes": [
+                      {
+                        "name": "جف اولسون",
+                        "slug": "جف-اولسون",
+                        "shadowImage": ""
+                      }
+                    ]
+                  }
+                },
+                {
+                  "name": "pa_translator",
+                  "label": "مترجم",
+                  "options": [
+                    "%d9%84%d8%b7%db%8c%d9%81-%d8%a7%d8%ad%d9%85%d8%af%d9%be%d9%88%d8%b1-%d9%85%db%8c%d9%84%d8%a7%d8%af-%d8%ad%db%8c%d8%af%d8%b1%db%8c"
+                  ],
+                  "terms": {
+                    "nodes": [
+                      {
+                        "name": "لطیف احمدپور - میلاد حیدری",
+                        "slug": "لطیف-احمدپور-میلاد-حیدری",
+                        "shadowImage": ""
+                      }
+                    ]
+                  }
+                },
+                {
+                  "name": "pa_book-size",
+                  "label": "قطع",
+                  "options": [
+                    "%d8%b1%d9%82%d8%b9%db%8c"
+                  ],
+                  "terms": {
+                    "nodes": [
+                      {
+                        "name": "رقعی",
+                        "slug": "رقعی",
+                        "shadowImage": ""
+                      }
+                    ]
+                  }
+                },
+                {
+                  "name": "pa_book-cover",
+                  "label": "نوع جلد",
+                  "options": [
+                    "%d8%b4%d9%88%d9%85%db%8c%d8%b2"
+                  ],
+                  "terms": {
+                    "nodes": [
+                      {
+                        "name": "شومیز",
+                        "slug": "شومیز",
+                        "shadowImage": ""
+                      }
+                    ]
+                  }
+                },
+                {
+                  "name": "pa_group",
+                  "label": "گروه",
+                  "options": [
+                    "%d8%b1%d9%88%d8%a7%d9%86%d8%b4%d9%86%d8%a7%d8%b3%db%8c-%d9%88%d8%aa%d8%b1%d8%a8%db%8c%d8%aa"
+                  ],
+                  "terms": {
+                    "nodes": [
+                      {
+                        "name": "روانشناسی وتربیت",
+                        "slug": "روانشناسی-وتربیت",
+                        "shadowImage": ""
+                      }
+                    ]
+                  }
+                },
+                {
+                  "name": "pa_digitalized",
+                  "label": "وضعیت دیجیتالی",
+                  "options": [
+                    "%d9%81%db%8c%d8%af%db%8c%d8%a8%d9%88-%d8%b7%d8%a7%d9%82%da%86%d9%87-%da%a9%d8%aa%d8%a7%d8%a8%d8%b1%d8%a7%d9%87"
+                  ],
+                  "terms": {
+                    "nodes": [
+                      {
+                        "name": "فیدیبو- طاقچه- کتابراه",
+                        "slug": "فیدیبو-طاقچه-کتابراه",
+                        "shadowImage": ""
+                      }
+                    ]
+                  }
+                },
+                {
+                  "name": "pa_print-year",
+                  "label": "زمان چاپ",
+                  "options": [
+                    "1404"
+                  ],
+                  "terms": {
+                    "nodes": [
+                      {
+                        "name": "1404",
+                        "slug": "1404",
+                        "shadowImage": ""
+                      }
+                    ]
+                  }
+                },
+                {
+                  "name": "pa_dewey",
+                  "label": "رده دیویی",
+                  "options": [
+                    "1",
+                    "158"
+                  ],
+                  "terms": {
+                    "nodes": [
+                      {
+                        "name": "1",
+                        "slug": "1",
+                        "shadowImage": ""
+                      },
+                      {
+                        "name": "158",
+                        "slug": "158",
+                        "shadowImage": ""
+                      }
+                    ]
+                  }
+                },
+                {
+                  "name": "pa_paper-type",
+                  "label": "نوع کاغذ",
+                  "options": [
+                    "%d8%aa%d8%ad%d8%b1%db%8c%d8%b1"
+                  ],
+                  "terms": {
+                    "nodes": [
+                      {
+                        "name": "تحریر",
+                        "slug": "تحریر",
+                        "shadowImage": ""
+                      }
+                    ]
+                  }
+                },
+                {
+                  "name": "pa_print-period",
+                  "label": "نوبت چاپ",
+                  "options": [
+                    "%d8%b3%db%8c%d8%a7%d9%85"
+                  ],
+                  "terms": {
+                    "nodes": [
+                      {
+                        "name": "سی‌ام",
+                        "slug": "سیام",
+                        "shadowImage": ""
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          },
+          {
+            "id": "cG9zdDo0MTU5Ng==",
+            "databaseId": 41596,
+            "name": "ابوالهول یخ ها - ژول ورن 21",
+            "slug": "%da%98%d9%88%d9%84-%d9%88%d8%b1%d9%86-%d8%a7%d8%a8%d9%88%d8%a7%d9%84%d9%87%d9%88%d9%84-%db%8c%d8%ae-%d9%87%d8%a7",
+            "image": {
+              "sourceUrl": "https://qoqnoos.ir/wp-content/uploads/2026/01/7151.jpg",
+              "altText": "ابوالهول یخ ها - ژول ورن 21"
+            },
+            "price": "800.000&nbsp;تومان",
+            "regularPrice": "800.000&nbsp;تومان",
+            "stockStatus": "IN_STOCK",
+            "attributes": {
+              "nodes": [
+                {
+                  "name": "pa_publisher",
+                  "label": "ناشر",
+                  "options": [
+                    "%d9%82%d9%82%d9%86%d9%88%d8%b3-%d8%a2%d9%81%d8%b1%db%8c%d9%86%da%af%d8%a7%d9%86"
+                  ],
+                  "terms": {
+                    "nodes": [
+                      {
+                        "name": "ققنوس. آفرینگان",
+                        "slug": "ققنوس-آفرینگان",
+                        "shadowImage": ""
+                      }
+                    ]
+                  }
+                },
+                {
+                  "name": "pa_writer",
+                  "label": "مولف",
+                  "options": [
+                    "%da%98%d9%88%d9%84-%d9%88%d8%b1%d9%86"
+                  ],
+                  "terms": {
+                    "nodes": [
+                      {
+                        "name": "ژول ورن",
+                        "slug": "ژول-ورن",
+                        "shadowImage": ""
+                      }
+                    ]
+                  }
+                },
+                {
+                  "name": "pa_translator",
+                  "label": "مترجم",
+                  "options": [
+                    "%d9%85%d8%b1%d8%b6%db%8c%d9%87-%da%a9%d8%b1%d8%af%d8%a8%da%86%d9%87"
+                  ],
+                  "terms": {
+                    "nodes": [
+                      {
+                        "name": "مرضیه کردبچه",
+                        "slug": "مرضیه-کردبچه",
+                        "shadowImage": ""
+                      }
+                    ]
+                  }
+                },
+                {
+                  "name": "pa_book-size",
+                  "label": "قطع",
+                  "options": [
+                    "%d9%be%d8%a7%d9%84%d8%aa%d9%88%db%8c%db%8c"
+                  ],
+                  "terms": {
+                    "nodes": [
+                      {
+                        "name": "پالتویی",
+                        "slug": "پالتویی",
+                        "shadowImage": ""
+                      }
+                    ]
+                  }
+                },
+                {
+                  "name": "pa_book-cover",
+                  "label": "نوع جلد",
+                  "options": [
+                    "%d8%b3%d9%84%d9%81%d9%88%d9%86"
+                  ],
+                  "terms": {
+                    "nodes": [
+                      {
+                        "name": "سلفون",
+                        "slug": "سلفون",
+                        "shadowImage": ""
+                      }
+                    ]
+                  }
+                },
+                {
+                  "name": "pa_group",
+                  "label": "گروه",
+                  "options": [
+                    "%d8%a7%d8%af%d8%a8%db%8c%d8%a7%d8%aa"
+                  ],
+                  "terms": {
+                    "nodes": [
+                      {
+                        "name": "ادبیات",
+                        "slug": "ادبیات",
+                        "shadowImage": ""
+                      }
+                    ]
+                  }
+                },
+                {
+                  "name": "pa_print-year",
+                  "label": "زمان چاپ",
+                  "options": [
+                    "1404"
+                  ],
+                  "terms": {
+                    "nodes": [
+                      {
+                        "name": "1404",
+                        "slug": "1404",
+                        "shadowImage": ""
+                      }
+                    ]
+                  }
+                },
+                {
+                  "name": "pa_dewey",
+                  "label": "رده دیویی",
+                  "options": [
+                    "8",
+                    "843"
+                  ],
+                  "terms": {
+                    "nodes": [
+                      {
+                        "name": "8",
+                        "slug": "8",
+                        "shadowImage": ""
+                      },
+                      {
+                        "name": "843",
+                        "slug": "843",
+                        "shadowImage": ""
+                      }
+                    ]
+                  }
+                },
+                {
+                  "name": "pa_paper-type",
+                  "label": "نوع کاغذ",
+                  "options": [
+                    "%d8%aa%d8%ad%d8%b1%db%8c%d8%b1"
+                  ],
+                  "terms": {
+                    "nodes": [
+                      {
+                        "name": "تحریر",
+                        "slug": "تحریر",
+                        "shadowImage": ""
+                      }
+                    ]
+                  }
+                },
+                {
+                  "name": "pa_print-period",
+                  "label": "نوبت چاپ",
+                  "options": [
+                    "%d8%a7%d9%88%d9%84"
+                  ],
+                  "terms": {
+                    "nodes": [
+                      {
+                        "name": "اول",
+                        "slug": "اول",
+                        "shadowImage": ""
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    }
+  },
+  "extensions": {
+    "debug": [
+      {
+        "type": "DEBUG_LOGS_INACTIVE",
+        "message": "GraphQL Debug logging is not active. To see debug logs, GRAPHQL_DEBUG must be enabled."
+      }
+    ]
+  }
+}

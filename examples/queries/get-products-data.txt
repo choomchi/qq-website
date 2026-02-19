@@ -1,0 +1,374 @@
+query GetAllProductData($slug: ID!) {
+  product(id: $slug, idType: SLUG) {
+    # 1. Common Data
+    id
+    databaseId
+    name
+    slug
+    sku
+    date
+    status
+    description(format: RAW)
+    shortDescription(format: RAW)
+    
+    # Images & Gallery
+    image {
+      sourceUrl
+      altText
+    }
+    galleryImages {
+      nodes {
+        sourceUrl
+        altText
+      }
+    }
+
+    # 2. Categories & Tags
+    productCategories {
+      nodes {
+        id
+        name
+        slug
+      }
+    }
+    productTags {
+      nodes {
+        id
+        name
+        slug
+      }
+    }
+
+    # 3. Attributes (CORRECTED: Wrapped in Fragment)
+    ... on ProductWithAttributes {
+      attributes {
+        nodes {
+          id
+          name
+          label
+          options
+          variation
+          visible
+          # Fetch clean Persian names for global attributes
+          ... on GlobalProductAttribute {
+            terms {
+              nodes {
+                name
+                slug
+                shadowImage
+              }
+            }
+          }
+        }
+      }
+    }
+
+    # 4. Type-Specific Data (Price, Stock)
+    ... on SimpleProduct {
+      price
+      regularPrice
+      salePrice
+      stockStatus
+      stockQuantity
+    }
+    
+    ... on VariableProduct {
+      price
+      regularPrice
+      stockStatus
+      variations {
+        nodes {
+          name
+          price
+          regularPrice
+        }
+      }
+    }
+  }
+}
+
+
+example :
+{
+  "slug": "ملت-عشقجلدسخت،پالتویی"
+}
+
+response:
+{
+  "data": {
+    "product": {
+      "id": "cG9zdDozNjg0NQ==",
+      "databaseId": 36845,
+      "name": "ملت عشق(جلدسخت،پالتویی)",
+      "slug": "%d9%85%d9%84%d8%aa-%d8%b9%d8%b4%d9%82%d8%ac%d9%84%d8%af%d8%b3%d8%ae%d8%aa%d8%8c%d9%be%d8%a7%d9%84%d8%aa%d9%88%db%8c%db%8c",
+      "sku": "K-6945",
+      "date": "2025-11-23T16:16:29+00:00",
+      "status": "publish",
+      "description": "مولانا خودش را «خاموش» می‌نامید؛ یعنی ساکت. هیچ به این موضوع اندیشیده‌ای که شاعری، آن هم شاعری که آوازه‌اش عالمگیر شده، انسانی که کار و بارش، هستی‌اش، چیستی‌اش، حتی هوایی که تنفس می‌کند چیزی نیست جز کلمه‌ها و امضایش را پای بیش از پنجاه هزار بیت پرمعنا گذاشته چطور می‌شود که خودش را «خاموش» بنامد؟ کائنات هم مثل ما قلبی نازنین و قلبش تپشی منظم دارد. سال‌هاست به هر جا پا گذاشته‌ام آن صدا را شنیده‌ام. هر انسانی را جواهری پنهان و امانت پروردگار دانسته‌ام و به گفته‌هایش گوش سپرده‌ام. شنیدن را دوست دارم؛ جمله‌ها و کلمه‌ها و حرف‌ها را... اما چیزی که وادارم کرد این کتاب را بنویسم سکوت محض بود. اغلب مفسران مثنوی بر این نکته تأکید می‌کنند که این اثرِ جاودان با حرف «ب» شروع شده است. نخستین کلمه‌اش «بشنو!» است. یعنی می‌گویی تصادفی است شاعری که تخلصش «خاموش» بوده ارزشمندترین اثرش را با «بشنو» شروع می‌کند؟ راستی، خاموشی را می‌شود شنید؟ همه بخش‌های این رمان نیز با همان حرف بی‌صدا شروع می‌شود. نپرس «چرا؟» خواهش می‌کنم. جوابش را تو پیدا کن و برای خودت نگه دار. چون در این راه‌ها چنان حقیقت‌هایی هست که حتی هنگام روایتشان هم باید به مثابه راز بمانند.\n\n(از متن کتاب)\n\n«ارسلان فصیحی» بیش از این کتاب‌های «زندگی نو»، «قلعه سفید» از اورهان پاموک (برنده جایزه نوبل ادبی ۲۰۰۶) و «سلول ۷۲» از اورهان کمال را ترجمه و راهی بازار کتاب کرده است.",
+      "shortDescription": null,
+      "image": {
+        "sourceUrl": "https://qoqnoos.ir/wp-content/uploads/2025/11/6945.jpg",
+        "altText": "ملت عشق(جلدسخت،پالتویی)"
+      },
+      "galleryImages": {
+        "nodes": [
+          {
+            "sourceUrl": "https://qoqnoos.ir/wp-content/uploads/2025/11/6945-1.jpg",
+            "altText": "ملت عشق(جلدسخت،پالتویی)"
+          },
+          {
+            "sourceUrl": "https://qoqnoos.ir/wp-content/uploads/2025/11/6945-2.jpg",
+            "altText": "ملت عشق(جلدسخت،پالتویی)"
+          }
+        ]
+      },
+      "productCategories": {
+        "nodes": [
+          {
+            "id": "dGVybToxMTI5MA==",
+            "name": "ادبيات",
+            "slug": "ادبيات"
+          },
+          {
+            "id": "dGVybToxMjM4NQ==",
+            "name": "ادبيات داستاني خارجي",
+            "slug": "ادبيات-داستاني-خارجي"
+          },
+          {
+            "id": "dGVybToxMzk5Nw==",
+            "name": "پرفروش‌ها",
+            "slug": "پرفروشها"
+          },
+          {
+            "id": "dGVybToxMTI1OA==",
+            "name": "سايت",
+            "slug": "سايت"
+          }
+        ]
+      },
+      "productTags": {
+        "nodes": []
+      },
+      "attributes": {
+        "nodes": [
+          {
+            "id": "cGFfcHVibGlzaGVyOjM2ODQ1OnBhX3B1Ymxpc2hlcg==",
+            "name": "pa_publisher",
+            "label": "ناشر",
+            "options": [
+              "%d9%82%d9%82%d9%86%d9%88%d8%b3"
+            ],
+            "variation": false,
+            "visible": true,
+            "terms": {
+              "nodes": [
+                {
+                  "name": "ققنوس",
+                  "slug": "ققنوس"
+                }
+              ]
+            }
+          },
+          {
+            "id": "cGFfd3JpdGVyOjM2ODQ1OnBhX3dyaXRlcg==",
+            "name": "pa_writer",
+            "label": "مولف",
+            "options": [
+              "%d8%a7%d9%84%db%8c%d9%81-%d8%b4%d8%a7%d9%81%d8%a7%da%a9"
+            ],
+            "variation": false,
+            "visible": true,
+            "terms": {
+              "nodes": [
+                {
+                  "name": "الیف شافاک",
+                  "slug": "الیف-شافاک"
+                }
+              ]
+            }
+          },
+          {
+            "id": "cGFfdHJhbnNsYXRvcjozNjg0NTpwYV90cmFuc2xhdG9y",
+            "name": "pa_translator",
+            "label": "مترجم",
+            "options": [
+              "%d8%a7%d8%b1%d8%b3%d9%84%d8%a7%d9%86-%d9%81%d8%b5%db%8c%d8%ad%db%8c"
+            ],
+            "variation": false,
+            "visible": true,
+            "terms": {
+              "nodes": [
+                {
+                  "name": "ارسلان فصیحی",
+                  "slug": "ارسلان-فصیحی"
+                }
+              ]
+            }
+          },
+          {
+            "id": "cGFfYm9vay1zaXplOjM2ODQ1OnBhX2Jvb2stc2l6ZQ==",
+            "name": "pa_book-size",
+            "label": "قطع",
+            "options": [
+              "%d9%be%d8%a7%d9%84%d8%aa%d9%88%db%8c%db%8c"
+            ],
+            "variation": false,
+            "visible": true,
+            "terms": {
+              "nodes": [
+                {
+                  "name": "پالتویی",
+                  "slug": "پالتویی"
+                }
+              ]
+            }
+          },
+          {
+            "id": "cGFfYm9vay1jb3ZlcjozNjg0NTpwYV9ib29rLWNvdmVy",
+            "name": "pa_book-cover",
+            "label": "نوع جلد",
+            "options": [
+              "%d8%b3%d9%84%d9%81%d9%88%d9%86"
+            ],
+            "variation": false,
+            "visible": true,
+            "terms": {
+              "nodes": [
+                {
+                  "name": "سلفون",
+                  "slug": "سلفون"
+                }
+              ]
+            }
+          },
+          {
+            "id": "cGFfZ3JvdXA6MzY4NDU6cGFfZ3JvdXA=",
+            "name": "pa_group",
+            "label": "گروه",
+            "options": [
+              "%d8%b1%d9%85%d8%a7%d9%86%d9%87%d8%a7%db%8c-%d8%ae%d8%a7%d8%b1%d8%ac%db%8c"
+            ],
+            "variation": false,
+            "visible": true,
+            "terms": {
+              "nodes": [
+                {
+                  "name": "رمانهای خارجی",
+                  "slug": "رمانهای-خارجی"
+                }
+              ]
+            }
+          },
+          {
+            "id": "cGFfZGlnaXRhbGl6ZWQ6MzY4NDU6cGFfZGlnaXRhbGl6ZWQ=",
+            "name": "pa_digitalized",
+            "label": "وضعیت دیجیتالی",
+            "options": [
+              "%d9%81%db%8c%d8%af%db%8c%d8%a8%d9%88"
+            ],
+            "variation": false,
+            "visible": true,
+            "terms": {
+              "nodes": [
+                {
+                  "name": "فیدیبو",
+                  "slug": "فیدیبو"
+                }
+              ]
+            }
+          },
+          {
+            "id": "cGFfcHJpbnQteWVhcjozNjg0NTpwYV9wcmludC15ZWFy",
+            "name": "pa_print-year",
+            "label": "زمان چاپ",
+            "options": [
+              "1404"
+            ],
+            "variation": false,
+            "visible": true,
+            "terms": {
+              "nodes": [
+                {
+                  "name": "1404",
+                  "slug": "1404"
+                }
+              ]
+            }
+          },
+          {
+            "id": "cGFfZGV3ZXk6MzY4NDU6cGFfZGV3ZXk=",
+            "name": "pa_dewey",
+            "label": "رده دیویی",
+            "options": [
+              "3533",
+              "894"
+            ],
+            "variation": false,
+            "visible": true,
+            "terms": {
+              "nodes": [
+                {
+                  "name": "3533",
+                  "slug": "3533"
+                },
+                {
+                  "name": "894",
+                  "slug": "894"
+                }
+              ]
+            }
+          },
+          {
+            "id": "cGFfcGFwZXItdHlwZTozNjg0NTpwYV9wYXBlci10eXBl",
+            "name": "pa_paper-type",
+            "label": "نوع کاغذ",
+            "options": [
+              "%d8%a8%d8%a7%d9%84%da%a9"
+            ],
+            "variation": false,
+            "visible": true,
+            "terms": {
+              "nodes": [
+                {
+                  "name": "بالک",
+                  "slug": "بالک"
+                }
+              ]
+            }
+          },
+          {
+            "id": "cGFfcHJpbnQtcGVyaW9kOjM2ODQ1OnBhX3ByaW50LXBlcmlvZA==",
+            "name": "pa_print-period",
+            "label": "نوبت چاپ",
+            "options": [
+              "%d8%b5%d8%af-%d9%88-%d8%b3%db%8c-%d9%88-%db%8c%da%a9%d9%85"
+            ],
+            "variation": false,
+            "visible": true,
+            "terms": {
+              "nodes": [
+                {
+                  "name": "صد و سی و یکم",
+                  "slug": "صد-و-سی-و-یکم"
+                }
+              ]
+            }
+          }
+        ]
+      },
+      "price": "550.000&nbsp;تومان",
+      "regularPrice": "550.000&nbsp;تومان",
+      "salePrice": null,
+      "stockStatus": "IN_STOCK",
+      "stockQuantity": 3
+    }
+  },
+  "extensions": {
+    "debug": [
+      {
+        "type": "DEBUG_LOGS_INACTIVE",
+        "message": "GraphQL Debug logging is not active. To see debug logs, GRAPHQL_DEBUG must be enabled."
+      }
+    ]
+  }
+}

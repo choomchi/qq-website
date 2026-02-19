@@ -1,0 +1,401 @@
+query GetWritersAndTranslators(
+  $count: Int = 20
+  $writerCursor: String
+  $translatorCursor: String
+) {
+  writers: terms(
+    first: $count
+    after: $writerCursor
+    where: { taxonomies: PAWRITER, hideEmpty: true }
+  ) {
+    pageInfo {
+      hasNextPage
+      endCursor
+    }
+    nodes {
+      id
+      databaseId
+      name
+      slug
+      count
+      shadowImage
+    }
+  }
+
+  translators: terms(
+    first: $count
+    after: $translatorCursor
+    where: { taxonomies: PATRANSLATOR, hideEmpty: true }
+  ) {
+    pageInfo {
+      hasNextPage
+      endCursor
+    }
+    nodes {
+      id
+      databaseId
+      name
+      slug
+      count
+      shadowImage
+    }
+  }
+}
+
+
+example:
+{
+  "count": 20,
+  "writerCursor": null,
+  "translatorCursor": null
+}
+
+response:
+{
+  "data": {
+    "writers": {
+      "pageInfo": {
+        "hasNextPage": true,
+        "endCursor": "YXJyYXljb25uZWN0aW9uOjE0NTUx"
+      },
+      "nodes": [
+        {
+          "id": "dGVybToxNTI2NA==",
+          "databaseId": 15264,
+          "name": "آدام سویفت",
+          "slug": "آدام-سویفت",
+          "count": 1,
+          "shadowImage": "https://qoqnoos.ir/wp-content/uploads/2026/02/آدام-سویفت-150x150.jpg"
+        },
+        {
+          "id": "dGVybToxNDU2NQ==",
+          "databaseId": 14565,
+          "name": "آدام ووگ",
+          "slug": "آدام-ووگ",
+          "count": 1,
+          "shadowImage": ""
+        },
+        {
+          "id": "dGVybToxNDQ0OA==",
+          "databaseId": 14448,
+          "name": "آر ای اسپرات",
+          "slug": "آر-ای-اسپرات",
+          "count": 3,
+          "shadowImage": "https://qoqnoos.ir/wp-content/uploads/2026/02/ار-ای-اسپرات-150x150.jpg"
+        },
+        {
+          "id": "dGVybToxMTk5MQ==",
+          "databaseId": 11991,
+          "name": "آر ماتیوز. جان",
+          "slug": "آر-ماتیوز-جان",
+          "count": 1,
+          "shadowImage": ""
+        },
+        {
+          "id": "dGVybToxNDUyMQ==",
+          "databaseId": 14521,
+          "name": "آرتور دانتو",
+          "slug": "آرتور-دانتو",
+          "count": 1,
+          "shadowImage": "https://qoqnoos.ir/wp-content/uploads/2026/02/آرتور-دانتو-150x150.jpg"
+        },
+        {
+          "id": "dGVybToxNTU3OA==",
+          "databaseId": 15578,
+          "name": "آرتور شوپنهاور",
+          "slug": "آرتور-شوپنهاور",
+          "count": 1,
+          "shadowImage": "https://qoqnoos.ir/wp-content/uploads/2026/02/آرتور-شوپنهاور-150x150.jpg"
+        },
+        {
+          "id": "dGVybToxNTUzMg==",
+          "databaseId": 15532,
+          "name": "آرزو صالح نژاد",
+          "slug": "آرزو-صالح-نژاد",
+          "count": 1,
+          "shadowImage": "https://qoqnoos.ir/wp-content/uploads/2026/02/آرزو-صالح-نژاد-150x150.jpg"
+        },
+        {
+          "id": "dGVybToxNTYwOA==",
+          "databaseId": 15608,
+          "name": "آرند فولرز",
+          "slug": "آرند-فولرز",
+          "count": 1,
+          "shadowImage": ""
+        },
+        {
+          "id": "dGVybToxNDQ5Mw==",
+          "databaseId": 14493,
+          "name": "آرنو گایگر",
+          "slug": "آرنو-گایگر",
+          "count": 1,
+          "shadowImage": "https://qoqnoos.ir/wp-content/uploads/2026/02/آرنو-گایگر-134x150.jpg"
+        },
+        {
+          "id": "dGVybToxNTM4OA==",
+          "databaseId": 15388,
+          "name": "آزاده محسنی",
+          "slug": "آزاده-محسنی",
+          "count": 1,
+          "shadowImage": ""
+        },
+        {
+          "id": "dGVybToxNDYxOQ==",
+          "databaseId": 14619,
+          "name": "آسیه نظام شهیدی",
+          "slug": "آسیه-نظام-شهیدی",
+          "count": 1,
+          "shadowImage": ""
+        },
+        {
+          "id": "dGVybToxNDU3Ng==",
+          "databaseId": 14576,
+          "name": "آصف خلدانی",
+          "slug": "آصف-خلدانی",
+          "count": 1,
+          "shadowImage": ""
+        },
+        {
+          "id": "dGVybToxNDQwMg==",
+          "databaseId": 14402,
+          "name": "آلبا د سس پدس",
+          "slug": "آلبا-د-سس-پدس",
+          "count": 7,
+          "shadowImage": "https://qoqnoos.ir/wp-content/uploads/2026/02/Alba_de_Cespedes-150x150.jpg"
+        },
+        {
+          "id": "dGVybToxNDU0OA==",
+          "databaseId": 14548,
+          "name": "آلبر کامو",
+          "slug": "آلبر-کامو",
+          "count": 2,
+          "shadowImage": ""
+        },
+        {
+          "id": "dGVybToxNDU1NQ==",
+          "databaseId": 14555,
+          "name": "آلفرد فن گوتشمید",
+          "slug": "آلفرد-فن-گوتشمید",
+          "count": 1,
+          "shadowImage": ""
+        },
+        {
+          "id": "dGVybToxNDgyMA==",
+          "databaseId": 14820,
+          "name": "آلن بدیو",
+          "slug": "آلن-بدیو",
+          "count": 1,
+          "shadowImage": ""
+        },
+        {
+          "id": "dGVybToxNDgyMg==",
+          "databaseId": 14822,
+          "name": "آلن پو - جک لندن - یاکوب واسرمان",
+          "slug": "آلن-پو-جک-لندن-یاکوب-واسرمان",
+          "count": 1,
+          "shadowImage": ""
+        },
+        {
+          "id": "dGVybToxNDAzMA==",
+          "databaseId": 14030,
+          "name": "آلن دوباتن",
+          "slug": "آلن-دوباتن",
+          "count": 3,
+          "shadowImage": ""
+        },
+        {
+          "id": "dGVybToxNDY5MA==",
+          "databaseId": 14690,
+          "name": "آلن سوکال - ژان بریکمون",
+          "slug": "آلن-سوکال-ژان-بریکمون",
+          "count": 1,
+          "shadowImage": ""
+        },
+        {
+          "id": "dGVybToxNDU1MQ==",
+          "databaseId": 14551,
+          "name": "آلن کلهیر",
+          "slug": "آلن-کلهیر",
+          "count": 1,
+          "shadowImage": ""
+        }
+      ]
+    },
+    "translators": {
+      "pageInfo": {
+        "hasNextPage": true,
+        "endCursor": "YXJyYXljb25uZWN0aW9uOjE1MzM3"
+      },
+      "nodes": [
+        {
+          "id": "dGVybToxNTIxNQ==",
+          "databaseId": 15215,
+          "name": "آرتمیس رضاپور - افشین رضاپور",
+          "slug": "آرتمیس-رضاپور-افشین-رضاپور",
+          "count": 1,
+          "shadowImage": ""
+        },
+        {
+          "id": "dGVybToxNDU2Ng==",
+          "databaseId": 14566,
+          "name": "آرش عزیزی",
+          "slug": "آرش-عزیزی",
+          "count": 3,
+          "shadowImage": ""
+        },
+        {
+          "id": "dGVybToxNDgxOQ==",
+          "databaseId": 14819,
+          "name": "آرش محمداولی",
+          "slug": "آرش-محمداولی",
+          "count": 2,
+          "shadowImage": ""
+        },
+        {
+          "id": "dGVybToxNDkxMg==",
+          "databaseId": 14912,
+          "name": "آرمان بختیاری - عسگر بهرامی",
+          "slug": "آرمان-بختیاری-عسگر-بهرامی",
+          "count": 1,
+          "shadowImage": ""
+        },
+        {
+          "id": "dGVybToxNTMxNQ==",
+          "databaseId": 15315,
+          "name": "آزاده نیازاده",
+          "slug": "آزاده-نیازاده",
+          "count": 4,
+          "shadowImage": ""
+        },
+        {
+          "id": "dGVybToxNDkzMA==",
+          "databaseId": 14930,
+          "name": "آزیتا یاسائی",
+          "slug": "آزیتا-یاسائی",
+          "count": 2,
+          "shadowImage": ""
+        },
+        {
+          "id": "dGVybToxNDk5Mg==",
+          "databaseId": 14992,
+          "name": "آنا مارچینوفسکا",
+          "slug": "آنا-مارچینوفسکا",
+          "count": 1,
+          "shadowImage": ""
+        },
+        {
+          "id": "dGVybToxNTAyNw==",
+          "databaseId": 15027,
+          "name": "آنیتا یارمحمدی",
+          "slug": "آنیتا-یارمحمدی",
+          "count": 1,
+          "shadowImage": ""
+        },
+        {
+          "id": "dGVybToxNTQzNQ==",
+          "databaseId": 15435,
+          "name": "ابراهیم شایان",
+          "slug": "ابراهیم-شایان",
+          "count": 1,
+          "shadowImage": ""
+        },
+        {
+          "id": "dGVybToxNDEwOA==",
+          "databaseId": 14108,
+          "name": "ابراهیم لطفی",
+          "slug": "ابراهیم-لطفی",
+          "count": 1,
+          "shadowImage": ""
+        },
+        {
+          "id": "dGVybToxNDQ0MQ==",
+          "databaseId": 14441,
+          "name": "ابوالفضل الله دادی",
+          "slug": "ابوالفضل-الله-دادی",
+          "count": 7,
+          "shadowImage": ""
+        },
+        {
+          "id": "dGVybToxNDEzNg==",
+          "databaseId": 14136,
+          "name": "ابوالفضل توکلی شاندیز",
+          "slug": "ابوالفضل-توکلی-شاندیز",
+          "count": 4,
+          "shadowImage": ""
+        },
+        {
+          "id": "dGVybToxNDUyOQ==",
+          "databaseId": 14529,
+          "name": "ابوالقاسم حالت",
+          "slug": "ابوالقاسم-حالت",
+          "count": 1,
+          "shadowImage": ""
+        },
+        {
+          "id": "dGVybToxNDgwMA==",
+          "databaseId": 14800,
+          "name": "ابوذر کریمی",
+          "slug": "ابوذر-کریمی",
+          "count": 1,
+          "shadowImage": ""
+        },
+        {
+          "id": "dGVybToxNDEyMg==",
+          "databaseId": 14122,
+          "name": "احسان پورخیری",
+          "slug": "احسان-پورخیری",
+          "count": 1,
+          "shadowImage": ""
+        },
+        {
+          "id": "dGVybToxNTQ3Nw==",
+          "databaseId": 15477,
+          "name": "احسان دوست محمدی",
+          "slug": "احسان-دوست-محمدی",
+          "count": 1,
+          "shadowImage": ""
+        },
+        {
+          "id": "dGVybToxNDY3Ng==",
+          "databaseId": 14676,
+          "name": "احسان سنایی اردکانی",
+          "slug": "احسان-سنایی-اردکانی",
+          "count": 2,
+          "shadowImage": ""
+        },
+        {
+          "id": "dGVybToxNDA2NQ==",
+          "databaseId": 14065,
+          "name": "احسان عارفی فر",
+          "slug": "احسان-عارفی-فر",
+          "count": 1,
+          "shadowImage": ""
+        },
+        {
+          "id": "dGVybToxNDg1NA==",
+          "databaseId": 14854,
+          "name": "احمد رفیعی مهرآبادی",
+          "slug": "احمد-رفیعی-مهرآبادی",
+          "count": 1,
+          "shadowImage": ""
+        },
+        {
+          "id": "dGVybToxNTMzNw==",
+          "databaseId": 15337,
+          "name": "احمد شهسا",
+          "slug": "احمد-شهسا",
+          "count": 1,
+          "shadowImage": ""
+        }
+      ]
+    }
+  },
+  "extensions": {
+    "debug": [
+      {
+        "type": "DEBUG_LOGS_INACTIVE",
+        "message": "GraphQL Debug logging is not active. To see debug logs, GRAPHQL_DEBUG must be enabled."
+      }
+    ]
+  }
+}
