@@ -34,7 +34,8 @@ function getProxyEndpoint(): string {
     );
   }
 
-  return `${appUrl.replace(/\/$/, "")}/api/graphql`;
+  const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "/mysecretpreview";
+  return `${appUrl.replace(/\/$/, "")}${basePath}/api/graphql`;
 }
 
 async function parseFailureBody(response: Response): Promise<unknown> {
