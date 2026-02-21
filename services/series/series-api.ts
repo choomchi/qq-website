@@ -73,7 +73,7 @@ async function graphqlRequest<TData, TVariables extends object>(
 }
 
 export const seriesApi = {
-  getSeriesList: async (count = 20, cursor = ""): Promise<Series[]> => {
+  getSeriesList: async (count = 100, cursor = ""): Promise<Series[]> => {
     const data = await graphqlRequest<
       GetSeriesListQueryData,
       GetSeriesListQueryVariables
