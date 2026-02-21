@@ -1,19 +1,21 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import Providers from "./providers";
+import Header from "@/components/layout/header";
+import Footer from "@/components/layout/footer";
 import "./globals.css";
 
 const farhang = localFont({
   src: [
-    { path: "../public/fonts/farhang/woff2/Farhang2FaNum-Thin.woff2", weight: "100", style: "normal" },
-    { path: "../public/fonts/farhang/woff2/Farhang2FaNum-ExtraLight.woff2", weight: "200", style: "normal" },
-    { path: "../public/fonts/farhang/woff2/Farhang2FaNum-Light.woff2", weight: "300", style: "normal" },
-    { path: "../public/fonts/farhang/woff2/Farhang2FaNum-Regular.woff2", weight: "400", style: "normal" },
-    { path: "../public/fonts/farhang/woff2/Farhang2FaNum-Medium.woff2", weight: "500", style: "normal" },
-    { path: "../public/fonts/farhang/woff2/Farhang2FaNum-DemiBold.woff2", weight: "600", style: "normal" },
-    { path: "../public/fonts/farhang/woff2/Farhang2FaNum-Bold.woff2", weight: "700", style: "normal" },
-    { path: "../public/fonts/farhang/woff2/Farhang2FaNum-ExtraBold.woff2", weight: "800", style: "normal" },
-    { path: "../public/fonts/farhang/woff2/Farhang2FaNum-Black.woff2", weight: "900", style: "normal" },
+    { path: "./fonts/farhang/woff2/Farhang2FaNum-Thin.woff2", weight: "100", style: "normal" },
+    { path: "./fonts/farhang/woff2/Farhang2FaNum-ExtraLight.woff2", weight: "200", style: "normal" },
+    { path: "./fonts/farhang/woff2/Farhang2FaNum-Light.woff2", weight: "300", style: "normal" },
+    { path: "./fonts/farhang/woff2/Farhang2FaNum-Regular.woff2", weight: "400", style: "normal" },
+    { path: "./fonts/farhang/woff2/Farhang2FaNum-Medium.woff2", weight: "500", style: "normal" },
+    { path: "./fonts/farhang/woff2/Farhang2FaNum-DemiBold.woff2", weight: "600", style: "normal" },
+    { path: "./fonts/farhang/woff2/Farhang2FaNum-Bold.woff2", weight: "700", style: "normal" },
+    { path: "./fonts/farhang/woff2/Farhang2FaNum-ExtraBold.woff2", weight: "800", style: "normal" },
+    { path: "./fonts/farhang/woff2/Farhang2FaNum-Black.woff2", weight: "900", style: "normal" },
   ],
   variable: "--font-farhang",
 });
@@ -29,11 +31,15 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="fa" dir="rtl">
       <body
         className={`${farhang.variable} antialiased`}
       >
-        <Providers>{children}</Providers>
+        <Providers>
+          <Header />
+          {children}
+          <Footer />
+        </Providers>
       </body>
     </html>
   );

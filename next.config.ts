@@ -1,7 +1,15 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  /* config options here */
+  basePath: '/mysecretpreview',
+  images: {
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "qoqnoos.ir",
+      },
+    ],
+  },
 };
 
 export default nextConfig;
