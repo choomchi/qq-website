@@ -1,0 +1,98 @@
+query GetHomeGallery {
+  homeGalleryImages(metaKey: "images") {
+    databaseId
+    sourceUrl
+    altText
+    caption
+    title
+    mimeType
+  }
+}
+
+response:
+{
+  "data": {
+    "homeGalleryImages": [
+      {
+        "databaseId": 42634,
+        "sourceUrl": "https://qoqnoos.ir/wp-content/uploads/2026/02/مقالات-جنگل-نشر-scaled.jpg",
+        "altText": "https://qoqnoos.ir/product/%d9%85%d9%82%d8%a7%d9%84%d8%a7%d8%aa-%d8%ac%d9%86%da%af%d9%84/",
+        "caption": "",
+        "title": "مقالات جنگل نشر",
+        "mimeType": "image/jpeg"
+      },
+      {
+        "databaseId": 41927,
+        "sourceUrl": "https://qoqnoos.ir/wp-content/uploads/2026/02/هستی-شناسی-نشر-1-scaled.jpg",
+        "altText": "https://qoqnoos.ir/product/%d9%87%d8%b3%d8%aa%db%8c-%d8%b4%d9%86%d8%a7%d8%b3%db%8c-%da%a9%d8%a7%d8%b0%d8%a8-%d9%88-%d8%b1%d8%a7%d8%b3%d8%aa%db%8c%d9%86-%d9%87%da%af%d9%84/",
+        "caption": "",
+        "title": "هستی شناسی نشر",
+        "mimeType": "image/jpeg"
+      },
+      {
+        "databaseId": 42138,
+        "sourceUrl": "https://qoqnoos.ir/wp-content/uploads/2026/02/آکسفورد-نشر-scaled.jpg",
+        "altText": "https://qoqnoos.ir/product/%d8%aa%d8%a7%d8%b1%db%8c%d8%ae-%d8%a7%db%8c%d8%b1%d8%a7%d9%86-%d9%be%da%98%d9%88%d9%87%d8%b4-%d8%a2%da%a9%d8%b3%d9%81%d9%88%d8%b1%d8%af-2/",
+        "caption": "",
+        "title": "آکسفورد نشر",
+        "mimeType": "image/jpeg"
+      },
+      {
+        "databaseId": 41718,
+        "sourceUrl": "https://qoqnoos.ir/wp-content/uploads/2026/01/پس-از-پایان-هنر-scaled.jpg",
+        "altText": "https://qoqnoos.ir/product/%d9%be%d8%b3-%d8%a7%d8%b2-%d9%be%d8%a7%db%8c%d8%a7%d9%86-%d9%87%d9%86%d8%b1/",
+        "caption": "",
+        "title": "پس از پایان هنر",
+        "mimeType": "image/jpeg"
+      },
+      {
+        "databaseId": 41875,
+        "sourceUrl": "https://qoqnoos.ir/wp-content/uploads/2026/01/بنر-ابوالهول-یخ-ها-scaled.jpg",
+        "altText": "https://qoqnoos.ir/product/%da%98%d9%88%d9%84-%d9%88%d8%b1%d9%86-%d8%a7%d8%a8%d9%88%d8%a7%d9%84%d9%87%d9%88%d9%84-%db%8c%d8%ae-%d9%87%d8%a7/",
+        "caption": "",
+        "title": "بنر ابوالهول یخ ها",
+        "mimeType": "image/jpeg"
+      },
+      {
+        "databaseId": 41705,
+        "sourceUrl": "https://qoqnoos.ir/wp-content/uploads/2026/01/جهان-مواد.jpg2_-scaled.jpg",
+        "altText": "https://qoqnoos.ir/product/%d8%ac%d9%87%d8%a7%d9%86-%d9%85%d9%88%d8%a7%d8%af-%d9%88-%d8%b4%da%a9%d9%84-%da%af%db%8c%d8%b1%db%8c-%d8%aa%d9%85%d8%af%d9%86-%d9%85%d8%af%d8%b1%d9%86/",
+        "caption": "",
+        "title": "جهان مواد.jpg2",
+        "mimeType": "image/jpeg"
+      },
+      {
+        "databaseId": 41678,
+        "sourceUrl": "https://qoqnoos.ir/wp-content/uploads/2026/01/جزیره-اسرار-آمیز-scaled.jpg",
+        "altText": "https://qoqnoos.ir/product/%d8%ac%d8%b2%db%8c%d8%b1%d9%87-%d8%a7%d8%b3%d8%b1%d8%a7%d8%b1%d8%a2%d9%85%db%8c%d8%b2/",
+        "caption": "",
+        "title": "جزیره اسرار آمیز",
+        "mimeType": "image/jpeg"
+      },
+      {
+        "databaseId": 41714,
+        "sourceUrl": "https://qoqnoos.ir/wp-content/uploads/2026/01/بارون-پیر-انگلیسی-scaled.jpg",
+        "altText": "https://qoqnoos.ir/product/%d8%a8%d8%a7%d8%b1%d9%88%d9%86-%d9%be%db%8c%d8%b1-%d8%a7%d9%86%da%af%d9%84%db%8c%d8%b3%db%8c-%d8%a7%d8%af%d8%a8%db%8c%d8%a7%d8%aa-%da%af%d9%88%d8%aa%db%8c%da%a9/",
+        "caption": "",
+        "title": "بارون پیر انگلیسی",
+        "mimeType": "image/jpeg"
+      },
+      {
+        "databaseId": 41719,
+        "sourceUrl": "https://qoqnoos.ir/wp-content/uploads/2026/01/پانوراما-scaled.jpg",
+        "altText": "https://qoqnoos.ir/product/%d9%be%d8%a7%d9%86%d9%88%d8%b1%d8%a7%d9%85%d8%a7-8-%d9%81%d8%af%d8%b1-%db%8c%d8%a7-%d8%b4%d9%88%d9%87%d8%b1-%d9%85%d8%aa%d9%85%d9%88%d9%84-2/",
+        "caption": "",
+        "title": "پانوراما",
+        "mimeType": "image/jpeg"
+      }
+    ]
+  },
+  "extensions": {
+    "debug": [
+      {
+        "type": "DEBUG_LOGS_INACTIVE",
+        "message": "GraphQL Debug logging is not active. To see debug logs, GRAPHQL_DEBUG must be enabled."
+      }
+    ]
+  }
+}

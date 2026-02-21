@@ -1,0 +1,125 @@
+query GetSeriesWithImages($count: Int = 20, $cursor: String) {
+  terms(
+    first: $count
+    after: $cursor
+    where: { taxonomies: PRODUCTCATEGORY, hideEmpty: true }
+  ) {
+    pageInfo { hasNextPage endCursor }
+    nodes {
+      databaseId
+      name
+      slug
+      isSeries
+      shadowImage
+    }
+  }
+}
+
+
+response:
+{
+  "data": {
+    "terms": {
+      "nodes": [
+        {
+          "name": "مجموعه آثار ژول ورن",
+          "slug": "مجموعه-آثار-ژول-ورن",
+          "isSeries": true,
+          "shadowImage": ""
+        },
+        {
+          "name": "مجموعه آثار عباس معروفي",
+          "slug": "مجموعه-آثار-عباس-معروفي",
+          "isSeries": true,
+          "shadowImage": ""
+        },
+        {
+          "name": "مجموعه ادبيات گوتيك",
+          "slug": "مجموعه-ادبيات-گوتيك",
+          "isSeries": true,
+          "shadowImage": ""
+        },
+        {
+          "name": "مجموعه استنفورد",
+          "slug": "مجموعه-استنفورد",
+          "isSeries": true,
+          "shadowImage": ""
+        },
+        {
+          "name": "مجموعه پانوراما",
+          "slug": "مجموعه-پانوراما",
+          "isSeries": true,
+          "shadowImage": ""
+        },
+        {
+          "name": "مجموعه پژوهش هاي فلسفي",
+          "slug": "مجموعه-پژوهش-هاي-فلسفي",
+          "isSeries": true,
+          "shadowImage": ""
+        },
+        {
+          "name": "مجموعه تاريخ ايران زمين",
+          "slug": "مجموعه-تاريخ-ايران-زمين",
+          "isSeries": true,
+          "shadowImage": ""
+        },
+        {
+          "name": "مجموعه تاريخ جهان",
+          "slug": "مجموعه-تاريخ-جهان",
+          "isSeries": true,
+          "shadowImage": "https://qoqnoos.ir/wp-content/uploads/2026/02/تاریخ-جهان-150x150.jpg"
+        },
+        {
+          "name": "مجموعه تفاسير فلسفي",
+          "slug": "مجموعه-تفاسير-فلسفي",
+          "isSeries": true,
+          "shadowImage": ""
+        },
+        {
+          "name": "مجموعه تمدن‌هاي گم شده",
+          "slug": "مجموعه-تمدنهاي-گم-شده",
+          "isSeries": true,
+          "shadowImage": ""
+        },
+        {
+          "name": "مجموعه چشم اندازها",
+          "slug": "مجموعه-چشم-اندازها",
+          "isSeries": true,
+          "shadowImage": ""
+        },
+        {
+          "name": "مجموعه رمان تاريخي",
+          "slug": "مجموعه-رمان-تاريخي",
+          "isSeries": true,
+          "shadowImage": ""
+        },
+        {
+          "name": "مجموعه روايتي ديگر",
+          "slug": "مجموعه-روايتي-ديگر",
+          "isSeries": true,
+          "shadowImage": ""
+        },
+        {
+          "name": "مجموعه علم و ماجراهاي علمي",
+          "slug": "مجموعه-علم-و-ماجراهاي-علمي",
+          "isSeries": true,
+          "shadowImage": ""
+        },
+        {
+          "name": "مجموعه فلسفه كلاسيك",
+          "slug": "مجموعه-فلسفه-كلاسيك",
+          "isSeries": true,
+          "shadowImage": ""
+        }
+      ]
+    }
+  },
+  "extensions": {
+    "debug": [
+      {
+        "type": "DEBUG_LOGS_INACTIVE",
+        "message": "GraphQL Debug logging is not active. To see debug logs, GRAPHQL_DEBUG must be enabled."
+      }
+    ]
+  }
+}
