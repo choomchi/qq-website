@@ -1,4 +1,3 @@
-import Image from "next/image";
 import Link from "next/link";
 
 const PLATFORMS = [
@@ -33,15 +32,9 @@ export default function EbookPlatforms() {
           </div>
         </div>
 
-        {/* Phone mockup image */}
-        <div className="relative h-32 w-40 shrink-0">
-          <Image
-            src="/ebook-platforms-mockup.png"
-            alt="پلتفرم‌های کتاب الکترونیک"
-            fill
-            className="object-contain object-left"
-            sizes="160px"
-          />
+        {/* Phone mockup placeholder */}
+        <div className="relative h-32 w-40 shrink-0 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-white/20 text-4xl select-none">
+          📱
         </div>
       </div>
     </div>

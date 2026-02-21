@@ -82,6 +82,6 @@ export const seriesApi = {
       cursor: cursor || undefined,
     });
 
-    return data.terms.nodes.filter((s) => s.isSeries);
+    return data.terms.nodes.filter((s) => s.isSeries && s.name.startsWith("مجموعه"));
   },
 };
