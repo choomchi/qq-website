@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import qoqnoosLogo from "@/public/qoqnoos-logo.png";
 
 const QUICK_LINKS = [
   { label: "درباره ما",     href: "#" },
@@ -25,7 +26,7 @@ export default function Footer() {
           <div className="flex flex-col gap-4 md:col-span-1">
             <Link href="/" className="flex items-center gap-3">
               <Image
-                src="/qoqnoos-logo.png"
+                src={qoqnoosLogo}
                 alt="گروه انتشاراتی قُقنوس"
                 width={52}
                 height={52}
