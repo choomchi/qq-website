@@ -33,9 +33,13 @@ export default function ProductCard({ product }: ProductCardProps) {
   const href = `/product/${product.slug}`;
 
   return (
-    <div className="flex h-full w-full flex-col overflow-hidden rounded-xl border border-border/80" style={{ backgroundColor: "#F7F7F7" }} dir="rtl">
-      <Link href={href} className="block w-full p-2">
-        <div className="relative aspect-5/4 w-full rounded-lg bg-white p-1.5">
+    <div
+      className="flex h-full w-full flex-col overflow-hidden rounded-xl border border-border/80"
+      style={{ backgroundColor: "#F7F7F7" }}
+      dir="rtl"
+    >
+      <Link href={href} className="block w-full p-1.5 md:p-2">
+        <div className="relative aspect-5/4 w-full rounded-lg bg-white p-1 md:p-1.5">
           <div className="relative h-full w-full">
             {product.image?.sourceUrl ? (
               <Image
@@ -43,10 +47,10 @@ export default function ProductCard({ product }: ProductCardProps) {
                 alt={product.image.altText || product.name}
                 fill
                 className="object-contain"
-                sizes="192px"
+                sizes="(max-width: 768px) 140px, 192px"
               />
             ) : (
-              <div className="flex h-full w-full items-center justify-center text-muted-foreground text-xs">
+              <div className="flex h-full w-full items-center justify-center text-muted-foreground text-[10px] md:text-xs">
                 بدون تصویر
               </div>
             )}
@@ -54,44 +58,65 @@ export default function ProductCard({ product }: ProductCardProps) {
         </div>
       </Link>
 
-      <div className="flex flex-1 flex-col p-2 pt-0">
-        <Link href={href} className="text-sm font-semibold leading-5 text-foreground line-clamp-1 hover:text-primary-red transition-colors">
+      <div className="flex flex-1 flex-col p-1.5 md:p-2 pt-0">
+        <Link
+          href={href}
+          className="text-xs md:text-sm font-semibold leading-5 text-foreground line-clamp-1 hover:text-primary-red transition-colors"
+        >
           {product.name}
         </Link>
 
         <div className="my-1.5 h-px w-full bg-border/60" />
 
-        <div className="flex flex-col gap-1">
+        <div className="flex flex-col gap-0.5 md:gap-1">
           {writer && (
             <div className="flex items-center gap-1">
               {writer.image ? (
-                <div className="relative h-[18px] w-[18px] shrink-0 overflow-hidden rounded-full border border-border/40">
-                  <Image src={writer.image} alt={writer.name} fill className="object-cover" sizes="18px" />
+                <div className="relative h-4 w-4 md:h-[18px] md:w-[18px] shrink-0 overflow-hidden rounded-full border border-border/40">
+                  <Image
+                    src={writer.image}
+                    alt={writer.name}
+                    fill
+                    className="object-cover"
+                    sizes="18px"
+                  />
                 </div>
               ) : (
                 <div className="h-[18px] w-[18px] shrink-0 rounded-full bg-border/40" />
               )}
-              <span className="text-xs text-muted-foreground truncate">{writer.name}</span>
+              <span className="text-xs text-muted-foreground truncate">
+                {writer.name}
+              </span>
             </div>
           )}
           {translator && (
             <div className="flex items-center gap-1">
               {translator.image ? (
                 <div className="relative h-[18px] w-[18px] shrink-0 overflow-hidden rounded-full border border-border/40">
-                  <Image src={translator.image} alt={translator.name} fill className="object-cover" sizes="18px" />
+                  <Image
+                    src={translator.image}
+                    alt={translator.name}
+                    fill
+                    className="object-cover"
+                    sizes="18px"
+                  />
                 </div>
               ) : (
                 <div className="h-[18px] w-[18px] shrink-0 rounded-full bg-border/40" />
               )}
-              <span className="text-xs text-muted-foreground truncate">{translator.name}</span>
+              <span className="text-xs text-muted-foreground truncate">
+                {translator.name}
+              </span>
             </div>
           )}
           {!writer && !translator && <div className="h-[18px]" />}
         </div>
 
         <div className="mt-auto flex flex-col gap-1.5 pt-1.5">
-          <p className="min-h-5 text-left text-sm font-bold text-dark-gray">{price ?? "\u00a0"}</p>
-          <button className="flex w-full items-center justify-center gap-1.5 rounded-full bg-primary-red py-1 text-xs font-medium text-white transition-colors hover:bg-primary-red/90">
+          <p className="min-h-5 text-left text-sm font-bold text-dark-gray">
+            {price ?? "\u00a0"}
+          </p>
+          <button className="flex w-full items-center justify-center gap-1.5 rounded-full bg-light-gray py-1 text-xs font-medium text-dark-gray transition-colors hover:bg-primary-red/90">
             <ShoppingCart size={14} />
             <span>خرید</span>
           </button>

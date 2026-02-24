@@ -22,16 +22,17 @@ export default function PersonCard({ person, role }: PersonCardProps) {
   return (
     <Link
       href={href}
-      className="group relative block h-[116px] w-full overflow-hidden rounded-[15px]"
+      className="group relative block h-26.75 w-full overflow-hidden rounded-[15px]"
       style={{
         backgroundImage: `url('${BASE_PATH}/carousel-card-bg.svg')`,
-        backgroundSize: "cover",
+        backgroundSize: "contain",
         backgroundPosition: "center",
+        backgroundRepeat: "no-repeat",
       }}
       dir="rtl"
     >
-      <div className="relative z-10 flex h-full w-full items-center justify-between gap-2 p-2.5 pr-3 pl-2.5">
-        <div className="relative h-[66px] w-[66px] shrink-0 overflow-hidden rounded-full border border-white/15 bg-black/25">
+      <div className="relative z-10 flex h-full w-full items-center justify-between gap-2 p-2.5 pr-3 pl-2.5 -mt-2">
+        <div className="relative h-15 w-15 shrink-0 overflow-hidden rounded-full border border-white/15 bg-black/25">
           {person.shadowImage ? (
             <Image
               src={person.shadowImage}
@@ -48,12 +49,16 @@ export default function PersonCard({ person, role }: PersonCardProps) {
         </div>
 
         <div className="flex min-w-0 flex-1 flex-col text-right">
-          <span className="line-clamp-1 text-[18px] leading-tight font-bold text-white">{person.name}</span>
-          <span className="mt-1 text-[12px] leading-none font-medium text-white/55">{subtitle}</span>
+          <span className="line-clamp-1 text-[18px] leading-tight font-bold text-white">
+            {person.name}
+          </span>
+          <span className="mt-1 text-[12px] leading-none font-medium text-white/55">
+            {subtitle}
+          </span>
         </div>
       </div>
 
-      <div className="pointer-events-none absolute bottom-1.5 left-1.5 z-20 flex h-8 w-8 items-center justify-center rounded-md border border-white/15 bg-[#343434] text-white">
+      <div className="pointer-events-none absolute bottom-2 left-0 md:bottom-0.5 md:left-0.5 z-20 flex h-8 w-8 md:h-9 md:w-9 items-center justify-center rounded-lg bg-[#3B3B3B]/90 text-white">
         <ArrowLeft size={14} strokeWidth={2.2} />
       </div>
     </Link>

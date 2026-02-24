@@ -11,13 +11,19 @@ type PersonsCarouselTrackProps = {
   translators: Person[];
 };
 
-export default function PersonsCarouselTrack({ writers, translators }: PersonsCarouselTrackProps) {
+export default function PersonsCarouselTrack({
+  writers,
+  translators,
+}: PersonsCarouselTrackProps) {
   const trackRef = useRef<HTMLDivElement>(null);
 
   const scroll = (dir: "next" | "prev") => {
     if (!trackRef.current) return;
     const amount = trackRef.current.clientWidth * 0.75;
-    trackRef.current.scrollBy({ left: dir === "next" ? -amount : amount, behavior: "smooth" });
+    trackRef.current.scrollBy({
+      left: dir === "next" ? -amount : amount,
+      behavior: "smooth",
+    });
   };
 
   const combined = [
@@ -30,7 +36,6 @@ export default function PersonsCarouselTrack({ writers, translators }: PersonsCa
   return (
     <section className="w-full bg-dark-gray mt-12" dir="rtl">
       <div className="mx-auto w-full max-w-7xl px-4 pt-8 pb-6">
-
         <div className="flex items-center justify-between mb-1">
           <div className="flex items-center gap-3">
             <span className="block w-1 h-6 rounded-full bg-primary-red" />
@@ -63,11 +68,14 @@ export default function PersonsCarouselTrack({ writers, translators }: PersonsCa
 
         <div
           ref={trackRef}
-          className="flex gap-3 overflow-x-auto scroll-smooth pb-2"
+          className="grid grid-rows-2 grid-flow-col auto-cols-max gap-x-5 gap-y-7 overflow-x-auto scroll-smooth pb-2"
           style={{ scrollbarWidth: "none" }}
         >
           {combined.map(({ person, role }) => (
-            <div key={`${role}-${person.databaseId}`} className="w-[272px] shrink-0">
+            <div
+              key={`${role}-${person.databaseId}`}
+              className="w-55 md:w-62.5 shrink-0"
+            >
               <PersonCard person={person} role={role} />
             </div>
           ))}

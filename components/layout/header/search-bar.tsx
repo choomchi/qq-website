@@ -48,7 +48,10 @@ export default function SearchBar() {
 
   useEffect(() => {
     const handler = (e: MouseEvent) => {
-      if (containerRef.current && !containerRef.current.contains(e.target as Node)) {
+      if (
+        containerRef.current &&
+        !containerRef.current.contains(e.target as Node)
+      ) {
         setOpen(false);
       }
     };
@@ -57,7 +60,10 @@ export default function SearchBar() {
   }, []);
 
   return (
-    <div ref={containerRef} className="flex-1 max-w-md mx-4 relative">
+    <div
+      ref={containerRef}
+      className="flex-1 w-full max-w-none md:max-w-md mx-0 md:mx-4 relative"
+    >
       <div className="relative flex items-center">
         <input
           type="search"
@@ -92,7 +98,10 @@ export default function SearchBar() {
               <li key={hit.id}>
                 <Link
                   href={`/product/${hit.slug}`}
-                  onClick={() => { setOpen(false); setQuery(""); }}
+                  onClick={() => {
+                    setOpen(false);
+                    setQuery("");
+                  }}
                   className="flex items-center gap-3 px-3 py-2.5 hover:bg-muted/60 transition-colors"
                 >
                   <div className="relative h-12 w-10 shrink-0 overflow-hidden rounded-md border border-border/60 bg-muted/40">
@@ -127,7 +136,9 @@ export default function SearchBar() {
           <div className="border-t border-border px-3 py-2">
             <Link
               href={`/search?q=${encodeURIComponent(query)}`}
-              onClick={() => { setOpen(false); }}
+              onClick={() => {
+                setOpen(false);
+              }}
               className="text-xs font-medium text-primary-red hover:underline"
             >
               مشاهده همه نتایج برای «{query}»

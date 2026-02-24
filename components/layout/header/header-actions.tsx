@@ -8,17 +8,17 @@ export default function HeaderActions() {
     <div className="flex items-center gap-2 shrink-0">
       <Link
         href="/cart"
-        className="flex items-center gap-2 rounded-full border border-white/40 px-4 py-1.5 text-base text-white hover:bg-white/10 transition-colors"
+        className="flex items-center gap-2 rounded-full border border-white/40 px-3 py-1.5 md:px-4 text-base text-white hover:bg-white/10 transition-colors"
       >
         <ShoppingCart size={18} />
-        <span>سبد خرید</span>
+        <span className="hidden sm:inline">سبد خرید</span>
       </Link>
       <Link
         href="/account"
-        className="flex items-center gap-2 rounded-full border border-white/40 px-4 py-1.5 text-base text-white hover:bg-white/10 transition-colors"
+        className="flex items-center gap-2 rounded-full border border-white/40 px-3 py-1.5 md:px-4 text-base text-white hover:bg-white/10 transition-colors"
       >
         <User size={18} />
-        <span>حساب کاربری</span>
+        <span className="hidden sm:inline">حساب کاربری</span>
       </Link>
     </div>
   );
