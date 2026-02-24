@@ -74,3 +74,12 @@ This is the append-only operation log referenced by `instructions.md`.
 - Files changed: `persons-carousel-track.tsx`, `series-carousel-track.tsx`
 - Validation: build
 - Notes/Risks: Ensure grid layout maintains responsiveness across various screen sizes.
+
+### 2026-02-24 16:55 (local)
+
+- Agent: Antigravity
+- Operation type: code change
+- Summary: Redesigned the `Footer` component to exactly match the provided visual mockups. Added a new Top Features section using Lucide icons. Splitted the middle section into robust grids handling Contacts, multiple Publishers/Distributors logos, and an eNamad trust script snippet. Set Bottom Address layout identically to mockup text and structure. Fixed pathing for images where basePath routing (`/mysecretpreview/`) caused native next/image fetches to 404 missing public extensions.
+- Files changed: `components/layout/footer/footer.tsx`, `components/layout/header/logo.tsx`, `components/features/ebook-platforms/ebook-platforms.tsx`
+- Validation: next build
+- Notes/Risks: Any newly acquired badges/certificates for the trust section should simply drop in the grid using standard `<img>` wrapper styles predefined across `Footer`.

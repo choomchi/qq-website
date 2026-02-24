@@ -1,19 +1,12 @@
 import Image from "next/image";
-import Link from "next/link";
+import { Package, Truck, CreditCard, ShieldCheck, Check } from "lucide-react";
 
-const QUICK_LINKS = [
-  { label: "درباره ما", href: "#" },
-  { label: "تماس با ما", href: "#" },
-  { label: "پذیرش اثر", href: "#" },
-  { label: "اخبار و نقدها", href: "#" },
-  { label: "دسته بندی ها", href: "#" },
-] as const;
-
-const SOCIAL_LINKS = [
-  { label: "اینستاگرام", href: "#", icon: "📷" },
-  { label: "تلگرام", href: "#", icon: "✈️" },
-  { label: "توییتر", href: "#", icon: "🐦" },
-] as const;
+const FEATURES = [
+  { id: 1, label: "گارانتی سلامت فیزیکی", icon: Package },
+  { id: 2, label: "ارسال سریع", icon: Truck },
+  { id: 3, label: "خرید از طریق شتاب", icon: CreditCard },
+  { id: 4, label: "ضمانت ارسال", icon: ShieldCheck },
+];
 
 export default function Footer() {
   return (
@@ -21,117 +14,195 @@ export default function Footer() {
       className="w-full bg-dark-gray border-t-4 border-primary-red"
       dir="rtl"
     >
-      <div className="mx-auto w-full max-w-7xl px-4 py-12">
-        <div className="grid grid-cols-1 gap-10 md:grid-cols-4">
-          {/* Logo + description */}
-          <div className="flex flex-col gap-4 md:col-span-1">
-            <Link href="/" className="flex items-center gap-3">
-              <Image
-                src="/mysecretpreviewqoqnoos-logo.png"
-                alt="گروه انتشاراتی قُقنوس"
-                width={52}
-                height={52}
-                // unoptimized
-                className="object-contain"
-              />
-              <span className="text-lg font-bold text-white leading-tight">
-                گروه انتشاراتی قُقنوس
-              </span>
-            </Link>
-            <p className="text-sm text-white/60 leading-7">
-              انتشارات قُقنوس از سال ۱۳۴۸ با هدف ارتقای فرهنگ مطالعه و نشر آثار
-              ادبی، فلسفی و علمی در ایران فعالیت می‌کند.
-            </p>
-          </div>
-
-          {/* Quick links */}
-          <div className="flex flex-col gap-4">
-            <h3 className="text-base font-bold text-white border-r-2 border-primary-red pr-3">
-              دسترسی سریع
-            </h3>
-            <ul className="flex flex-col gap-2.5">
-              {QUICK_LINKS.map(({ label, href }) => (
-                <li key={label}>
-                  <Link
-                    href={href}
-                    className="text-sm text-white/60 hover:text-white transition-colors"
-                  >
-                    {label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* Contact info */}
-          <div className="flex flex-col gap-4">
-            <h3 className="text-base font-bold text-white border-r-2 border-primary-red pr-3">
-              اطلاعات تماس
-            </h3>
-            <ul className="flex flex-col gap-3 text-sm text-white/60">
-              <li className="flex items-start gap-2">
-                <span className="shrink-0 mt-0.5">📍</span>
-                <span className="leading-6">
-                  تهران، خیابان انقلاب، خیابان فخر رازی
+      {/* Top Features Section */}
+      <div className="w-full border-b border-white/10">
+        <div className="mx-auto w-full max-w-7xl px-4 py-8">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+            {FEATURES.map((feature) => (
+              <div
+                key={feature.id}
+                className="flex flex-col items-center justify-center gap-4"
+              >
+                <div className="relative">
+                  <feature.icon
+                    size={56}
+                    className="text-white/80"
+                    strokeWidth={1}
+                  />
+                  <div className="absolute top-0 right-0 -mr-1 -mt-1 flex h-5 w-5 items-center justify-center rounded-full bg-primary-red ring-2 ring-dark-gray">
+                    <Check size={12} className="text-white" strokeWidth={3} />
+                  </div>
+                </div>
+                <span className="text-[15px] font-medium text-white/90">
+                  {feature.label}
                 </span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* Middle Links & Logos Section */}
+      <div className="mx-auto w-full max-w-7xl px-4 py-10">
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-4">
+          {/* Col 1: اطلاعات تماس */}
+          <div className="md:col-span-3 flex flex-col gap-5">
+            <div className="flex items-center gap-2">
+              <span className="block h-4 w-1 bg-primary-red"></span>
+              <h3 className="text-[15px] font-bold text-white">
+                اطلاعات تماس:
+              </h3>
+            </div>
+            <ul className="flex flex-col gap-2.5 text-[13px] text-white/70">
+              <li>تلفن: ٦٦٤٠٨٦٤٠ - ٦٦٤٦٠٠٩٩ - ۹۱۲۱۲۹۹۱</li>
+              <li>دورنگار: ٦٦٤١٣٩٣٣</li>
+              <li>صندوق پستی: 756-13145</li>
+              <li>کدپستی: ۱۳۱۴۶۷۵۵۳۳</li>
+              <li className="flex items-center gap-1">
+                وب سایت: <span dir="ltr">www.qoqnoos.ir</span>
               </li>
-              <li className="flex items-center gap-2">
-                <span>📞</span>
-                <span dir="ltr">۰۲۱-۶۶۴۸۰۰۰۰</span>
-              </li>
-              <li className="flex items-center gap-2">
-                <span>✉️</span>
-                <span dir="ltr">info@qoqnoos.ir</span>
+              <li className="flex items-center gap-1">
+                ایمیل: <span dir="ltr">pub@qoqnoos.ir</span>
               </li>
             </ul>
           </div>
 
-          {/* Newsletter + social */}
-          <div className="flex flex-col gap-4">
-            <h3 className="text-base font-bold text-white border-r-2 border-primary-red pr-3">
-              خبرنامه
-            </h3>
-            <p className="text-sm text-white/60">
-              برای دریافت آخرین اخبار و معرفی کتاب‌های جدید عضو خبرنامه شوید.
-            </p>
-            <div className="flex gap-2">
-              <input
-                type="email"
-                placeholder="ایمیل شما"
-                dir="rtl"
-                className="flex-1 rounded-lg border border-white/20 bg-white/10 px-3 py-2 text-sm text-white placeholder:text-white/40 outline-none focus:border-primary-red transition-colors"
-              />
-              <button className="shrink-0 rounded-lg bg-primary-red px-4 py-2 text-sm font-medium text-white hover:bg-primary-red/90 transition-colors">
-                عضویت
-              </button>
+          {/* Col 2: گروه انتشارات ققنوس */}
+          <div className="md:col-span-4 flex flex-col gap-5">
+            <div className="flex items-center gap-2">
+              <span className="block h-4 w-1 bg-primary-red"></span>
+              <h3 className="text-[15px] font-bold text-white">
+                گروه انتشارات ققنوس:
+              </h3>
             </div>
-            <div className="flex gap-3 mt-1">
-              {SOCIAL_LINKS.map(({ label, href, icon }) => (
-                <Link
-                  key={label}
-                  href={href}
-                  aria-label={label}
-                  className="flex h-9 w-9 items-center justify-center rounded-full border border-white/20 text-base hover:border-primary-red hover:bg-primary-red/10 transition-colors"
-                >
-                  {icon}
-                </Link>
-              ))}
+            <div className="grid grid-cols-4 gap-2.5">
+              <div className="flex h-22 items-center justify-center rounded-[10px] bg-[#3B3D40] p-2 transition-colors hover:bg-white/20">
+                <Image
+                  src="/mysecretpreview/footer/ققنوس.png"
+                  alt="ققنوس"
+                  width={60}
+                  height={60}
+                  className="object-contain"
+                />
+              </div>
+              <div className="flex h-22 items-center justify-center rounded-[10px] bg-[#3B3D40] p-2 transition-colors hover:bg-white/20">
+                <Image
+                  src="/mysecretpreview/footer/آفرینگان.png"
+                  alt="آفرینگان"
+                  width={54}
+                  height={54}
+                  className="object-contain"
+                />
+              </div>
+              <div className="flex h-22 items-center justify-center rounded-[10px] bg-[#3B3D40] p-2 text-sm font-bold text-[#1E1F21] text-center transition-colors hover:bg-white/20">
+                هیلا
+              </div>
+              <div className="flex h-22 items-center justify-center rounded-[10px] bg-[#3B3D40] p-2 text-sm font-bold text-[#1E1F21] text-center transition-colors hover:bg-white/20">
+                نشر کودک
+              </div>
+            </div>
+          </div>
+
+          {/* Col 3: گروه پخش ققنوس */}
+          <div className="md:col-span-2 flex flex-col gap-5">
+            <div className="flex items-center gap-2">
+              <span className="block h-4 w-1 bg-primary-red"></span>
+              <h3 className="text-[15px] font-bold text-white">
+                گروه پخش ققنوس:
+              </h3>
+            </div>
+            <div className="grid grid-cols-2 gap-2.5">
+              <div className="flex h-22 items-center justify-center rounded-[10px] bg-[#3B3D40] p-2 transition-colors hover:bg-white/20">
+                <Image
+                  src="/mysecretpreview/footer/پخش-کتاب-1.png"
+                  alt="پخش کتاب"
+                  width={56}
+                  height={56}
+                  className="object-contain"
+                />
+              </div>
+              <div className="flex h-22 items-center justify-center rounded-[10px] bg-[#3B3D40] p-2 transition-colors hover:bg-white/20">
+                <Image
+                  src="/mysecretpreview/footer/پخش-ملزومات-1.png"
+                  alt="پخش ملزومات"
+                  width={56}
+                  height={56}
+                  className="object-contain -mt-2"
+                />
+              </div>
+            </div>
+          </div>
+
+          {/* Col 4: با اطمینان خرید کنید */}
+          <div className="md:col-span-3 flex flex-col gap-5">
+            <div className="flex items-center gap-2">
+              <span className="block h-4 w-1 bg-primary-red"></span>
+              <h3 className="text-[15px] font-bold text-white">
+                با اطمینان خرید کنید:
+              </h3>
+            </div>
+            <div className="grid grid-cols-2 gap-2.5">
+              <div
+                className="flex h-[88px] items-center justify-center overflow-hidden rounded-[10px] bg-[#3B3D40] transition-colors hover:bg-white/20 [&_img]:max-w-17.5 [&_img]:max-h-17.5 [&_img]:object-contain"
+                dangerouslySetInnerHTML={{
+                  __html: `<a target="_blank" href="https://trustseal.enamad.ir/?id=60679&Code=6dJIRIIxDE2dHzNamInk"><img referrerpolicy='origin' src='https://trustseal.enamad.ir/logo.aspx?id=60679&Code=6dJIRIIxDE2dHzNamInk' alt='' style='cursor:pointer' code='6dJIRIIxDE2dHzNamInk'></a>`,
+                }}
+              />
+              <div className="flex h-[88px] items-center justify-center rounded-[10px] bg-[#3B3D40] p-2 text-xs font-bold text-[#1E1F21] text-center leading-relaxed transition-colors hover:bg-white/20">
+                نشان ملی
+                <br />
+                ثبت رسانه
+              </div>
             </div>
           </div>
         </div>
       </div>
 
-      {/* Bottom bar */}
-      <div className="border-t border-white/10">
-        <div
-          className="mx-auto flex max-w-7xl items-center justify-between px-4 py-4 text-xs text-white/40"
-          dir="rtl"
-        >
-          <span>
-            © {new Date().getFullYear()} گروه انتشاراتی قُقنوس — تمامی حقوق
-            محفوظ است.
-          </span>
-          <span dir="ltr">qoqnoos.ir</span>
+      {/* Bottom section (Addresses) */}
+      <div className="w-full border-t border-white/5">
+        <div className="mx-auto w-full max-w-7xl px-4 py-8">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {/* Address 1 */}
+            <div className="flex flex-col gap-3">
+              <div className="flex items-center gap-2">
+                <span className="block h-4 w-1 bg-primary-red"></span>
+                <h3 className="text-[15px] font-bold text-white">
+                  گروه انتشاراتی ققنوس:
+                </h3>
+              </div>
+              <p className="text-[13px] leading-relaxed text-white/60">
+                تهران، خیابان انقلاب، خیابان 12 فروردین، خیابان وحید نظری، نبش
+                جاوید 2، پلاک 2<br />
+                تهران، خیابان انقلاب، خیابان 12 فروردین، خیابان وحید نظری، نبش
+                جاوید 2، پلاک 2
+              </p>
+            </div>
+
+            {/* Address 2 */}
+            <div className="flex flex-col gap-3">
+              <div className="flex items-center gap-2">
+                <span className="block h-4 w-1 bg-primary-red"></span>
+                <h3 className="text-[15px] font-bold text-white">فروشگاه:</h3>
+              </div>
+              <p className="text-[13px] leading-relaxed text-white/60">
+                تهران، خیابان انقلاب، خیابان منیری جاوید، نبش بازارچه کتاب، پلاک
+                ٧٩
+              </p>
+            </div>
+
+            {/* Address 3 */}
+            <div className="flex flex-col gap-3">
+              <div className="flex items-center gap-2">
+                <span className="block h-4 w-1 bg-primary-red"></span>
+                <h3 className="text-[15px] font-bold text-white">
+                  کافه کتاب ققنوس:
+                </h3>
+              </div>
+              <p className="text-[13px] leading-relaxed text-white/60">
+                تهران، خیابان انقلاب، خیابان وصال، کوچه شفیعی، پلاک 1
+              </p>
+            </div>
+          </div>
         </div>
       </div>
     </footer>
