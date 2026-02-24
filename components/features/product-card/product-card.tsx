@@ -34,8 +34,8 @@ export default function ProductCard({ product }: ProductCardProps) {
 
   return (
     <div className="flex h-full w-full flex-col overflow-hidden rounded-xl border border-border/80" style={{ backgroundColor: "#F7F7F7" }} dir="rtl">
-      <Link href={href} className="block w-full p-2.5">
-        <div className="relative aspect-square w-full rounded-lg bg-white p-2">
+      <Link href={href} className="block w-full p-2">
+        <div className="relative aspect-5/4 w-full rounded-lg bg-white p-1.5">
           <div className="relative h-full w-full">
             {product.image?.sourceUrl ? (
               <Image
@@ -54,45 +54,45 @@ export default function ProductCard({ product }: ProductCardProps) {
         </div>
       </Link>
 
-      <div className="flex flex-1 flex-col p-2.5 pt-0">
-        <Link href={href} className="text-sm font-semibold leading-6 text-foreground line-clamp-2 hover:text-primary-red transition-colors">
+      <div className="flex flex-1 flex-col p-2 pt-0">
+        <Link href={href} className="text-sm font-semibold leading-5 text-foreground line-clamp-1 hover:text-primary-red transition-colors">
           {product.name}
         </Link>
 
-        <div className="my-2 h-px w-full bg-border/60" />
+        <div className="my-1.5 h-px w-full bg-border/60" />
 
-        <div className="flex flex-col gap-1.5">
+        <div className="flex flex-col gap-1">
           {writer && (
-            <div className="flex items-center gap-1.5">
+            <div className="flex items-center gap-1">
               {writer.image ? (
-                <div className="relative h-5 w-5 shrink-0 overflow-hidden rounded-full border border-border/40">
-                  <Image src={writer.image} alt={writer.name} fill className="object-cover" sizes="20px" />
+                <div className="relative h-[18px] w-[18px] shrink-0 overflow-hidden rounded-full border border-border/40">
+                  <Image src={writer.image} alt={writer.name} fill className="object-cover" sizes="18px" />
                 </div>
               ) : (
-                <div className="h-5 w-5 shrink-0 rounded-full bg-border/40" />
+                <div className="h-[18px] w-[18px] shrink-0 rounded-full bg-border/40" />
               )}
               <span className="text-xs text-muted-foreground truncate">{writer.name}</span>
             </div>
           )}
           {translator && (
-            <div className="flex items-center gap-1.5">
+            <div className="flex items-center gap-1">
               {translator.image ? (
-                <div className="relative h-5 w-5 shrink-0 overflow-hidden rounded-full border border-border/40">
-                  <Image src={translator.image} alt={translator.name} fill className="object-cover" sizes="20px" />
+                <div className="relative h-[18px] w-[18px] shrink-0 overflow-hidden rounded-full border border-border/40">
+                  <Image src={translator.image} alt={translator.name} fill className="object-cover" sizes="18px" />
                 </div>
               ) : (
-                <div className="h-5 w-5 shrink-0 rounded-full bg-border/40" />
+                <div className="h-[18px] w-[18px] shrink-0 rounded-full bg-border/40" />
               )}
               <span className="text-xs text-muted-foreground truncate">{translator.name}</span>
             </div>
           )}
-          {!writer && !translator && <div className="h-5" />}
+          {!writer && !translator && <div className="h-[18px]" />}
         </div>
 
-        <div className="mt-auto flex flex-col gap-2 pt-2">
-          <p className="min-h-6 text-left text-base font-bold text-dark-gray">{price ?? "\u00a0"}</p>
-          <button className="flex items-center justify-center gap-1.5 w-full rounded-full bg-primary-red py-1.5 text-sm font-medium text-white hover:bg-primary-red/90 transition-colors">
-            <ShoppingCart size={15} />
+        <div className="mt-auto flex flex-col gap-1.5 pt-1.5">
+          <p className="min-h-5 text-left text-sm font-bold text-dark-gray">{price ?? "\u00a0"}</p>
+          <button className="flex w-full items-center justify-center gap-1.5 rounded-full bg-primary-red py-1 text-xs font-medium text-white transition-colors hover:bg-primary-red/90">
+            <ShoppingCart size={14} />
             <span>خرید</span>
           </button>
         </div>

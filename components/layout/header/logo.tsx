@@ -5,12 +5,12 @@ export default function Logo() {
   return (
     <Link href="/" className="flex items-center gap-3 shrink-0">
       <Image
-        src="/qoqnoos-logo.png"
+        src="/mysecretpreview/qoqnoos-logo.png"
         alt="گروه انتشاراتی قُقنوس"
         width={48}
         height={48}
         priority
-        unoptimized
+        // unoptimized
         className="object-contain"
       />
       <span className="text-white font-semibold text-lg leading-tight">

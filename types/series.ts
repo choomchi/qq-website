@@ -2,6 +2,7 @@ export interface Series {
   databaseId: number;
   name: string;
   slug: string;
+  count: number;
   isSeries: boolean;
   shadowImage: string;
 }

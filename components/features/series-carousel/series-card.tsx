@@ -1,40 +1,55 @@
 import Image from "next/image";
 import Link from "next/link";
+import { ArrowLeft } from "lucide-react";
 import type { Series } from "@/types/series";
 
 type SeriesCardProps = {
   series: Series;
 };
 
+const BASE_PATH = process.env.NEXT_PUBLIC_BASE_PATH ?? "/mysecretpreview";
+
 export default function SeriesCard({ series }: SeriesCardProps) {
   const href = `/product-category/${series.slug}`;
+  const subtitle = series.count > 0 ? `${series.count} عنوان` : "مجموعه";
 
   return (
     <Link
       href={href}
-      className="group flex flex-col items-center gap-3 rounded-xl border border-border/60 bg-white p-3 transition-all hover:border-primary-red/40 hover:shadow-sm"
+      className="group relative block h-[116px] w-full overflow-hidden rounded-[15px]"
+      style={{
+        backgroundImage: `url('${BASE_PATH}/carousel-card-bg.svg')`,
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+      }}
       dir="rtl"
     >
-      <div className="relative aspect-square w-full overflow-hidden rounded-lg bg-muted/40">
-        {series.shadowImage ? (
-          <Image
-            src={series.shadowImage}
-            alt={series.name}
-            fill
-            className="object-cover transition-transform duration-300 group-hover:scale-105"
-            sizes="160px"
-          />
-        ) : (
-          <div className="flex h-full w-full items-center justify-center bg-muted">
-            <span className="text-2xl font-bold text-muted-foreground/40">
+      <div className="relative z-10 flex h-full w-full items-center justify-between gap-2 p-2.5 pr-3 pl-2.5">
+        <div className="relative h-[66px] w-[66px] shrink-0 overflow-hidden rounded-full border border-white/15 bg-black/25">
+          {series.shadowImage ? (
+            <Image
+              src={series.shadowImage}
+              alt={series.name}
+              fill
+              className="object-cover transition-transform duration-300 group-hover:scale-105"
+              sizes="66px"
+            />
+          ) : (
+            <div className="flex h-full w-full items-center justify-center text-2xl font-black text-white/40">
               {series.name.charAt(0)}
-            </span>
-          </div>
-        )}
+            </div>
+          )}
+        </div>
+
+        <div className="flex min-w-0 flex-1 flex-col text-right">
+          <span className="line-clamp-1 text-[18px] leading-tight font-bold text-white">{series.name}</span>
+          <span className="mt-1 text-[12px] leading-none font-medium text-white/55">{subtitle}</span>
+        </div>
       </div>
-      <p className="w-full text-center text-xs font-semibold text-foreground leading-5 line-clamp-2 group-hover:text-primary-red transition-colors">
-        {series.name}
-      </p>
+
+      <div className="pointer-events-none absolute bottom-1.5 left-1.5 z-20 flex h-8 w-8 items-center justify-center rounded-md border border-white/15 bg-[#343434] text-white">
+        <ArrowLeft size={14} strokeWidth={2.2} />
+      </div>
     </Link>
   );
 }

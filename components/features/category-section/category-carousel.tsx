@@ -47,10 +47,10 @@ export default function CategoryCarousel({ title, slug, products, bg = "default"
 
   return (
     <section className={`w-full ${bgClasses[bg]}`} dir="rtl">
-      <div className="mx-auto w-full max-w-7xl px-4 pt-8 pb-6">
+      <div className="mx-auto w-full max-w-7xl px-4 pt-6 pb-4">
 
         {/* Section header */}
-        <div className="flex items-center justify-between mb-1">
+        <div className="mb-0.5 flex items-center justify-between">
           <div className="flex items-center gap-3">
             <span className="block w-1 h-6 rounded-full bg-primary-red" />
             <h2 className={`text-xl font-bold ${titleClasses[bg]}`}>{title}</h2>
@@ -78,15 +78,15 @@ export default function CategoryCarousel({ title, slug, products, bg = "default"
             </button>
           </div>
         </div>
-        <div className={`w-full h-px mb-5 ${bg === "default" ? "bg-border" : "bg-white/20"}`} />
+        <div className={`mb-3 h-px w-full ${bg === "default" ? "bg-border" : "bg-white/20"}`} />
 
         <div
           ref={trackRef}
-          className="flex gap-3 overflow-x-auto scroll-smooth pb-2"
+          className="flex gap-3 overflow-x-auto scroll-smooth pb-1"
           style={{ scrollbarWidth: "none" }}
         >
           {products.map((product) => (
-            <div key={product.databaseId} className="w-[calc(20%-10px)] shrink-0 min-w-40">
+            <div key={product.databaseId} className="w-[calc(18%-10px)] shrink-0 min-w-40">
               {cardVariant === "detail" ? (
                 <ProductCardDetail product={product} />
               ) : (

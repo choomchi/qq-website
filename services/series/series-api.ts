@@ -17,6 +17,7 @@ const GET_SERIES_LIST_QUERY = `
         databaseId
         name
         slug
+        count
         isSeries
         shadowImage
       }

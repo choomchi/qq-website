@@ -44,7 +44,7 @@ export default function HeroSliderTrack({ slides }: HeroSliderTrackProps) {
           <Link
             key={slide.databaseId}
             href={slide.altText || "/"}
-            className="relative w-full shrink-0 aspect-[16/5.5]"
+            className="relative w-full shrink-0 aspect-[16/4.7]"
             tabIndex={-1}
           >
             <Image
@@ -62,26 +62,26 @@ export default function HeroSliderTrack({ slides }: HeroSliderTrackProps) {
       <button
         onClick={prev}
         aria-label="اسلاید قبلی"
-        className="absolute right-4 top-1/2 -translate-y-1/2 z-10 flex h-10 w-10 items-center justify-center rounded-full bg-black/40 text-white backdrop-blur-sm hover:bg-black/60 transition-colors"
+        className="absolute right-4 top-1/2 -translate-y-1/2 z-10 flex h-9 w-9 items-center justify-center rounded-full bg-black/40 text-white backdrop-blur-sm hover:bg-black/60 transition-colors"
       >
-        <ChevronRight size={20} />
+        <ChevronRight size={18} />
       </button>
       <button
         onClick={next}
         aria-label="اسلاید بعدی"
-        className="absolute left-4 top-1/2 -translate-y-1/2 z-10 flex h-10 w-10 items-center justify-center rounded-full bg-black/40 text-white backdrop-blur-sm hover:bg-black/60 transition-colors"
+        className="absolute left-4 top-1/2 -translate-y-1/2 z-10 flex h-9 w-9 items-center justify-center rounded-full bg-black/40 text-white backdrop-blur-sm hover:bg-black/60 transition-colors"
       >
-        <ChevronLeft size={20} />
+        <ChevronLeft size={18} />
       </button>
 
-      <div className="absolute bottom-3 left-1/2 -translate-x-1/2 z-10 flex gap-2">
+      <div className="absolute bottom-2 left-1/2 -translate-x-1/2 z-10 flex gap-1.5">
         {slides.map((_, i) => (
           <button
             key={i}
             onClick={() => setCurrent(i)}
             aria-label={`رفتن به اسلاید ${i + 1}`}
-            className={`h-2 rounded-full transition-all duration-300 ${
-              i === current ? "w-6 bg-white" : "w-2 bg-white/50"
+            className={`h-1.5 rounded-full transition-all duration-300 ${
+              i === current ? "w-5 bg-white" : "w-1.5 bg-white/50"
             }`}
           />
         ))}

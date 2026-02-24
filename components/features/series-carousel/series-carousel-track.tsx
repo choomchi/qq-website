@@ -61,7 +61,7 @@ export default function SeriesCarouselTrack({ series }: SeriesCarouselTrackProps
           style={{ scrollbarWidth: "none" }}
         >
           {series.map((s) => (
-            <div key={s.databaseId} className="w-[calc(100%/7-10px)] shrink-0 min-w-32">
+            <div key={s.databaseId} className="w-[272px] shrink-0">
               <SeriesCard series={s} />
             </div>
           ))}

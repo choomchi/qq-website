@@ -33,12 +33,12 @@ export default function ProductCardDetail({ product }: ProductCardDetailProps) {
   const href = `/product/${product.slug}`;
 
   return (
-    <div className="flex h-full w-full flex-col items-center rounded-xl border border-border/60 px-3 pb-3 pt-5" style={{ backgroundColor: "#F7F7F7" }} dir="rtl">
+    <div className="flex h-full w-full flex-col items-center rounded-xl border border-border/60 px-2.5 pb-2.5 pt-3" style={{ backgroundColor: "#F7F7F7" }} dir="rtl">
       <Link
         href={href}
-        className="mb-4 block w-full"
+        className="mb-2 block w-full"
       >
-        <div className="relative aspect-square w-full rounded-lg bg-white p-2">
+        <div className="relative aspect-5/4 w-full rounded-lg bg-white p-1.5">
           <div className="relative h-full w-full">
             {product.image?.sourceUrl ? (
               <Image
@@ -60,22 +60,22 @@ export default function ProductCardDetail({ product }: ProductCardDetailProps) {
       <div className="flex w-full flex-1 flex-col">
         <Link
           href={href}
-          className="text-base font-bold leading-6 text-foreground line-clamp-2 hover:text-primary-red transition-colors text-center"
+          className="text-sm font-bold leading-5 text-foreground line-clamp-1 hover:text-primary-red transition-colors text-center"
         >
           {product.name}
         </Link>
 
-        <div className="my-2 h-px w-full bg-border/60" />
+        <div className="my-1.5 h-px w-full bg-border/60" />
 
-        <div className="flex flex-col gap-2">
+        <div className="flex flex-col gap-1.5">
           {writer && (
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-1.5">
               {writer.image ? (
-                <div className="relative h-6 w-6 shrink-0 overflow-hidden rounded-full border border-border/40">
-                  <Image src={writer.image} alt={writer.name} fill className="object-cover" sizes="24px" />
+                <div className="relative h-5 w-5 shrink-0 overflow-hidden rounded-full border border-border/40">
+                  <Image src={writer.image} alt={writer.name} fill className="object-cover" sizes="20px" />
                 </div>
               ) : (
-                <div className="h-6 w-6 shrink-0 rounded-full bg-border/40" />
+                <div className="h-5 w-5 shrink-0 rounded-full bg-border/40" />
               )}
               <div className="flex items-baseline gap-1 min-w-0">
                 <span className="text-xs font-semibold text-primary-red shrink-0">نویسنده:</span>
@@ -84,13 +84,13 @@ export default function ProductCardDetail({ product }: ProductCardDetailProps) {
             </div>
           )}
           {translator && (
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-1.5">
               {translator.image ? (
-                <div className="relative h-6 w-6 shrink-0 overflow-hidden rounded-full border border-border/40">
-                  <Image src={translator.image} alt={translator.name} fill className="object-cover" sizes="24px" />
+                <div className="relative h-5 w-5 shrink-0 overflow-hidden rounded-full border border-border/40">
+                  <Image src={translator.image} alt={translator.name} fill className="object-cover" sizes="20px" />
                 </div>
               ) : (
-                <div className="h-6 w-6 shrink-0 rounded-full bg-border/40" />
+                <div className="h-5 w-5 shrink-0 rounded-full bg-border/40" />
               )}
               <div className="flex items-baseline gap-1 min-w-0">
                 <span className="text-xs font-semibold text-primary-red shrink-0">مترجم:</span>
@@ -98,18 +98,18 @@ export default function ProductCardDetail({ product }: ProductCardDetailProps) {
               </div>
             </div>
           )}
-          {!writer && !translator && <div className="h-6" />}
+          {!writer && !translator && <div className="h-5" />}
         </div>
 
-        <div className="mt-auto flex items-center justify-between pt-2">
+        <div className="mt-auto flex items-center justify-between pt-1.5">
           <button
             aria-label="افزودن به سبد خرید"
-            className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-border/60 bg-muted/40 text-dark-gray hover:bg-primary-red hover:text-white hover:border-primary-red transition-colors"
+            className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-border/60 bg-muted/40 text-dark-gray transition-colors hover:border-primary-red hover:bg-primary-red hover:text-white"
           >
-            <ShoppingCart size={15} />
+            <ShoppingCart size={14} />
           </button>
           {price ? (
-            <p className="text-base font-bold text-dark-gray">{price}</p>
+            <p className="text-sm font-bold text-dark-gray">{price}</p>
           ) : (
             <p className="text-sm text-muted-foreground">تماس بگیرید</p>
           )}

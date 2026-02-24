@@ -18,7 +18,7 @@ const SECTIONS = [
 export default function ShopHomePage() {
   return (
     <main>
-      <Suspense fallback={<div className="w-full aspect-[16/5] bg-muted animate-pulse" />}>
+      <Suspense fallback={<div className="w-full aspect-[16/4.7] bg-muted animate-pulse" />}>
         <HeroSlider />
       </Suspense>
       <NavBar />
@@ -66,7 +66,7 @@ function PersonsCarouselSkeleton() {
         <div className="h-7 w-56 rounded-lg bg-white/10 animate-pulse mb-4" />
         <div className="flex gap-3">
           {Array.from({ length: 7 }).map((_, i) => (
-            <div key={i} className="w-[calc(100%/7-10px)] shrink-0 min-w-28 rounded-xl bg-white/10 animate-pulse aspect-[3/4]" />
+            <div key={i} className="w-[calc(100%/7-10px)] shrink-0 min-w-28 rounded-xl bg-white/10 animate-pulse aspect-3/4" />
           ))}
         </div>
       </div>
@@ -78,11 +78,11 @@ function CategorySectionSkeleton({ bg }: { bg: string }) {
   const bgClass = bg === "dark" ? "bg-dark-gray" : bg === "light" ? "bg-light-gray" : "";
   return (
     <div className={`w-full ${bgClass}`}>
-      <div className="mx-auto w-full max-w-7xl px-4 py-8">
-        <div className="h-7 w-40 rounded-lg bg-muted/30 animate-pulse mb-4" />
+      <div className="mx-auto w-full max-w-7xl px-4 py-6">
+        <div className="mb-3 h-6 w-40 rounded-lg bg-muted/30 animate-pulse" />
         <div className="flex gap-4">
           {Array.from({ length: 6 }).map((_, i) => (
-            <div key={i} className="w-48 shrink-0 rounded-2xl bg-muted/30 animate-pulse aspect-[3/5]" />
+            <div key={i} className="w-48 shrink-0 rounded-2xl bg-muted/30 animate-pulse aspect-[3/4.6]" />
           ))}
         </div>
       </div>

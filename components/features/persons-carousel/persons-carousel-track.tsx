@@ -67,7 +67,7 @@ export default function PersonsCarouselTrack({ writers, translators }: PersonsCa
           style={{ scrollbarWidth: "none" }}
         >
           {combined.map(({ person, role }) => (
-            <div key={`${role}-${person.databaseId}`} className="w-[calc(100%/7-10px)] shrink-0 min-w-28">
+            <div key={`${role}-${person.databaseId}`} className="w-[272px] shrink-0">
               <PersonCard person={person} role={role} />
             </div>
           ))}
