@@ -85,10 +85,16 @@ components/
     series-carousel/
     persons-carousel/
     ebook-platforms/
+    upcoming-books-carousel/      # End-of-page "در دست انتشار" carousel + social links
+    news-carousel/                # End-of-page latest news/blog posts carousel
+    product-categories-menu/      # Hierarchical categories menu (Sheet desktop / Drawer mobile)
   ui/
     button.tsx                    # shadcn-style UI primitive
+    sheet.tsx                     # shadcn Sheet primitive (Radix Dialog-based)
+    drawer.tsx                    # shadcn Drawer primitive (Vaul-based)
 
 services/
+  blogs/
   categories/
   home-sliders/
   persons/
@@ -96,6 +102,7 @@ services/
   query-keys.ts
 
 types/
+  blog.ts
   graphql.ts
   home-slider.ts
   category.ts
@@ -162,7 +169,8 @@ Each domain service generally follows this shape:
 
 ### Domain service modules
 - `home-sliders-api.ts`
-- `categories-api.ts`
+- `blogs-api.ts` (latest news/blog posts)
+- `categories-api.ts` (category products + hierarchical category tree builder)
 - `persons-api.ts`
 - `series-api.ts`
 
@@ -210,6 +218,8 @@ Section order:
 6. EbookPlatforms
 7. PersonsCarousel
 8. Remaining CategorySection blocks
+9. UpcomingBooksCarousel (category slug: `در-دست-انتشار`)
+10. NewsCarousel (latest blog/news posts)
 
 ## 8.3 Pattern used in features
 - Server component fetches domain data.
@@ -219,6 +229,21 @@ Section order:
 ## 8.4 Carousels and cards
 - Native horizontal scrolling with `scrollBy` and custom prev/next controls.
 - Shared card visual style in series/person carousels uses `public/carousel-card-bg.svg`.
+- Upcoming books section uses a distinct wide card style with `اطلاعات بیشتر` CTA (no price/add-to-cart UI) and a social-links row under the carousel.
+- News carousel renders latest blog posts with featured image, formatted date, excerpt, and external `ادامه مطلب`/`مشاهده همه` links to `qoqnoos.ir`.
+
+## 8.5 Product categories menu
+- `NavBar` renders `ProductCategoriesMenu` as the `دسته بندی ها` navigation entry.
+- `ProductCategoriesMenu` is a server component that fetches all categories through `categoriesApi.getProductCategoriesTree()`.
+- Categories are normalized into a nested parent/child tree based on `parent.databaseId`, then sorted recursively for stable display.
+- Menu data normalization rules:
+  - Hide the uncategorized node (`دسته‌بندی نشده` / `دسته-بندی-نشده` and related slug variants).
+  - Hide top-level `سايت/سایت` container node itself and surface its children at root level.
+- Responsive interaction pattern:
+  - Desktop (`md+`): opens a right-side **Sheet** (forced to physical right edge in RTL layouts).
+  - Mobile (`< md`): opens a bottom **Drawer** with the same nested tree.
+- Tree navigation is step-based: selecting a parent category opens the next step (children list) with a back button.
+- Leaf nodes link to `/product-category/[slug]`.
 
 ---
 

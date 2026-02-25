@@ -83,3 +83,93 @@ This is the append-only operation log referenced by `instructions.md`.
 - Files changed: `components/layout/footer/footer.tsx`, `components/layout/header/logo.tsx`, `components/features/ebook-platforms/ebook-platforms.tsx`
 - Validation: next build
 - Notes/Risks: Any newly acquired badges/certificates for the trust section should simply drop in the grid using standard `<img>` wrapper styles predefined across `Footer`.
+
+### 2026-02-25 08:45 (local)
+
+- Agent: Cascade
+- Operation type: code change
+- Summary: Added an end-of-page "در دست انتشار" carousel sourced from category slug `در-دست-انتشار` with a distinct wide card design, removed price/cart UI in this section, added `اطلاعات بیشتر` CTA, and added social media links row below the carousel.
+- Files changed: `app/(shop)/page.tsx`, `components/features/upcoming-books-carousel/index.ts`, `components/features/upcoming-books-carousel/upcoming-books-carousel.tsx`, `components/features/upcoming-books-carousel/upcoming-books-carousel-track.tsx`, `components/features/upcoming-books-carousel/upcoming-book-card.tsx`, `instructions.md`
+- Validation: lint
+- Notes/Risks: If the upstream category slug changes, this section will not render until `UPCOMING_BOOKS_SLUG` is updated.
+
+### 2026-02-25 08:49 (local)
+
+- Agent: Cascade
+- Operation type: bugfix
+- Summary: Fixed upcoming books carousel showing partial/half cards by making each slide full-width, enabling mandatory snap points, and scrolling one full viewport width per arrow click.
+- Files changed: `components/features/upcoming-books-carousel/upcoming-books-carousel-track.tsx`
+- Validation: lint
+- Notes/Risks: None.
+
+### 2026-02-25 08:52 (local)
+
+- Agent: Cascade
+- Operation type: code change
+- Summary: Redesigned upcoming books card to better match app visual consistency (token colors, border style, typography, divider usage, and rounded pill CTA) while keeping the `اطلاعات بیشتر` action and no price/cart behavior.
+- Files changed: `components/features/upcoming-books-carousel/upcoming-book-card.tsx`
+- Validation: lint
+- Notes/Risks: None.
+
+### 2026-02-25 08:58 (local)
+
+- Agent: Cascade
+- Operation type: bugfix
+- Summary: Adjusted upcoming book card layout so book image is on the right side before title/details in RTL at `sm+` breakpoints.
+- Files changed: `components/features/upcoming-books-carousel/upcoming-book-card.tsx`
+- Validation: lint
+- Notes/Risks: None.
+
+### 2026-02-25 09:00 (local)
+
+- Agent: Cascade
+- Operation type: code change
+- Summary: Updated upcoming books carousel to display two cards per viewport/page on `md+` breakpoints while keeping single-card layout on small screens.
+- Files changed: `components/features/upcoming-books-carousel/upcoming-books-carousel-track.tsx`
+- Validation: lint
+- Notes/Risks: None.
+
+### 2026-02-25 09:07 (local)
+
+- Agent: Cascade
+- Operation type: code change
+- Summary: Moved the `در دست انتشار` badge to the left side of the card and reduced spacing between upcoming carousel cards.
+- Files changed: `components/features/upcoming-books-carousel/upcoming-book-card.tsx`, `components/features/upcoming-books-carousel/upcoming-books-carousel-track.tsx`
+- Validation: lint
+- Notes/Risks: None.
+
+### 2026-02-25 09:40 (local)
+
+- Agent: Cascade
+- Operation type: code change
+- Summary: Implemented a hierarchical product categories menu and integrated it into `NavBar` using a desktop Sheet (`md+`) and mobile Drawer (`<md`), including expand/collapse nested nodes and links to category pages.
+- Files changed: `components/features/nav-bar/nav-bar.tsx`, `components/features/product-categories-menu/index.ts`, `components/features/product-categories-menu/product-categories-menu.tsx`, `components/features/product-categories-menu/product-categories-menu-panel.tsx`, `services/categories/categories-api.ts`, `types/category.ts`, `instructions.md`, `instructions-log.md`
+- Validation: lint
+- Notes/Risks: Category tree fetch uses paginated GraphQL requests to avoid missing categories when total count exceeds a single page.
+
+### 2026-02-25 09:48 (local)
+
+- Agent: Cascade
+- Operation type: code change
+- Summary: Updated categories menu UX to use step-based drill-down with a back button, forced desktop Sheet to anchor on the physical right side in RTL, removed uncategorized nodes, and flattened top-level `سايت/سایت` node by showing its children at root.
+- Files changed: `components/features/product-categories-menu/product-categories-menu.tsx`, `components/features/product-categories-menu/product-categories-menu-panel.tsx`, `instructions.md`, `instructions-log.md`
+- Validation: lint
+- Notes/Risks: Category-name/slug filtering includes common Persian and English variants; if upstream labels change significantly, update normalization constants.
+
+### 2026-02-25 09:51 (local)
+
+- Agent: Cascade
+- Operation type: bugfix
+- Summary: Fixed non-opening categories menu trigger on both desktop and mobile by replacing custom trigger component under `asChild` with direct button elements so Sheet/Drawer trigger handlers attach correctly.
+- Files changed: `components/features/product-categories-menu/product-categories-menu-panel.tsx`, `instructions-log.md`
+- Validation: lint
+- Notes/Risks: If trigger UI is refactored again with `asChild`, ensure custom components forward all props/ref to the underlying DOM element.
+
+### 2026-02-25 09:59 (local)
+
+- Agent: Cascade
+- Operation type: code change
+- Summary: Added an end-of-page news/blog carousel to the homepage using latest posts from GraphQL, with responsive cards (image, date, excerpt, external read-more), carousel controls, and a fallback skeleton.
+- Files changed: `app/(shop)/page.tsx`, `components/features/news-carousel/index.ts`, `components/features/news-carousel/news-carousel.tsx`, `components/features/news-carousel/news-carousel-track.tsx`, `components/features/news-carousel/news-card.tsx`, `services/blogs/blogs-api.ts`, `types/blog.ts`, `instructions.md`, `instructions-log.md`
+- Validation: lint
+- Notes/Risks: Blog URLs currently point to `https://qoqnoos.ir` (`/blog` and per-post `uri`); update constants if publishing domain/path changes.

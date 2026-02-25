@@ -3,6 +3,10 @@ import type {
   Category,
   GetCategoryProductsQueryData,
   GetCategoryProductsQueryVariables,
+  GetProductCategoriesTreeQueryData,
+  GetProductCategoriesTreeQueryVariables,
+  ProductCategoryFlatNode,
+  ProductCategoryTreeNode,
 } from "@/types/category";
 
 const GET_CATEGORY_PRODUCTS_QUERY = `
@@ -57,6 +61,71 @@ const GET_CATEGORY_PRODUCTS_QUERY = `
     }
   }
 `;
+
+const GET_PRODUCT_CATEGORIES_TREE_QUERY = `
+  query GetProductCategoriesTree($first: Int = 100, $after: String) {
+    productCategories(first: $first, after: $after, where: { hideEmpty: false }) {
+      pageInfo {
+        hasNextPage
+        endCursor
+      }
+      nodes {
+        id
+        databaseId
+        name
+        slug
+        count
+        parent {
+          node {
+            ... on ProductCategory {
+              databaseId
+            }
+          }
+        }
+      }
+    }
+  }
+`;
+
+function sortTree(nodes: ProductCategoryTreeNode[]): ProductCategoryTreeNode[] {
+  nodes.sort((a, b) => a.name.localeCompare(b.name, "fa"));
+  nodes.forEach((node) => {
+    if (node.children.length) sortTree(node.children);
+  });
+  return nodes;
+}
+
+function buildCategoryTree(flatNodes: ProductCategoryFlatNode[]): ProductCategoryTreeNode[] {
+  const nodeMap = new Map<number, ProductCategoryTreeNode>();
+  const parentMap = new Map<number, number | null>();
+
+  for (const node of flatNodes) {
+    nodeMap.set(node.databaseId, {
+      id: node.id,
+      databaseId: node.databaseId,
+      name: node.name,
+      slug: node.slug,
+      count: node.count,
+      children: [],
+    });
+    parentMap.set(node.databaseId, node.parent?.node?.databaseId ?? null);
+  }
+
+  const roots: ProductCategoryTreeNode[] = [];
+
+  for (const [databaseId, categoryNode] of nodeMap.entries()) {
+    const parentId = parentMap.get(databaseId);
+    const parentNode = parentId ? nodeMap.get(parentId) : undefined;
+
+    if (parentNode) {
+      parentNode.children.push(categoryNode);
+    } else {
+      roots.push(categoryNode);
+    }
+  }
+
+  return sortTree(roots);
+}
 
 function getProxyEndpoint(): string {
   if (typeof window !== "undefined") {
@@ -127,5 +196,29 @@ export const categoriesApi = {
     >(GET_CATEGORY_PRODUCTS_QUERY, { slug, first, after });
 
     return data.productCategory;
+  },
+  getProductCategoriesTree: async (
+    first = 100,
+  ): Promise<ProductCategoryTreeNode[]> => {
+    const flatNodes: ProductCategoryFlatNode[] = [];
+    let after: string | null = null;
+    let hasNextPage = true;
+
+    while (hasNextPage) {
+      const responseData: GetProductCategoriesTreeQueryData = await graphqlRequest<
+        GetProductCategoriesTreeQueryData,
+        GetProductCategoriesTreeQueryVariables
+      >(GET_PRODUCT_CATEGORIES_TREE_QUERY, { first, after });
+
+      flatNodes.push(...responseData.productCategories.nodes);
+      hasNextPage = responseData.productCategories.pageInfo.hasNextPage;
+      after = responseData.productCategories.pageInfo.endCursor;
+
+      if (!hasNextPage || !after) {
+        hasNextPage = false;
+      }
+    }
+
+    return buildCategoryTree(flatNodes);
   },
 };

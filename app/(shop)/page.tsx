@@ -6,6 +6,8 @@ import CategorySection from "@/components/features/category-section";
 import PersonsCarousel from "@/components/features/persons-carousel";
 import EbookPlatforms from "@/components/features/ebook-platforms";
 import SeriesCarousel from "@/components/features/series-carousel";
+import UpcomingBooksCarousel from "@/components/features/upcoming-books-carousel";
+import NewsCarousel from "@/components/features/news-carousel";
 
 const SECTIONS = [
   { slug: "تازهها", title: undefined, bg: "dark", cardVariant: "default" },
@@ -64,6 +66,12 @@ export default function ShopHomePage() {
           />
         </Suspense>
       ))}
+      <Suspense fallback={<UpcomingBooksCarouselSkeleton />}>
+        <UpcomingBooksCarousel />
+      </Suspense>
+      <Suspense fallback={<NewsCarouselSkeleton />}>
+        <NewsCarousel />
+      </Suspense>
     </main>
   );
 }
@@ -78,6 +86,38 @@ function SeriesCarouselSkeleton() {
             <div
               key={i}
               className="w-[calc(100%/7-10px)] shrink-0 min-w-32 rounded-xl bg-muted animate-pulse aspect-square"
+            />
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function UpcomingBooksCarouselSkeleton() {
+  return (
+    <div className="w-full bg-[#d9d9d9] py-8 md:py-10">
+      <div className="mx-auto w-full max-w-7xl px-4">
+        <div className="mb-4 h-8 w-44 animate-pulse rounded-lg bg-white/55" />
+        <div className="w-full rounded-3xl bg-white/55 p-4 md:p-5">
+          <div className="h-46 animate-pulse rounded-2xl bg-white/70 md:h-56" />
+        </div>
+        <div className="mt-4 h-14 animate-pulse rounded-2xl bg-white/55 md:h-16" />
+      </div>
+    </div>
+  );
+}
+
+function NewsCarouselSkeleton() {
+  return (
+    <div className="w-full bg-light-gray py-8 md:py-10">
+      <div className="mx-auto w-full max-w-7xl px-4">
+        <div className="mb-4 h-8 w-40 animate-pulse rounded-lg bg-white/70" />
+        <div className="flex gap-2 overflow-hidden md:gap-3">
+          {Array.from({ length: 3 }).map((_, index) => (
+            <div
+              key={index}
+              className="h-80 min-w-0 flex-1 animate-pulse rounded-2xl bg-white/75"
             />
           ))}
         </div>
