@@ -1,5 +1,4 @@
 import { Suspense } from "react";
-import { CACHE_REVALIDATE } from "@/lib/cache";
 import HeroSlider from "@/components/features/home-slider";
 import CategoryLinks from "@/components/features/category-links";
 import CategorySection from "@/components/features/category-section";
@@ -9,7 +8,7 @@ import SeriesCarousel from "@/components/features/series-carousel";
 import UpcomingBooksCarousel from "@/components/features/upcoming-books-carousel";
 import NewsCarousel from "@/components/features/news-carousel";
 
-export const revalidate = CACHE_REVALIDATE.homePage;
+export const revalidate = 300;
 
 const SECTIONS = [
   { slug: "تازهها", title: undefined, bg: "dark", cardVariant: "detail" },
