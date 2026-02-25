@@ -51,7 +51,7 @@ function FallbackCategoriesLink() {
   return (
     <Link
       href="/product-category"
-      className="inline-flex items-center gap-1 text-sm md:text-md font-medium text-foreground transition-colors hover:text-primary-red"
+      className="inline-flex items-center gap-1 rounded-full px-2 py-1 text-[13px] font-medium text-dark-gray transition-colors hover:bg-white/65 hover:text-primary-red md:text-sm"
     >
       دسته بندی ها
     </Link>

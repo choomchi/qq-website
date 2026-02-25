@@ -156,7 +156,7 @@ export default function ProductCategoriesMenuPanel({
           <SheetTrigger asChild>
             <button
               type="button"
-              className="inline-flex items-center gap-1 text-sm md:text-md font-medium text-foreground transition-colors hover:text-primary-red md:pt-2"
+              className="inline-flex items-center gap-1 rounded-full px-2 py-1 text-[13px] font-medium text-dark-gray transition-colors hover:bg-white/65 hover:text-primary-red md:text-sm"
             >
               {/* <Menu size={16} /> */}
               <span>دسته بندی ها</span>
@@ -197,7 +197,7 @@ export default function ProductCategoriesMenuPanel({
           <DrawerTrigger asChild>
             <button
               type="button"
-              className="inline-flex items-center gap-1 text-sm md:text-md font-medium text-foreground transition-colors hover:text-primary-red"
+              className="inline-flex items-center gap-1 rounded-full px-2 py-1 text-[13px] font-medium text-dark-gray transition-colors hover:bg-white/65 hover:text-primary-red"
             >
               <Menu size={16} />
               <span>دسته بندی ها</span>

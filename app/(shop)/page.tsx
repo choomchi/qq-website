@@ -1,7 +1,6 @@
 import { Suspense } from "react";
 import { CACHE_REVALIDATE } from "@/lib/cache";
 import HeroSlider from "@/components/features/home-slider";
-import NavBar from "@/components/features/nav-bar";
 import CategoryLinks from "@/components/features/category-links";
 import CategorySection from "@/components/features/category-section";
 import PersonsCarousel from "@/components/features/persons-carousel";
@@ -33,7 +32,7 @@ const SECTIONS = [
 export default function ShopHomePage() {
   return (
     <main>
-      <div className="mt-2.5">
+      <div className="my-2.5">
         <Suspense
           fallback={
             <div className="w-full bg-muted animate-pulse aspect-[16/8.5] md:aspect-[16/5.5] lg:aspect-[16/4.2]" />
@@ -42,7 +41,6 @@ export default function ShopHomePage() {
           <HeroSlider />
         </Suspense>
       </div>
-      <NavBar />
       <CategoryLinks />
       {SECTIONS.slice(0, 4).map(({ slug, title, bg, cardVariant }) => (
         <Suspense key={slug} fallback={<CategorySectionSkeleton bg={bg} />}>

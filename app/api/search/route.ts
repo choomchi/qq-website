@@ -2,6 +2,9 @@ import { NextRequest, NextResponse } from "next/server";
 
 const ELASTIC_BASE_URL = process.env.ELASTIC_BASE_URL ?? "http://localhost:9201";
 const INDEX = "qoqnoosir-post-1";
+const PRODUCT_RESULT_LIMIT = 8;
+const SEARCH_POOL_SIZE = 24;
+const FACET_RESULT_LIMIT = 6;
 
 type TaxonomyTerm = {
   name: string;
@@ -19,6 +22,19 @@ export interface SearchHit {
   categories: string[];
   series: string[];
   publishers: string[];
+}
+
+export interface SearchFacets {
+  writers: string[];
+  translators: string[];
+  categories: string[];
+  series: string[];
+  publishers: string[];
+}
+
+export interface SearchResponse {
+  hits: SearchHit[];
+  facets: SearchFacets;
 }
 
 function getTerms(source: Record<string, unknown>): Record<string, unknown> {
@@ -49,6 +65,62 @@ function extractTermNames(raw: unknown): string[] {
   return Array.from(new Set(names));
 }
 
+function createEmptyFacets(): SearchFacets {
+  return {
+    writers: [],
+    translators: [],
+    categories: [],
+    series: [],
+    publishers: [],
+  };
+}
+
+function normalizeSearchText(value: string): string {
+  return value
+    .toLocaleLowerCase("fa-IR")
+    .replace(/[يى]/g, "ی")
+    .replace(/ك/g, "ک")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+function collectMatchingTerms(terms: string[], query: string): string[] {
+  const normalizedQuery = normalizeSearchText(query);
+
+  if (!normalizedQuery) return [];
+
+  const matches = terms.filter((term) =>
+    normalizeSearchText(term).includes(normalizedQuery),
+  );
+
+  return Array.from(new Set(matches)).slice(0, FACET_RESULT_LIMIT);
+}
+
+function buildFacets(hits: SearchHit[], query: string): SearchFacets {
+  return {
+    writers: collectMatchingTerms(
+      hits.flatMap((hit) => hit.writers),
+      query,
+    ),
+    translators: collectMatchingTerms(
+      hits.flatMap((hit) => hit.translators),
+      query,
+    ),
+    categories: collectMatchingTerms(
+      hits.flatMap((hit) => hit.categories),
+      query,
+    ),
+    series: collectMatchingTerms(
+      hits.flatMap((hit) => hit.series),
+      query,
+    ),
+    publishers: collectMatchingTerms(
+      hits.flatMap((hit) => hit.publishers),
+      query,
+    ),
+  };
+}
+
 function splitSeriesAndCategories(terms: string[]): { categories: string[]; series: string[] } {
   const categories: string[] = [];
   const series: string[] = [];
@@ -71,11 +143,14 @@ function splitSeriesAndCategories(terms: string[]): { categories: string[]; seri
 export async function GET(req: NextRequest) {
   const q = req.nextUrl.searchParams.get("q")?.trim();
   if (!q || q.length < 2) {
-    return NextResponse.json({ hits: [] });
+    return NextResponse.json<SearchResponse>({
+      hits: [],
+      facets: createEmptyFacets(),
+    });
   }
 
   const body = {
-    size: 8,
+    size: SEARCH_POOL_SIZE,
     _source: [
       "post_title",
       "post_name",
@@ -121,12 +196,18 @@ export async function GET(req: NextRequest) {
     });
 
     if (!res.ok) {
-      return NextResponse.json({ hits: [] }, { status: 502 });
+      return NextResponse.json<SearchResponse>(
+        {
+          hits: [],
+          facets: createEmptyFacets(),
+        },
+        { status: 502 },
+      );
     }
 
     const data = await res.json();
 
-    const hits: SearchHit[] = (data.hits?.hits ?? []).map((h: Record<string, unknown>) => {
+    const normalizedHits: SearchHit[] = (data.hits?.hits ?? []).map((h: Record<string, unknown>) => {
       const src = h._source as Record<string, unknown>;
       const thumbSrc = (src.thumbnail as Record<string, unknown> | null)?.src as
         | string
@@ -154,8 +235,17 @@ export async function GET(req: NextRequest) {
       };
     });
 
-    return NextResponse.json({ hits });
+    return NextResponse.json<SearchResponse>({
+      hits: normalizedHits.slice(0, PRODUCT_RESULT_LIMIT),
+      facets: buildFacets(normalizedHits, q),
+    });
   } catch {
-    return NextResponse.json({ hits: [] }, { status: 500 });
+    return NextResponse.json<SearchResponse>(
+      {
+        hits: [],
+        facets: createEmptyFacets(),
+      },
+      { status: 500 },
+    );
   }
 }
