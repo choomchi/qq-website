@@ -44,7 +44,7 @@ export default function HeroSliderTrack({ slides }: HeroSliderTrackProps) {
           <Link
             key={slide.databaseId}
             href={slide.altText || "/"}
-            className="relative w-full shrink-0 aspect-video md:aspect-16/6 lg:aspect-[16/4.7]"
+            className="relative w-full shrink-0 aspect-[16/8.5] md:aspect-[16/5.5] lg:aspect-[16/4.2]"
             tabIndex={-1}
           >
             <Image

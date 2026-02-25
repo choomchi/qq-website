@@ -1,3 +1,8 @@
+import {
+  CACHE_REVALIDATE,
+  CACHE_TAGS,
+  getCategoryProductsTag,
+} from "@/lib/cache";
 import { ApiClientError, type GraphQLResponse } from "@/types/graphql";
 import type {
   Category,
@@ -145,6 +150,11 @@ function getProxyEndpoint(): string {
   return `${appUrl.replace(/\/$/, "")}${basePath}/api/graphql`;
 }
 
+type GraphqlCacheOptions = {
+  revalidate: number;
+  tags: string[];
+};
+
 async function parseFailureBody(response: Response): Promise<unknown> {
   const contentType = response.headers.get("content-type") ?? "";
   if (contentType.includes("application/json")) return response.json();
@@ -154,12 +164,18 @@ async function parseFailureBody(response: Response): Promise<unknown> {
 async function graphqlRequest<TData, TVariables extends object>(
   query: string,
   variables: TVariables,
+  cacheOptions: GraphqlCacheOptions,
 ): Promise<TData> {
+  const requestCaching =
+    typeof window === "undefined"
+      ? { next: { revalidate: cacheOptions.revalidate, tags: cacheOptions.tags } }
+      : { cache: "no-store" as const };
+
   const response = await fetch(getProxyEndpoint(), {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ query, variables }),
-    cache: "no-store",
+    ...requestCaching,
   });
 
   if (!response.ok) {
@@ -193,7 +209,18 @@ export const categoriesApi = {
     const data = await graphqlRequest<
       GetCategoryProductsQueryData,
       GetCategoryProductsQueryVariables
-    >(GET_CATEGORY_PRODUCTS_QUERY, { slug, first, after });
+    >(
+      GET_CATEGORY_PRODUCTS_QUERY,
+      { slug, first, after },
+      {
+        revalidate: CACHE_REVALIDATE.categories,
+        tags: [
+          CACHE_TAGS.home,
+          CACHE_TAGS.categories,
+          getCategoryProductsTag(slug),
+        ],
+      },
+    );
 
     return data.productCategory;
   },
@@ -208,7 +235,14 @@ export const categoriesApi = {
       const responseData: GetProductCategoriesTreeQueryData = await graphqlRequest<
         GetProductCategoriesTreeQueryData,
         GetProductCategoriesTreeQueryVariables
-      >(GET_PRODUCT_CATEGORIES_TREE_QUERY, { first, after });
+      >(
+        GET_PRODUCT_CATEGORIES_TREE_QUERY,
+        { first, after },
+        {
+          revalidate: CACHE_REVALIDATE.categoryTree,
+          tags: [CACHE_TAGS.home, CACHE_TAGS.categories, CACHE_TAGS.categoryTree],
+        },
+      );
 
       flatNodes.push(...responseData.productCategories.nodes);
       hasNextPage = responseData.productCategories.pageInfo.hasNextPage;

@@ -1,6 +1,6 @@
 import Link from "next/link";
 
-import { categoriesApi } from "@/services/categories/categories-api";
+import { getCachedProductCategoriesTree } from "@/services/categories/categories-server-cache";
 import type { ProductCategoryTreeNode } from "@/types/category";
 import ProductCategoriesMenuPanel from "./product-categories-menu-panel";
 
@@ -60,7 +60,7 @@ function FallbackCategoriesLink() {
 
 async function getNormalizedCategories(): Promise<ProductCategoryTreeNode[]> {
   try {
-    const categories = await categoriesApi.getProductCategoriesTree();
+    const categories = await getCachedProductCategoriesTree();
     return normalizeCategories(categories);
   } catch {
     return [];

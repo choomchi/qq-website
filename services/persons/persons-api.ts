@@ -1,3 +1,4 @@
+import { CACHE_REVALIDATE, CACHE_TAGS } from "@/lib/cache";
 import { ApiClientError, type GraphQLResponse } from "@/types/graphql";
 import type {
   GetWritersAndTranslatorsQueryData,
@@ -47,11 +48,21 @@ async function graphqlRequest<TData, TVariables extends object>(
   query: string,
   variables: TVariables,
 ): Promise<TData> {
+  const requestCaching =
+    typeof window === "undefined"
+      ? {
+          next: {
+            revalidate: CACHE_REVALIDATE.persons,
+            tags: [CACHE_TAGS.home, CACHE_TAGS.persons],
+          },
+        }
+      : { cache: "no-store" as const };
+
   const response = await fetch(getProxyEndpoint(), {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ query, variables }),
-    cache: "no-store",
+    ...requestCaching,
   });
 
   if (!response.ok) {

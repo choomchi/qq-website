@@ -3,12 +3,69 @@ import { NextRequest, NextResponse } from "next/server";
 const ELASTIC_BASE_URL = process.env.ELASTIC_BASE_URL ?? "http://localhost:9201";
 const INDEX = "qoqnoosir-post-1";
 
+type TaxonomyTerm = {
+  name: string;
+};
+
 export interface SearchHit {
   id: string;
   title: string;
   slug: string;
   thumbnail: string | null;
+  kind: "product";
   writer: string | null;
+  writers: string[];
+  translators: string[];
+  categories: string[];
+  series: string[];
+  publishers: string[];
+}
+
+function getTerms(source: Record<string, unknown>): Record<string, unknown> {
+  const raw = source.terms;
+
+  if (raw && typeof raw === "object" && !Array.isArray(raw)) {
+    return raw as Record<string, unknown>;
+  }
+
+  return {};
+}
+
+function extractTermNames(raw: unknown): string[] {
+  if (!Array.isArray(raw)) return [];
+
+  const names = raw
+    .map((term) => {
+      if (!term || typeof term !== "object") return null;
+
+      const name = (term as TaxonomyTerm).name;
+      if (!name) return null;
+
+      const trimmed = name.trim();
+      return trimmed || null;
+    })
+    .filter((name): name is string => Boolean(name));
+
+  return Array.from(new Set(names));
+}
+
+function splitSeriesAndCategories(terms: string[]): { categories: string[]; series: string[] } {
+  const categories: string[] = [];
+  const series: string[] = [];
+
+  terms.forEach((term) => {
+    if (term.startsWith("مجموعه") || term.includes("مجموعه")) {
+      series.push(term);
+      return;
+    }
+
+    categories.push(term);
+  });
+
+  return {
+    categories: Array.from(new Set(categories)),
+    series: Array.from(new Set(series)),
+  };
 }
 
 export async function GET(req: NextRequest) {
@@ -19,14 +76,29 @@ export async function GET(req: NextRequest) {
 
   const body = {
     size: 8,
-    _source: ["post_title", "post_name", "thumbnail", "terms.pa_writer"],
+    _source: [
+      "post_title",
+      "post_name",
+      "thumbnail",
+      "terms.pa_writer",
+      "terms.pa_translator",
+      "terms.product_cat",
+      "terms.pa_publisher",
+    ],
     query: {
       bool: {
         must: [
           {
             multi_match: {
               query: q,
-              fields: ["post_title^3", "post_title.suggest^2", "terms.pa_writer.name"],
+              fields: [
+                "post_title^4",
+                "post_title.suggest^3",
+                "terms.pa_writer.name^3",
+                "terms.pa_translator.name^3",
+                "terms.product_cat.name^2",
+                "terms.pa_publisher.name^1.5",
+              ],
               type: "best_fields",
               fuzziness: "AUTO",
             },
@@ -56,17 +128,29 @@ export async function GET(req: NextRequest) {
 
     const hits: SearchHit[] = (data.hits?.hits ?? []).map((h: Record<string, unknown>) => {
       const src = h._source as Record<string, unknown>;
-      const thumbSrc = (src.thumbnail as Record<string, unknown> | null)?.src as string | undefined;
-      const writerTerms = (src.terms as Record<string, unknown> | null)?.pa_writer as
-        | Array<{ name: string }>
+      const thumbSrc = (src.thumbnail as Record<string, unknown> | null)?.src as
+        | string
         | undefined;
+      const terms = getTerms(src);
+
+      const writers = extractTermNames(terms.pa_writer);
+      const translators = extractTermNames(terms.pa_translator);
+      const publishers = extractTermNames(terms.pa_publisher);
+      const productCategoryTerms = extractTermNames(terms.product_cat);
+      const { categories, series } = splitSeriesAndCategories(productCategoryTerms);
 
       return {
         id: h._id as string,
         title: src.post_title as string,
         slug: src.post_name as string,
         thumbnail: thumbSrc ?? null,
-        writer: writerTerms?.[0]?.name ?? null,
+        kind: "product",
+        writer: writers[0] ?? null,
+        writers,
+        translators,
+        categories,
+        series,
+        publishers,
       };
     });
 

@@ -173,3 +173,48 @@ This is the append-only operation log referenced by `instructions.md`.
 - Files changed: `app/(shop)/page.tsx`, `components/features/news-carousel/index.ts`, `components/features/news-carousel/news-carousel.tsx`, `components/features/news-carousel/news-carousel-track.tsx`, `components/features/news-carousel/news-card.tsx`, `services/blogs/blogs-api.ts`, `types/blog.ts`, `instructions.md`, `instructions-log.md`
 - Validation: lint
 - Notes/Risks: Blog URLs currently point to `https://qoqnoos.ir` (`/blog` and per-post `uri`); update constants if publishing domain/path changes.
+
+### 2026-02-25 10:12 (local)
+
+- Agent: Cascade
+- Operation type: code change
+- Summary: Implemented ISR/tag caching for homepage data services, added server-only cached category-tree wrapper with `unstable_cache`, enabled page-level `revalidate` for home route, and added secure `POST /api/revalidate` endpoint for tag-based on-demand cache invalidation.
+- Files changed: `app/(shop)/page.tsx`, `app/api/revalidate/route.ts`, `components/features/product-categories-menu/product-categories-menu.tsx`, `lib/cache.ts`, `services/home-sliders/home-sliders-api.ts`, `services/categories/categories-api.ts`, `services/categories/categories-server-cache.ts`, `services/persons/persons-api.ts`, `services/series/series-api.ts`, `services/blogs/blogs-api.ts`, `instructions.md`, `instructions-log.md`
+- Validation: lint
+- Notes/Risks: Lint still reports one pre-existing warning in `app/api/[...path]/route.ts` for unused `context`; unrelated to this change.
+
+### 2026-02-25 10:31 (local)
+
+- Agent: Cascade
+- Operation type: bugfix
+- Summary: Updated header search API request URL to include configured basePath so client search calls resolve to `/mysecretpreview/api/search` in deployed environments.
+- Files changed: `components/layout/header/search-bar.tsx`, `instructions-log.md`
+- Validation: none
+- Notes/Risks: IDE currently reports pre-existing TypeScript errors in `app/(shop)/page.tsx` about `cardVariant` (`"details"` vs `"detail"`), unrelated to this change.
+
+### 2026-02-25 10:33 (local)
+
+- Agent: Cascade
+- Operation type: code change
+- Summary: Reordered homepage sections so the remaining category block (including `پرفروشها`) renders above `PersonsCarousel`.
+- Files changed: `app/(shop)/page.tsx`, `instructions.md`, `instructions-log.md`
+- Validation: none
+- Notes/Risks: None.
+
+### 2026-02-25 10:35 (local)
+
+- Agent: Cascade
+- Operation type: code change
+- Summary: Reduced hero banner height across breakpoints and added ~10px (`mt-2.5`) spacing between header and banner on homepage.
+- Files changed: `components/features/home-slider/hero-slider-track.tsx`, `app/(shop)/page.tsx`, `instructions-log.md`
+- Validation: lint
+- Notes/Risks: One pre-existing lint warning remains in `app/api/[...path]/route.ts` for unused `context`.
+
+### 2026-02-25 10:39 (local)
+
+- Agent: Cascade
+- Operation type: code change
+- Summary: Expanded search behavior to match writers/translators/categories/series/publishers and enriched search dropdown cards with metadata badges for these taxonomies.
+- Files changed: `app/api/search/route.ts`, `components/layout/header/search-bar.tsx`, `instructions.md`, `instructions-log.md`
+- Validation: lint
+- Notes/Risks: Search endpoint still returns product hits only (now with richer taxonomy matching and metadata).

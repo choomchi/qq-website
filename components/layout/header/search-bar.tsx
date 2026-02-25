@@ -6,6 +6,12 @@ import Link from "next/link";
 import { Search, Loader2 } from "lucide-react";
 import type { SearchHit } from "@/app/api/search/route";
 
+const BASE_PATH = (process.env.NEXT_PUBLIC_BASE_PATH ?? "/mysecretpreview").replace(
+  /\/$/,
+  "",
+);
+const SEARCH_API_URL = `${BASE_PATH}/api/search`;
+
 function useDebounce<T>(value: T, delay: number): T {
   const [debounced, setDebounced] = useState(value);
   useEffect(() => {
@@ -13,6 +19,40 @@ function useDebounce<T>(value: T, delay: number): T {
     return () => clearTimeout(t);
   }, [value, delay]);
   return debounced;
+}
+
+function getPrimaryMetaLabel(hit: SearchHit): string | null {
+  if (hit.writers.length) {
+    return `نویسنده: ${hit.writers.slice(0, 2).join("، ")}`;
+  }
+
+  if (hit.translators.length) {
+    return `مترجم: ${hit.translators.slice(0, 2).join("، ")}`;
+  }
+
+  return null;
+}
+
+function buildMetaBadges(hit: SearchHit): string[] {
+  const badges: string[] = [];
+
+  if (hit.translators.length) {
+    badges.push(`مترجم: ${hit.translators.slice(0, 2).join("، ")}`);
+  }
+
+  if (hit.categories.length) {
+    badges.push(`دسته: ${hit.categories.slice(0, 2).join("، ")}`);
+  }
+
+  if (hit.series.length) {
+    badges.push(`مجموعه: ${hit.series.slice(0, 2).join("، ")}`);
+  }
+
+  if (hit.publishers.length) {
+    badges.push(`ناشر: ${hit.publishers.slice(0, 1).join("، ")}`);
+  }
+
+  return badges;
 }
 
 export default function SearchBar() {
@@ -31,7 +71,7 @@ export default function SearchBar() {
     }
     setLoading(true);
     try {
-      const res = await fetch(`/api/search?q=${encodeURIComponent(q)}`);
+      const res = await fetch(`${SEARCH_API_URL}?q=${encodeURIComponent(q)}`);
       const data = await res.json();
       setHits(data.hits ?? []);
       setOpen(true);
@@ -70,7 +110,7 @@ export default function SearchBar() {
           value={query}
           onChange={(e) => setQuery(e.target.value)}
           onFocus={() => hits.length > 0 && setOpen(true)}
-          placeholder="جستجوی محصول . . ."
+          placeholder="جستجو در کتاب‌ها، نویسنده‌ها، مترجم‌ها و دسته‌ها . . ."
           dir="rtl"
           autoComplete="off"
           className="w-full rounded-full border border-white/30 bg-white/10 px-4 py-2 pr-4 pl-10 text-base text-white placeholder:text-white/60 outline-none focus:border-white/60 focus:bg-white/15 transition-colors"
@@ -96,6 +136,12 @@ export default function SearchBar() {
           <ul>
             {hits.map((hit) => (
               <li key={hit.id}>
+                {/** Product results enriched with taxonomy metadata */}
+                {(() => {
+                  const primaryMeta = getPrimaryMetaLabel(hit);
+                  const metaBadges = buildMetaBadges(hit);
+
+                  return (
                 <Link
                   href={`/product/${hit.slug}`}
                   onClick={() => {
@@ -123,13 +169,29 @@ export default function SearchBar() {
                     <span className="text-sm font-semibold text-foreground line-clamp-1">
                       {hit.title}
                     </span>
-                    {hit.writer && (
+                    {primaryMeta && (
                       <span className="text-xs text-muted-foreground truncate">
-                        {hit.writer}
+                        {primaryMeta}
                       </span>
+                    )}
+
+                    {metaBadges.length > 0 && (
+                      <div className="mt-1 flex flex-wrap items-center gap-1">
+                        {metaBadges.map((badge) => (
+                          <span
+                            key={`${hit.id}-${badge}`}
+                            className="inline-flex max-w-full rounded-full bg-muted px-2 py-0.5 text-[10px] font-medium text-muted-foreground"
+                            title={badge}
+                          >
+                            <span className="truncate">{badge}</span>
+                          </span>
+                        ))}
+                      </div>
                     )}
                   </div>
                 </Link>
+                  );
+                })()}
               </li>
             ))}
           </ul>

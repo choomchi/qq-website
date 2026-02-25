@@ -1,4 +1,5 @@
 import { Suspense } from "react";
+import { CACHE_REVALIDATE } from "@/lib/cache";
 import HeroSlider from "@/components/features/home-slider";
 import NavBar from "@/components/features/nav-bar";
 import CategoryLinks from "@/components/features/category-links";
@@ -9,34 +10,38 @@ import SeriesCarousel from "@/components/features/series-carousel";
 import UpcomingBooksCarousel from "@/components/features/upcoming-books-carousel";
 import NewsCarousel from "@/components/features/news-carousel";
 
+export const revalidate = CACHE_REVALIDATE.homePage;
+
 const SECTIONS = [
-  { slug: "تازهها", title: undefined, bg: "dark", cardVariant: "default" },
-  { slug: "بازنشر", title: undefined, bg: "default", cardVariant: "default" },
+  { slug: "تازهها", title: undefined, bg: "dark", cardVariant: "detail" },
+  { slug: "بازنشر", title: undefined, bg: "default", cardVariant: "detail" },
   {
     slug: "كودك-و-نوجوان-آفرينگان",
     title: "آخرین عناوین انتشارات آفرینگان",
     bg: "light",
-    cardVariant: "default",
+    cardVariant: "detail",
   },
   {
     slug: "هيلا",
     title: "آخرین عناوین انتشارات هیلا",
     bg: "dark",
-    cardVariant: "default",
+    cardVariant: "detail",
   },
-  { slug: "پرفروشها", title: undefined, bg: "default", cardVariant: "default" },
+  { slug: "پرفروشها", title: undefined, bg: "default", cardVariant: "detail" },
 ] as const;
 
 export default function ShopHomePage() {
   return (
     <main>
-      <Suspense
-        fallback={
-          <div className="w-full aspect-[16/4.7] bg-muted animate-pulse" />
-        }
-      >
-        <HeroSlider />
-      </Suspense>
+      <div className="mt-2.5">
+        <Suspense
+          fallback={
+            <div className="w-full bg-muted animate-pulse aspect-[16/8.5] md:aspect-[16/5.5] lg:aspect-[16/4.2]" />
+          }
+        >
+          <HeroSlider />
+        </Suspense>
+      </div>
       <NavBar />
       <CategoryLinks />
       {SECTIONS.slice(0, 4).map(({ slug, title, bg, cardVariant }) => (
@@ -53,9 +58,6 @@ export default function ShopHomePage() {
         <SeriesCarousel />
       </Suspense>
       <EbookPlatforms />
-      <Suspense fallback={<PersonsCarouselSkeleton />}>
-        <PersonsCarousel />
-      </Suspense>
       {SECTIONS.slice(4).map(({ slug, title, bg, cardVariant }) => (
         <Suspense key={slug} fallback={<CategorySectionSkeleton bg={bg} />}>
           <CategorySection
@@ -66,6 +68,9 @@ export default function ShopHomePage() {
           />
         </Suspense>
       ))}
+      <Suspense fallback={<PersonsCarouselSkeleton />}>
+        <PersonsCarousel />
+      </Suspense>
       <Suspense fallback={<UpcomingBooksCarouselSkeleton />}>
         <UpcomingBooksCarousel />
       </Suspense>

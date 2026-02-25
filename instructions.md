@@ -68,6 +68,7 @@ app/
   api/
     [...path]/route.ts            # Catch-all proxy to API_BASE_URL
     search/route.ts               # Elasticsearch search endpoint
+    revalidate/route.ts           # On-demand cache-tag revalidation endpoint
   globals.css                     # Tailwind imports + design tokens
   layout.tsx                      # Root layout, font, Header/Footer shell
   providers.tsx                   # React Query provider
@@ -96,6 +97,7 @@ components/
 services/
   blogs/
   categories/
+    categories-server-cache.ts    # server-only unstable_cache wrapper for categories tree
   home-sliders/
   persons/
   series/
@@ -111,6 +113,7 @@ types/
   series.ts
 
 lib/
+  cache.ts                        # revalidate intervals + cache tag names
   utils.ts                        # cn() helper
 
 public/
@@ -133,6 +136,10 @@ public/
 - `GET /api/search?q=...`
   - Queries Elasticsearch index `qoqnoosir-post-1`
   - Returns normalized search hits.
+- `POST /api/revalidate`
+  - Protected by `REVALIDATE_SECRET`
+  - Revalidates cache tags for homepage sections (sliders/categories/persons/series/news)
+  - Supports selective revalidation by section/tags/slug payload
 
 ---
 
@@ -175,15 +182,28 @@ Each domain service generally follows this shape:
 - `series-api.ts`
 
 ### Notes
-- Most service fetches use `cache: "no-store"`.
+- Public homepage service fetches use ISR-style `next.revalidate` + tag-based cache keys from `lib/cache.ts`.
+- Client-side service usage (via React Query hooks) falls back to `cache: "no-store"`.
 - Errors are normalized with `ApiClientError` (`types/graphql.ts`).
 
 ## 6.3 Search API (`app/api/search/route.ts`)
 
 - Upstream base: `ELASTIC_BASE_URL` (default `http://localhost:9201`)
 - Rejects short queries (`q.length < 2`) with empty hits.
-- Returns simplified hit objects:
-  - `id`, `title`, `slug`, `thumbnail`, `writer`
+- Queries product title plus taxonomy terms for writers/translators/categories/series/publisher.
+- Returns normalized product hit objects used by dropdown metadata:
+  - `id`, `title`, `slug`, `thumbnail`, `kind`, `writer`
+  - `writers[]`, `translators[]`, `categories[]`, `series[]`, `publishers[]`
+
+## 6.4 On-demand revalidation API (`app/api/revalidate/route.ts`)
+
+- Uses Next.js `revalidateTag(tag, "max")` to refresh cached homepage data.
+- Request inputs:
+  - `secret` (body/query/header) for authentication
+  - `section` (e.g. `home-news`, `home-categories`)
+  - `tags` (explicit tag list)
+  - `slug` (maps to category tag `home-categories:<slug>`)
+- If no selectors are sent, defaults to revalidating the global `home` tag.
 
 ---
 
@@ -216,10 +236,14 @@ Section order:
 4. First 4 CategorySection blocks
 5. SeriesCarousel
 6. EbookPlatforms
-7. PersonsCarousel
-8. Remaining CategorySection blocks
+7. Remaining CategorySection blocks
+8. PersonsCarousel
 9. UpcomingBooksCarousel (category slug: `در-دست-انتشار`)
 10. NewsCarousel (latest blog/news posts)
+
+Caching/ISR:
+- Homepage exports `revalidate = CACHE_REVALIDATE.homePage`.
+- Child data sources use tag-aware ISR cache settings in service-layer fetch calls.
 
 ## 8.3 Pattern used in features
 - Server component fetches domain data.
@@ -234,7 +258,7 @@ Section order:
 
 ## 8.5 Product categories menu
 - `NavBar` renders `ProductCategoriesMenu` as the `دسته بندی ها` navigation entry.
-- `ProductCategoriesMenu` is a server component that fetches all categories through `categoriesApi.getProductCategoriesTree()`.
+- `ProductCategoriesMenu` is a server component that fetches all categories through `getCachedProductCategoriesTree()` (`categories-server-cache.ts`).
 - Categories are normalized into a nested parent/child tree based on `parent.databaseId`, then sorted recursively for stable display.
 - Menu data normalization rules:
   - Hide the uncategorized node (`دسته‌بندی نشده` / `دسته-بندی-نشده` and related slug variants).
@@ -292,6 +316,9 @@ Section order:
 ### Required for proxy
 - `API_BASE_URL` — full upstream API endpoint used by catch-all proxy.
 
+### Required for on-demand revalidation
+- `REVALIDATE_SECRET` — shared secret required by `POST /api/revalidate`.
+
 ### Required/expected for server-side service requests
 - `NEXT_PUBLIC_APP_URL` or `APP_URL`
 - `NEXT_PUBLIC_BASE_PATH` (defaults to `/mysecretpreview` if missing)
@@ -310,6 +337,7 @@ Before opening a PR or finalizing agent output, verify:
 - [ ] RTL behavior preserved
 - [ ] New/updated UI is responsive on mobile, tablet, and desktop (no unintended horizontal overflow)
 - [ ] No accidental regressions in homepage section composition
+- [ ] Cache tags/revalidate intervals are updated when adding or changing homepage data sections
 - [ ] `npm run lint` passes (when available)
 
 ---
