@@ -53,15 +53,12 @@ export default function Footer() {
                 اطلاعات تماس:
               </h3>
             </div>
-            <ul className="flex flex-col gap-2.5 text-[13px] text-white/70">
+            <ul className="flex w-fit max-w-full flex-col gap-2.5 text-[13px] text-white/70">
               <li>تلفن: ٦٦٤٠٨٦٤٠ - ٦٦٤٦٠٠٩٩ - ۹۱۲۱۲۹۹۱</li>
-              <li>دورنگار: ٦٦٤١٣٩٣٣</li>
+              {/* <li>دورنگار: ٦٦٤١٣٩٣٣</li> */}
               <li>صندوق پستی: 756-13145</li>
               <li>کدپستی: ۱۳۱۴۶۷۵۵۳۳</li>
-              <li className="flex items-center gap-1">
-                وب سایت: <span dir="ltr">www.qoqnoos.ir</span>
-              </li>
-              <li className="flex items-center gap-1">
+              <li>
                 ایمیل: <span dir="ltr">pub@qoqnoos.ir</span>
               </li>
             </ul>
