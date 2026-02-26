@@ -1,4 +1,5 @@
 import { Suspense } from "react";
+import Link from "next/link";
 import HeroSlider from "@/components/features/home-slider";
 import CategoryLinks from "@/components/features/category-links";
 import CategorySection from "@/components/features/category-section";
@@ -11,7 +12,7 @@ import NewsCarousel from "@/components/features/news-carousel";
 export const revalidate = 300;
 
 const SECTIONS = [
-  { slug: "تازهها", title: undefined, bg: "dark", cardVariant: "detail" },
+  { slug: "تازهها", title: undefined, bg: "light", cardVariant: "detail" },
   { slug: "بازنشر", title: undefined, bg: "default", cardVariant: "detail" },
   {
     slug: "كودك-و-نوجوان-آفرينگان",
@@ -28,18 +29,39 @@ const SECTIONS = [
   { slug: "پرفروشها", title: undefined, bg: "default", cardVariant: "detail" },
 ] as const;
 
+const SOCIAL_LINKS = [
+  {
+    label: "اینستاگرام",
+    handle: "@qoqnoospub",
+    href: "https://instagram.com/qoqnoospub",
+  },
+  {
+    label: "آپارات",
+    handle: "qoqnoospublication",
+    href: "https://www.aparat.com/qoqnoospublication",
+  },
+  {
+    label: "تلگرام",
+    handle: "@qoqnoospub",
+    href: "https://t.me/qoqnoospub",
+  },
+  {
+    label: "لینکدین",
+    handle: "Qoqnoos Distribution Centre",
+    href: "https://www.linkedin.com/in/qoqnoos-distribution-centre-009398208/",
+  },
+] as const;
+
 export default function ShopHomePage() {
   return (
     <main>
-      <div className="my-2.5">
-        <Suspense
-          fallback={
-            <div className="w-full bg-muted animate-pulse aspect-[16/8.5] md:aspect-[16/5.5] lg:aspect-[16/4.2]" />
-          }
-        >
-          <HeroSlider />
-        </Suspense>
-      </div>
+      <Suspense
+        fallback={
+          <div className="w-full bg-muted animate-pulse aspect-[16/8.5] md:aspect-[16/5.5] lg:aspect-[16/4.2]" />
+        }
+      >
+        <HeroSlider />
+      </Suspense>
       <CategoryLinks />
       {SECTIONS.slice(0, 4).map(({ slug, title, bg, cardVariant }) => (
         <Suspense key={slug} fallback={<CategorySectionSkeleton bg={bg} />}>
@@ -68,13 +90,73 @@ export default function ShopHomePage() {
       <Suspense fallback={<PersonsCarouselSkeleton />}>
         <PersonsCarousel />
       </Suspense>
-      <Suspense fallback={<UpcomingBooksCarouselSkeleton />}>
-        <UpcomingBooksCarousel />
-      </Suspense>
+      <section className="w-full bg-[#d9d9d9] py-4 md:py-5" dir="rtl">
+        <div className="mx-auto w-full max-w-7xl px-4">
+          <div className="grid grid-cols-1 gap-4 lg:grid-cols-2 [&>section]:h-full">
+            <Suspense fallback={<UpcomingBooksCarouselSkeleton />}>
+              <UpcomingBooksCarousel />
+            </Suspense>
+            <QoqnoosMediaPlaceholder />
+          </div>
+          <MediaSocialLinks />
+        </div>
+      </section>
       <Suspense fallback={<NewsCarouselSkeleton />}>
         <NewsCarousel />
       </Suspense>
     </main>
+  );
+}
+
+function QoqnoosMediaPlaceholder() {
+  return (
+    <section className="w-full" dir="rtl">
+      <div className="mb-4 flex items-center gap-3">
+        <span className="block h-6 w-1 rounded-full bg-primary-red" />
+        <h2 className="text-xl font-bold text-dark-gray md:text-2xl">نوای ققنوس</h2>
+      </div>
+
+      <div className="rounded-2xl border border-dashed border-dark-gray/25 bg-white/70 px-4 py-4 md:px-5 md:py-5">
+        {/* <p className="text-sm font-medium leading-7 text-dark-gray md:text-base">
+          این بخش برای پادکست و ویدیوکست در نظر گرفته شده است.
+        </p> */}
+        <div className="mt-4 grid grid-cols-2 gap-2">
+          <span className="inline-flex items-center justify-center rounded-xl border border-dark-gray/15 bg-white px-3 py-2 text-sm font-semibold text-dark-gray">
+            پادکست
+          </span>
+          <span className="inline-flex items-center justify-center rounded-xl border border-dark-gray/15 bg-white px-3 py-2 text-sm font-semibold text-dark-gray">
+            ویدیوکست
+          </span>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function MediaSocialLinks() {
+  return (
+    <div className="mt-4 rounded-xl border border-white/60 bg-white/45 px-3 py-2.5 md:px-4 md:py-3">
+      <div className="flex flex-col gap-2.5 md:flex-row md:items-center md:justify-between">
+        <p className="text-sm font-semibold text-dark-gray md:text-base">
+          در شبکه‌های اجتماعی همراه ما باشید
+        </p>
+
+        <ul className="flex flex-wrap items-center gap-2">
+          {SOCIAL_LINKS.map(({ label, handle, href }) => (
+            <li key={label}>
+              <Link
+                href={href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center rounded-full border border-dark-gray/20 bg-white px-3 py-1.5 text-xs font-medium text-dark-gray transition-colors hover:border-primary-red hover:text-primary-red"
+              >
+                {handle}
+              </Link>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
   );
 }
 
@@ -98,15 +180,10 @@ function SeriesCarouselSkeleton() {
 
 function UpcomingBooksCarouselSkeleton() {
   return (
-    <div className="w-full bg-[#d9d9d9] py-8 md:py-10">
-      <div className="mx-auto w-full max-w-7xl px-4">
-        <div className="mb-4 h-8 w-44 animate-pulse rounded-lg bg-white/55" />
-        <div className="w-full rounded-3xl bg-white/55 p-4 md:p-5">
-          <div className="h-46 animate-pulse rounded-2xl bg-white/70 md:h-56" />
-        </div>
-        <div className="mt-4 h-14 animate-pulse rounded-2xl bg-white/55 md:h-16" />
-      </div>
-    </div>
+    <section className="w-full">
+      <div className="mb-4 h-8 w-44 animate-pulse rounded-lg bg-white/55" />
+      <div className="h-68 w-full animate-pulse rounded-2xl bg-white/60" />
+    </section>
   );
 }
 
@@ -119,7 +196,7 @@ function NewsCarouselSkeleton() {
           {Array.from({ length: 3 }).map((_, index) => (
             <div
               key={index}
-              className="h-80 min-w-0 flex-1 animate-pulse rounded-2xl bg-white/75"
+              className="h-72 min-w-0 flex-1 animate-pulse rounded-2xl bg-white/75"
             />
           ))}
         </div>

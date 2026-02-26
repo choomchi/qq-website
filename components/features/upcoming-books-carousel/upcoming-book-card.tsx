@@ -2,6 +2,13 @@ import Image from "next/image";
 import Link from "next/link";
 import { Info } from "lucide-react";
 import type { Product } from "@/types/product";
+import { hasDigitalStatusAttribute } from "@/components/features/product-card/digital-status";
+
+const BASE_PATH = (process.env.NEXT_PUBLIC_BASE_PATH ?? "/mysecretpreview").replace(
+  /\/$/,
+  "",
+);
+const EBOOK_ICON_SRC = `${BASE_PATH}/ie-logo.svg`;
 
 type UpcomingBookCardProps = {
   product: Product;
@@ -17,16 +24,17 @@ function getWriterName(product: Product): string | null {
 export default function UpcomingBookCard({ product }: UpcomingBookCardProps) {
   const href = `/product/${product.slug}`;
   const writerName = getWriterName(product);
+  const hasDigitalStatus = hasDigitalStatusAttribute(product);
 
   return (
     <article
       className="relative w-full rounded-2xl border border-border/80 bg-[#F7F7F7] p-2 md:p-1"
       dir="rtl"
     >
-      <span className="absolute left-3 top-3 inline-flex items-center gap-1 rounded-full bg-primary-red px-2.5 py-1 text-[10px] font-semibold text-white md:text-xs">
+      {/* <span className="absolute left-3 top-3 inline-flex items-center gap-1 rounded-full bg-primary-red px-2.5 py-1 text-[10px] font-semibold text-white md:text-xs">
         <Info size={12} />
         <span>در دست انتشار</span>
-      </span>
+      </span> */}
 
       <div className="grid grid-cols-1 gap-4 pt-8 sm:grid-cols-[9rem_1fr] sm:items-center sm:pt-1 md:gap-5">
         <div className="order-2 flex min-w-0 flex-col items-start gap-3 sm:order-2">
@@ -57,6 +65,21 @@ export default function UpcomingBookCard({ product }: UpcomingBookCardProps) {
           aria-label={`مشاهده ${product.name}`}
         >
           <div className="relative aspect-3/4 overflow-hidden rounded-xl border border-border/70 bg-white p-2">
+            {hasDigitalStatus && (
+              <span
+                className="absolute right-1.5 top-1.5 z-10 inline-flex h-5 w-5 items-center justify-center rounded-full bg-primary-red text-white shadow-sm"
+                title="نسخه دیجیتال"
+              >
+                <Image
+                  src={EBOOK_ICON_SRC}
+                  alt=""
+                  width={12}
+                  height={12}
+                  className="h-3 w-3 object-contain"
+                />
+              </span>
+            )}
+
             {product.image?.sourceUrl ? (
               <Image
                 src={product.image.sourceUrl}

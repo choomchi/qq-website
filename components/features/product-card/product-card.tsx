@@ -2,6 +2,13 @@ import Image from "next/image";
 import Link from "next/link";
 import { ShoppingCart } from "lucide-react";
 import type { Product } from "@/types/product";
+import { hasDigitalStatusAttribute } from "./digital-status";
+
+const BASE_PATH = (process.env.NEXT_PUBLIC_BASE_PATH ?? "/mysecretpreview").replace(
+  /\/$/,
+  "",
+);
+const EBOOK_ICON_SRC = `${BASE_PATH}/ie-logo.svg`;
 
 type ProductCardProps = {
   product: Product;
@@ -29,6 +36,7 @@ function formatPrice(raw?: string): string | null {
 export default function ProductCard({ product }: ProductCardProps) {
   const writer = getPerson(product, "pa_writer");
   const translator = getPerson(product, "pa_translator");
+  const hasDigitalStatus = hasDigitalStatusAttribute(product);
   const price = formatPrice(product.price);
   const href = `/product/${product.slug}`;
 
@@ -40,6 +48,21 @@ export default function ProductCard({ product }: ProductCardProps) {
     >
       <Link href={href} className="block w-full p-1.5 md:p-2">
         <div className="relative aspect-5/4 w-full rounded-lg bg-white p-1 md:p-1.5">
+          {hasDigitalStatus && (
+            <span
+              className="absolute right-1.5 top-1.5 z-10 inline-flex h-5 w-5 items-center justify-center rounded-full bg-primary-red text-white shadow-sm"
+              title="نسخه دیجیتال"
+            >
+              <Image
+                src={EBOOK_ICON_SRC}
+                alt=""
+                width={12}
+                height={12}
+                className="h-3 w-3 object-contain"
+              />
+            </span>
+          )}
+
           <div className="relative h-full w-full">
             {product.image?.sourceUrl ? (
               <Image

@@ -29,7 +29,7 @@ const CATEGORIES = [
 
 export default function CategoryLinks() {
   return (
-    <div className="w-full bg-light-gray">
+    <div className="w-full bg-[#d9d9d9]">
       <div
         className="mx-auto flex max-w-7xl items-center justify-between gap-3 px-4 py-3 flex-wrap"
         dir="rtl"

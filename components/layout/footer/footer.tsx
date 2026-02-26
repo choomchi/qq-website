@@ -16,16 +16,16 @@ export default function Footer() {
     >
       {/* Top Features Section */}
       <div className="w-full border-b border-white/10">
-        <div className="mx-auto w-full max-w-7xl px-4 py-8">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+        <div className="mx-auto w-full max-w-7xl px-4 py-4 md:py-5">
+          <div className="grid grid-cols-2 gap-4 md:grid-cols-4 md:gap-5">
             {FEATURES.map((feature) => (
               <div
                 key={feature.id}
-                className="flex flex-col items-center justify-center gap-4"
+                className="flex flex-col items-center justify-center gap-2.5 md:gap-3"
               >
                 <div className="relative">
                   <feature.icon
-                    size={56}
+                    size={48}
                     className="text-white/80"
                     strokeWidth={1}
                   />
@@ -33,7 +33,7 @@ export default function Footer() {
                     <Check size={12} className="text-white" strokeWidth={3} />
                   </div>
                 </div>
-                <span className="text-[15px] font-medium text-white/90">
+                <span className="text-sm font-medium text-white/90 md:text-[15px]">
                   {feature.label}
                 </span>
               </div>

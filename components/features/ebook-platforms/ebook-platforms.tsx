@@ -12,7 +12,7 @@ export default function EbookPlatforms() {
     <div className="w-full px-4 py-8 md:pt-32">
       <div
         className="mx-auto flex flex-col md:flex-row max-w-7xl items-center justify-center gap-6 rounded-[32px] px-4 md:px-8 py-8  relative overflow-visible"
-        style={{ backgroundColor: "#2F3133" }}
+        style={{ backgroundColor: "#d9d9d9" }}
         dir="rtl"
       >
         {/* Phone mockup placeholder */}
@@ -27,7 +27,7 @@ export default function EbookPlatforms() {
         </div>
         {/* Text + pills */}
         <div className="flex flex-col w-full gap-4 items-center text-center z-20">
-          <h2 className="text-xl md:text-[32px] font-bold text-white tracking-tight leading-loose">
+          <h2 className="text-xl md:text-[32px] font-bold text-black tracking-tight leading-loose">
             پلتفرم های خرید کتاب الکترونیک و صوتی
           </h2>
           <div className="flex items-center justify-center gap-3 md:gap-5 flex-wrap mt-2">
@@ -35,7 +35,7 @@ export default function EbookPlatforms() {
               <Link
                 key={label}
                 href={href}
-                className="rounded-xl lg:rounded-2xl border border-white/80 bg-transparent px-6 py-1.5 md:px-8 md:py-2 text-sm md:text-lg font-medium text-white hover:bg-white/10 transition-colors"
+                className="rounded-xl lg:rounded-2xl border border-white/80 bg-transparent px-6 py-1.5 md:px-8 md:py-2 text-sm md:text-lg font-medium text-black hover:bg-white/10 transition-colors"
               >
                 {label}
               </Link>

@@ -54,12 +54,12 @@ export default function NewsCard({ post }: NewsCardProps) {
   const excerpt = stripHtml(post.excerpt);
 
   return (
-    <article className="flex h-full flex-col overflow-hidden rounded-2xl border border-border/70 bg-white" dir="rtl">
+    <article className="flex h-full flex-col overflow-hidden rounded-xl border border-border/70 bg-white" dir="rtl">
       <Link
         href={postHref}
         target="_blank"
         rel="noopener noreferrer"
-        className="relative block aspect-[16/10] overflow-hidden bg-muted"
+        className="relative block aspect-video overflow-hidden bg-muted"
       >
         {post.featuredImage?.node?.sourceUrl ? (
           <Image
@@ -76,8 +76,8 @@ export default function NewsCard({ post }: NewsCardProps) {
         )}
       </Link>
 
-      <div className="flex flex-1 flex-col p-4 md:p-5">
-        <div className="mb-2 inline-flex items-center gap-1.5 text-xs text-muted-foreground">
+      <div className="flex flex-1 flex-col p-3 md:p-3.5">
+        <div className="mb-1.5 inline-flex items-center gap-1.5 text-[11px] text-muted-foreground md:text-xs">
           <CalendarDays size={14} />
           <span>{formatDate(post.date)}</span>
         </div>
@@ -86,12 +86,12 @@ export default function NewsCard({ post }: NewsCardProps) {
           href={postHref}
           target="_blank"
           rel="noopener noreferrer"
-          className="line-clamp-2 text-base font-bold text-foreground transition-colors hover:text-primary-red md:text-lg"
+          className="line-clamp-2 text-sm font-bold leading-6 text-foreground transition-colors hover:text-primary-red md:text-base"
         >
           {post.title || "بدون عنوان"}
         </Link>
 
-        <p className="mt-2 line-clamp-3 text-sm leading-6 text-muted-foreground md:text-[15px]">
+        <p className="mt-1.5 line-clamp-2 text-xs leading-5 text-muted-foreground md:text-sm">
           {excerpt || "برای مطالعه این خبر روی ادامه مطلب کلیک کنید."}
         </p>
 
@@ -99,7 +99,7 @@ export default function NewsCard({ post }: NewsCardProps) {
           href={postHref}
           target="_blank"
           rel="noopener noreferrer"
-          className="mt-4 inline-flex items-center gap-1 text-sm font-medium text-primary-red transition-opacity hover:opacity-80"
+          className="mt-2.5 inline-flex items-center gap-1 text-xs font-medium text-primary-red transition-opacity hover:opacity-80 md:text-sm"
         >
           <span>ادامه مطلب</span>
           <ExternalLink size={14} />
